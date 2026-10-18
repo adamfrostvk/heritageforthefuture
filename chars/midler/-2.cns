@@ -1,0 +1,1131 @@
+[Statedef -2]
+;---------------------------------------------------------------------------
+;スタンドゲージ
+[State -2]
+type = helper
+trigger1 = numhelper(40000) = 0
+name = "stand"
+stateno = 40000
+id = 40000
+sprpriority = 1
+pos = 0,0
+postype = back
+;---------------------------------------------------------------------------
+;スタンドバグ用
+[State -2]
+type = Varset
+trigger1 = numhelper(10000) = 0
+trigger1 = var(10) = 1
+v = 10
+value = 0
+ignorehitpause = 1
+;---------------------------------------------------------------------------
+;ガード
+[State -2]
+type = helper
+triggerall = var(10) = 0
+trigger1 = numhelper(10130) = 0
+trigger1 = stateno = [120,155]
+name = "STAND GUARD"
+stateno = 10130
+id = 10130
+sprpriority = 1
+pos = 0,0
+postype = p1
+;---------------------------------------------------------------------------
+;ヒットカウント元に戻す
+[State -2]
+type = Varset
+triggerall = Var(20) != 0
+triggerall = p2movetype != H
+trigger1 = p2stateno != [5000,5999]
+trigger2 = p2stateno = 5120
+trigger3 = p2stateno = [5200,5220]
+ignorehitpause = 1
+v = 20
+value = 0
+
+;タンデム中に攻撃ヒットでフラグ終了
+[State -2]
+type = Varset
+triggerall = Var(12) != 0
+trigger1 = movetype = H
+ignorehitpause = 1
+v = 12
+value = 0
+;---------------------------------------------------------------------------
+;ファーストアタック関連
+[State -2]
+type = Varset
+triggerall = Var(34) = 0
+trigger1 = movehit
+ignorehitpause = 1
+v = 34
+value = 1
+
+[State -2]
+type = Varset
+triggerall = Var(34) = 0
+triggerall = stateno != [120,155]
+trigger1 = movetype = H
+ignorehitpause = 1
+v = 34
+value = 2
+
+[State -2]
+type = helper
+triggerall = Var(34) = 1
+triggerall = TeamSide = 1
+trigger1 = numhelper(30050) = 0
+name = "FA"
+stateno = 30050
+id = 30050
+sprpriority = 1
+pos = 0,0
+postype = back
+pausemovetime = 99999
+ignorehitpause = 1
+
+[State -2]
+type = helper
+triggerall = Var(34) = 1
+triggerall = TeamSide = 2
+trigger1 = numhelper(30050) = 0
+name = "FA"
+stateno = 30051
+id = 30050
+sprpriority = 1
+pos = 0,0
+postype = back
+pausemovetime = 99999
+ignorehitpause = 1
+;---------------------------------------------------------------------------
+;p2の位置測定
+[State -2]
+type = Varset
+triggerall = RoundState = 3
+trigger1 = enemy,stateno = 5110
+v = 15
+value = ceil(320-(P2dist X))
+;---------------------------------------------------------------------------
+[State 191, 投げられた時] 
+type = Varset
+trigger1 = MoveType = H
+trigger1 = stateno != [150,155]
+trigger1 = stateno != 5000
+trigger1 = stateno != 5001
+trigger1 = stateno != 5010
+trigger1 = stateno != 5011
+trigger1 = stateno != 5020
+trigger1 = stateno != 5030
+trigger1 = stateno != 5035
+trigger1 = stateno != 5040
+trigger1 = stateno != 5050
+trigger1 = stateno != 5070
+trigger1 = stateno != 5071
+trigger1 = stateno != 5080
+trigger1 = stateno != 5081
+trigger1 = stateno != 5100
+trigger1 = stateno != 5101
+trigger1 = stateno != 5110
+trigger1 = stateno != 5120
+trigger1 = stateno != 5150
+trigger1 = stateno != 5200
+trigger1 = stateno != 5201
+trigger1 = stateno != 5210
+trigger1 = stateno != 930
+trigger1 = stateno != [15000,15050]
+trigger2 = stateno = 2001
+trigger3 = stateno = 700||stateno = 701
+trigger4 = stateno = 2500
+v = 10
+value = 0
+ignorehitpause = 0
+;---------------------------------------------------------------------------
+[State 700,エフェクト消去]
+type = RemoveExplod
+triggerall = numExplod(11200) = 1
+trigger1 = stateno != 1200
+id =11200
+
+[State 700,エフェクト消去]
+type = RemoveExplod
+triggerall = numExplod(11210) = 1
+trigger1 = stateno != 1220
+id =11210
+
+[State 700,エフェクト消去]
+type = RemoveExplod
+triggerall = numExplod(11211) = 1
+trigger1 = stateno != 1220
+id =11211
+
+[State 700,エフェクト消去]
+type = RemoveExplod
+triggerall = numExplod(11212) = 1
+trigger1 = stateno != 1220
+id =11212
+
+[State 700,エフェクト消去]
+type = RemoveExplod
+triggerall = numExplod(11431) = 1
+trigger1 = stateno != 1430
+id =11431
+;---------------------------------------------------------------------------
+;スタンドクラッシュ
+[State 1050, 1]
+type = ChangeState
+triggerall = Fvar(1) = 0
+triggerall = var(12) = 0
+triggerall = statetype = S
+triggerall = RoundState = 2
+trigger1 = 1
+value = 700
+ctrl = 0
+persistent = 0
+
+;スタンドクラッシュ
+[State 1050, 1]
+type = ChangeState
+triggerall = Fvar(1) = 0
+triggerall = statetype = A
+triggerall = RoundState = 2
+trigger1 = 1
+value = 701
+ctrl = 0
+persistent = 0
+
+;ダウン回避
+[State 1050, 1]
+type = ChangeState
+triggerall = var(10) = 1
+triggerall = stateno = 5110
+triggerall = RoundState = 2
+trigger1 = 1
+value = 5999
+ctrl = 0
+persistent = 0
+;---------------------------------------------------------------------------
+[State -3,KO用]
+type = Helper
+triggerall = var(16) != 100
+trigger1 = LoseKo
+trigger1 = numhelper(30010)= 0
+stateno = 30010
+helpertype = normal
+name = "make"
+pos =0,-240
+postype = back
+ID = 30010
+ownpal = 1
+bindtime = 1
+keyctrl = 0
+IgnoreHitPause = 1
+pausemovetime = 9999
+supermovetime = 9999
+
+[State -3,KO用]
+type = Helper
+triggerall = var(17) = 0
+trigger1 = LoseKo
+trigger1 = numhelper(30011)= 0
+stateno = 30011
+helpertype = normal
+name = "make"
+pos =0,-240
+postype = back
+ID = 30011
+ownpal = 1
+bindtime = 1
+keyctrl = 0
+IgnoreHitPause = 1
+pausemovetime = 9999
+supermovetime = 9999
+;---------------------------------------------------------------------------
+[Statedef -3]
+;---------------------------------------------------------------------------
+;やられ声
+;---------------------------------------------------------------------------
+[State -2, yarare]
+type = PlaySnd
+triggerall = time = 1
+triggerall = alive = 1
+trigger1 = stateno = 5000
+trigger1 = anim    = [5000,5002] 
+trigger2 = stateno = 5000
+trigger2 = anim    = [5010,5012]
+trigger3 = stateno = 5000
+trigger3 = anim    = [5020,5022]
+trigger4 = stateno = 5010
+trigger4 = anim    = [5000,5002]
+trigger5 = stateno = 5010
+trigger5 = anim    = [5010,5012]
+trigger6 = stateno = 5010
+trigger6 = anim    = [5020,5022]
+value = 21, 0+random%3
+;---------------------------------------------------------------------------
+;スタンドゲージ
+[State -2]
+type = Varadd
+triggerall = RoundState = 2
+triggerall = MoveType = H
+triggerall = alive = 1
+triggerall = stateno != 2500
+trigger1 = Var(10) = 1
+trigger1 = fvar(1) != 0
+trigger1 = time = 0
+trigger1 = Hitshakeover = 0
+fv = 1
+value = -(GetHitVar(damage)/3.2)
+ignorehitpause = 0
+;---------------------------------------------------------------------------
+;スタンドko時消滅
+[State -2]
+type = Varset
+triggerall = alive = 0
+trigger1 = Var(10) = 1
+v = 10
+value = 0
+ignorehitpause = 0
+;---------------------------------------------------------------------------
+;スタンドダメージ
+[State 1050, 1]
+type = ChangeState
+triggerall = RoundState = 2
+trigger1 = var(26) = 1
+value = 15000
+ctrl = 0
+persistent = 0
+
+[State -2,スタンドダメージリセット]
+type = Varset
+triggerall = stateno != 15005
+trigger1 = Var(25) != 0
+v = 25
+value = 0
+ignorehitpause = 0
+
+[State -2,スタンドダメージ判定リセット]
+type = Varset
+trigger1 = stateno != [15000,15050]
+trigger1 = Var(26) = 2
+v = 26
+value = 0
+ignorehitpause = 0
+;---------------------------------------------------------------------------
+[State -3,負け判定用]
+type = null;Helper
+trigger1 = Life = 0
+trigger1 = numhelper(41000)= 0
+stateno = 41000
+helpertype = normal
+name = "make"
+pos =0,0
+postype = p1
+ID = 41000
+ownpal = 1
+bindtime = 1
+keyctrl = 0
+Persistent = 0
+IgnoreHitPause = 1
+pausemovetime = 9999
+supermovetime = 9999
+;---------------------------------------------------------------------------
+[State 200, スタンドコンボ戻す]
+type = varset
+triggerall = var(30) != 0
+trigger1 = Stateno != [1200,1202]
+var(30) = 0
+
+[State 200, スタンドコンボ戻す]
+type = varset
+triggerall = var(29) != 0
+trigger1 = Stateno != 1400
+var(29) = 0
+
+[State 200, スタンドコンボ戻す]
+type = varset
+triggerall = var(28) != 0
+trigger1 = Stateno != 1220
+var(28) = 0
+;---------------------------------------------------------------------------
+;小ジャンプ
+[State -3, sysvarを引継ぐ]
+type = VarSet
+trigger1 = stateno = 40 ;ジャンプする前のステート
+trigger1 = AnimTime = 0 ;ジャンプ方向を決めるsysvarがリセットされる寸前
+var(7) = ifelse(sysvar(1)=0, 2, ifelse(sysvar(1)=1, 3, 4))
+
+[State -3, varをOFFにするステート]
+type = varset
+triggerall = Time = 3
+trigger1 = stateno = 50
+trigger2 = stateno != [40,59]
+trigger3 = stateno = 52
+v = 5
+value = 0
+
+[State -3, varをOFFにするステート]
+type = varset
+triggerall = Time = 3
+trigger1 = stateno = 50
+trigger2 = stateno != [40,59]
+trigger3 = stateno = 52
+v = 7
+value = 0
+
+[State -3, 前にボタンを押してたら前にも加速]
+type = veladd
+trigger1 = Var(6) = 0
+trigger1 = var(7) = 3
+trigger1 = var(5) = 1
+trigger1 = stateno = 50
+y = 1.8
+x = 1
+
+[State -3, 後ろなら後ろに加速]
+type = veladd
+trigger1 = Var(6) = 0
+trigger1 = var(7) = 4
+trigger1 = var(5) = 1
+trigger1 = stateno = 50
+y = 1.8
+x = -1
+
+[State -3, 垂直ジャンプにveladdを使って上に加速]
+type = veladd
+trigger1 = Var(6) = 0
+trigger1 = var(7) = 2
+trigger1 = var(5) = 1
+trigger1 = stateno = 50
+y = 1.8
+;---------------------------------------------------------------------------
+;中ジャンプ
+[State -3, コマンドを入れたらVarをON] 
+type = varset
+trigger1 = command = "jump2"
+trigger1 = ctrl
+trigger1 = statetype = S
+v = 6
+value = 1
+
+[State -3, sysvarを引継ぐ]
+type = VarSet
+trigger1 = Var(6) = 1
+trigger1 = stateno = 40 ;ジャンプする前のステート
+trigger1 = AnimTime = 0 ;ジャンプ方向を決めるsysvarがリセットされる寸前
+var(6) = ifelse(sysvar(1)=0, 2, ifelse(sysvar(1)=1, 3, 4))
+
+[State -3, varをOFFにするステート]
+type = varset
+triggerall = Time = 2
+trigger1 = stateno = 50
+trigger2 = stateno != [40,59]
+v = 6
+value = 0
+
+[State -3, 前にボタンを押してたら前にも加速]
+type = veladd
+triggerall = Var(10) = 0
+trigger1 = Var(8) = 0
+trigger1 = var(6) = 3
+trigger1 = stateno = 50
+y = 0
+x = 1.7
+
+[State -3, 後ろなら後ろに加速]
+type = veladd
+triggerall = Var(10) = 0
+trigger1 = Var(8) = 0
+trigger1 = var(6) = 4
+trigger1 = stateno = 50
+y = 0
+x = -1.7
+
+[State -3, 垂直ジャンプにveladdを使って上に加速]
+type = veladd
+triggerall = Var(10) = 0
+trigger1 = Var(8) = 0
+trigger1 = var(6) = 2
+trigger1 = stateno = 50
+y = 0
+;---------------------------------------------------------------------------
+;大ジャンプ
+[State -3, varをOFFにするステート]
+type = varset
+triggerall = Time = 3
+trigger1 = stateno = 50
+trigger2 = stateno != [40,59]
+trigger3 = stateno = 52
+v = 8
+value = 0
+
+[State -3, varをOFFにするステート]
+type = varset
+triggerall = Time = 3
+trigger1 = stateno = 50
+trigger2 = stateno != [40,59]
+trigger3 = stateno = 52
+v = 7
+value = 0
+
+[State -3, 前にボタンを押してたら前にも加速]
+type = veladd
+trigger1 = var(7) = 3
+trigger1 = var(8) = 1
+trigger1 = stateno = 50
+y = -0.5
+x = 1.4
+
+[State -3, 後ろなら後ろに加速]
+type = veladd
+trigger1 = var(7) = 4
+trigger1 = var(8) = 1
+trigger1 = stateno = 50
+y = -0.5
+x = -1.4
+
+[State -3, 垂直ジャンプにveladdを使って上に加速]
+type = veladd
+trigger1 = var(7) = 2
+trigger1 = var(8) = 1
+trigger1 = stateno = 50
+y = -0.5
+;---------------------------------------------------------------------------
+[State 100, ダメージ修正用(数値変更でダメージ値修正)]
+type = Varset
+triggerall = Fvar(5) != 4.8
+trigger1 = time = 0
+Fv = 5
+value = 4.8
+;---------------------------------------------------------------------------
+[State 100, スタンド出現時ガード不可]
+type = AssertSpecial
+trigger1 = var(11) = 1
+trigger2 = var(11) = 1
+flag  = nostandguard
+flag2 = nocrouchguard
+flag3 = noairguard
+;---------------------------------------------------------------------------
+;KO演出
+[State -2]
+type = helper
+triggerall = p2life = 0
+triggerall = roundstate = 3
+trigger1 = numhelper(30020) = 0
+name = "ko"
+stateno = 30020
+id = 30020
+sprpriority = 1
+pos = 0,0
+postype = back
+pausemovetime = 99999
+ignorehitpause = 1
+;---------------------------------------------------------------------------
+[state debug]
+type = displaytoclipboard
+trigger1 = 1
+text = "hit = %d |p2 = %d | |7 = %d | stand10 = %f| stand11 = %d"
+params = var(20) ,var(8) ,var(7) ,fvar(10),var(20)
+;---------------------------------------------------------------------------
+;AI
+;---------------------------------------------------------------------------
+[State -3, AI]
+Type = VarSet
+TriggerAll = Var(59) = 0
+TriggerAll = RoundState = [1,2]
+Trigger1 = Command = "AI"
+Trigger2 = Command = "AI1"
+Trigger3 = Command = "AI2"
+Trigger4 = Command = "AI3"
+Trigger5 = Command = "AI4"
+Trigger6 = Command = "AI5"
+Trigger7 = Command = "AI6"
+Trigger8 = Command = "AI7"
+Trigger9 = Command = "AI8"
+Trigger10 = Command = "AI9"
+Trigger11 = Command = "AI10"
+Trigger12 = Command = "AI11"
+Trigger13 = Command = "AI12"
+Trigger14 = Command = "AI13"
+Trigger15 = Command = "AI14"
+Trigger16 = Command = "AI15"
+Trigger17 = Command = "AI16"
+Trigger18 = Command = "AI17"
+Trigger19 = Command = "AI18"
+Trigger20 = Command = "AI19"
+Trigger21 = Command = "AI20"
+Trigger22 = Command = "AI21"
+Trigger23 = Command = "AI22"
+Trigger24 = Command = "AI23"
+Trigger25 = Command = "AI24"
+Trigger26 = Command = "AI25"
+Trigger27 = Command = "AI26"
+Trigger28 = Command = "AI27"
+Trigger29 = Command = "AI28"
+Trigger30 = Command = "AI29"
+V = 59
+Value = 1
+;----------------------|本体モード|-----------------------------------------
+;立ちガード
+[State -3]
+Type = ChangeState
+Value = 130
+TriggerAll = Var(59) = 1
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+TriggerAll = StateType != A
+TriggerAll = Ctrl
+TriggerAll = P2StateType != C
+Trigger1 = P2MoveType = A 
+Trigger1 = P2BodyDist X = [0,80]
+Trigger1 = Random = [0,700]
+
+;ダッシュ
+[State -3]
+Type = ChangeState
+Value = 102
+triggerall = var(59) = 1
+triggerall = var(10) = 0
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+TriggerAll = RoundState = 2
+TriggerAll = StateType != A
+TriggerAll = Ctrl
+triggerall = stateno != 25
+triggerall = stateno != 26
+triggerall = stateno != 107
+trigger1   = p2movetype != A
+Trigger1 = P2BodyDist X >= 50
+Trigger1 = Random = [0,100]
+trigger2 = ProjHitTime(3001) = 1
+Trigger2 = Random = [0,500]
+
+;歩き
+[State -3]
+Type = ChangeState
+Value = 25
+triggerall = var(59) = 1
+triggerall = var(10) = 0
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+TriggerAll = RoundState = 2
+TriggerAll = StateType != A
+TriggerAll = Ctrl
+triggerall = stateno != 102
+triggerall = stateno != 107
+triggerall = stateno != 26
+trigger1   = p2movetype != A
+Trigger1 = P2BodyDist X >= 50
+Trigger1 = Random = [100,200]
+
+;後ろ歩き
+[State -3]
+Type = ChangeState
+Value = 26
+triggerall = var(59) = 1
+triggerall = var(10) = 0
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+TriggerAll = RoundState = 2
+TriggerAll = StateType != A
+TriggerAll = Ctrl
+triggerall = stateno != 102
+triggerall = stateno != 107
+triggerall = stateno != 25
+trigger1   = p2movetype != A
+Trigger1 = P2BodyDist X >= 50
+Trigger1 = Random = [200,300]
+
+;バックダッシュ
+[State -3]
+Type = ChangeState
+Value = 107
+triggerall = var(59) = 1
+triggerall = var(10) = 0
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+TriggerAll = StateType != A
+TriggerAll = RoundState = 2
+TriggerAll = Ctrl
+triggerall = stateno != 25
+triggerall = stateno != 26
+triggerall = stateno != 102
+trigger1 = p2movetype != A
+Trigger1 = P2BodyDist X <= 40
+Trigger1 = Random = [0,25]
+
+;ダッシュしゃがみ弱
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 450
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(10) = 0
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = p2statetype != A
+triggerall = p2movetype != A
+triggerall = roundstate = 2
+triggerall = stateno = 102
+trigger1 = P2BodyDist X = [0,15]
+trigger1 = Random = [0,300]
+
+;ダッシュ攻撃
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 240
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(10) = 0
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = p2movetype != A
+triggerall = roundstate = 2
+triggerall = stateno = 102
+trigger1 = P2BodyDist X = [0,15]
+trigger1 = Random = [301,600]
+
+;ダッシュしゃがみ大攻撃
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 420
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(10) = 0
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = p2statetype != A
+triggerall = p2movetype != A
+triggerall = roundstate = 2
+trigger1 = stateno = 102
+trigger1 = P2BodyDist X = [15,35]
+trigger1 = Random = [200,250]
+trigger2 = stateno = 107
+trigger2 = P2BodyDist X = [15,35]
+trigger2 = Random = [200,250]
+
+;しゃがみ弱
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 400
+TriggerAll = StateType != A
+TriggerAll = StateType = C
+triggerall = var(59) = 1
+triggerall = var(10) = 0
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = p2movetype != A
+triggerall = p2statetype != A
+triggerall = roundstate = 2
+trigger1 = stateno = 450
+trigger1 = movecontact
+trigger1 = time >= 13
+trigger1 = Random = [0,1000]
+trigger2 = ctrl
+Trigger2 = P2BodyDist X <= 20
+trigger2 = Random = [0,100]
+
+;スタンドオン
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 2000
+triggerall = numhelper(1998) = 0
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(10) = 0
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = roundstate = 2
+trigger1 = stateno = 400
+trigger1 = movecontact
+trigger1 = time >= 9
+trigger1 = Random = [700,900]
+
+;立ち中
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 210
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(10) = 0
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = roundstate = 2
+triggerall = p2statetype != A
+trigger1 = stateno = 400
+trigger1 = movecontact
+trigger1 = time >= 9
+trigger1 = Random = [0,250]
+trigger2 = ctrl
+Trigger2 = P2BodyDist X <= 20
+trigger2 = Random = [101,200]
+
+;立ち大
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 220
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(10) = 0
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = roundstate = 2
+trigger1 = ctrl
+Trigger1 = P2BodyDist X <= 20
+trigger1 = Random = [301,350]
+
+;メガハープーんショット
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 4100
+TriggerAll = StateType != A
+triggerall = power >= 1000
+triggerall = var(59) = 1
+triggerall = var(10) = 0
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = p2movetype != A
+triggerall = roundstate = 2
+trigger1 = stateno = 210
+trigger1 = movecontact
+trigger1 = time >= 9
+trigger1 = Random = [301,400]
+trigger2 = stateno = 240
+trigger2 = movecontact
+trigger2 = time >= 14
+trigger2 = Random = [301,400]
+
+;ハープーんショット
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 3000
+triggerall = NumProjID(3001) = 0
+triggerall = numhelper(3001) = 0
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(10) = 0
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = roundstate = 2
+trigger1 = stateno = 210
+trigger1 = movecontact
+trigger1 = time >= 9
+trigger1 = Random = [0,100]
+trigger2 = stateno = 240
+trigger2 = movecontact
+trigger2 = time >= 14
+trigger2 = Random = [100,200]
+
+;タンデム
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 2500
+triggerall = numhelper(1999) = 0
+triggerall = power >= 1000
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(10) = 0
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = roundstate = 2
+trigger1 = stateno = 210
+trigger1 = movecontact
+trigger1 = time >= 9
+trigger1 = Random = [401,500]
+trigger2 = stateno = 240
+trigger2 = movecontact
+trigger2 = time >= 14
+trigger2 = Random = [251,350]
+Trigger3 = Ctrl
+trigger3 = p2movetype = A
+trigger3 = P2BodyDist X = [0,50]
+trigger3 = Random = [26,50]
+
+;スタンドオン攻撃
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 710
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(10) = 0
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = roundstate = 2
+trigger1 = stateno = 240
+trigger1 = movecontact
+trigger1 = time >= 14
+trigger1 = Random = [251,450]
+trigger2 = stateno = 400
+trigger2 = movecontact
+trigger2 = time >= 9
+trigger2 = Random = [500,700]
+
+;モーターショー
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 3100
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(10) = 0
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = roundstate = 2
+trigger1 = stateno = 210
+trigger1 = movecontact
+trigger1 = time >= 9
+trigger1 = Random = [101,200]
+trigger2 = stateno = 240
+trigger2 = movecontact
+trigger2 = time >= 14
+trigger2 = Random = [201,250]
+Trigger3 = Ctrl
+trigger3 = p2movetype = A
+trigger3 = P2BodyDist X = [0,50]
+trigger3 = Random = [0,25]
+
+;投げ
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 1500
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(10) = 0
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = P2bodydist X < 10
+triggerall = roundstate = 2
+trigger1 = stateno = 25
+trigger1 = Random = [0,50]
+
+;ガードキャンセル
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 1600
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(10) = 0
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = roundstate = 2
+trigger1 = stateno != 1600
+trigger1 = stateno != 930
+trigger1 = stateno = 150 || stateno = 151 || stateno = 152 || stateno = 153
+trigger1 = Random = [0,5]
+
+;アドバンシングガード
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 930
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(10) = 0
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = roundstate = 2
+trigger1 = stateno != 1600
+trigger1 = stateno != 930
+trigger1 = stateno = 150 || stateno = 151 || stateno = 152 || stateno = 153
+trigger1 = Random = [6,10]
+
+;避け
+[State -3]
+Type = ChangeState
+Value = 800
+TriggerAll = Var(59) = 1
+triggerall = var(10) = 0
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+TriggerAll = StateType != A
+TriggerAll = Ctrl
+TriggerAll = P2StateType != A
+Trigger1 = P2MoveType = A 
+Trigger1 = P2BodyDist X = [0,50]
+Trigger1 = Random = [0,50]
+;----------------------|スタンドモード|----------------------------------------
+;ダッシュ
+[State -3]
+Type = ChangeState
+Value = 102
+triggerall = var(59) = 1
+triggerall = var(10) = 1
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+TriggerAll = RoundState = 2
+TriggerAll = StateType != A
+TriggerAll = Ctrl
+triggerall = stateno != 25
+triggerall = stateno != 26
+triggerall = stateno != 107
+trigger1   = p2movetype != A
+Trigger1 = P2BodyDist X >= 50
+Trigger1 = Random = [0,100]
+
+;弱→中
+[State -1, Light Kung Fu 1]
+type = ChangeState
+value = 1410
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(10) = 1
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = p2movetype != A
+triggerall = roundstate = 2
+trigger1 = stateno = 1400
+trigger1 = movecontact
+trigger1 = time >= 6
+trigger1 = Random = [0,100]
+
+;中→強
+[State -1, Light Kung Fu 2]
+type = ChangeState
+value = 1420
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(10) = 1
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = p2movetype != A
+triggerall = roundstate = 2
+trigger1 = stateno = 1220
+trigger1 = movecontact
+trigger1 = time >= 8
+trigger1 = Random = [0,100]
+
+;立ち強
+[State -1, Light Kung 3]
+type = ChangeState
+value = 1230
+triggerall = NumProjID(3001) = 0
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(10) = 1
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = p2movetype != A
+triggerall = roundstate = 2
+trigger1 = stateno = 1220
+trigger1 = movecontact
+trigger1 = time >= 8
+trigger1 = Random = [101,200]
+Trigger2 = P2BodyDist X >= 120
+Trigger2 = Ctrl
+Trigger2 = Random = [0,100]
+Trigger3 = stateno = 1410
+trigger3 = movecontact
+trigger3 = time >= 10
+Trigger3 = Random = [0,100]
+
+;ハープーんショット
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 3010
+triggerall = NumExplod(3002) = 0
+triggerall = NumExplod(3003) = 0
+triggerall = NumProjID(3001) = 0
+triggerall = numhelper(3001) = 0
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(10) = 1
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = roundstate = 2
+Trigger1 = P2BodyDist X >= 120
+Trigger1 = Ctrl
+trigger1 = Random = [100,200]
+
+;タンデム
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 2500
+triggerall = numhelper(1999) = 0
+triggerall = power >= 1000
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(10) = 1
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = roundstate = 2
+trigger1 = stateno = 1220
+trigger1 = movecontact
+trigger1 = time >= 8
+trigger1 = Random = [201,300]
+
+;ガードキャンセル
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 1600
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(10) = 1
+triggerall = var(11) = 0
+triggerall = var(12) = 0
+triggerall = roundstate = 2
+trigger1 = stateno != 1600
+trigger1 = stateno != 930
+trigger1 = stateno = 150 || stateno = 151 || stateno = 152 || stateno = 153
+trigger1 = Random = [0,5]
+;----------------------|タンデム中|----------------------------------------
+;ダッシュ
+[State -3]
+Type = ChangeState
+Value = 102
+triggerall = var(59) = 1
+triggerall = var(12) = 1
+TriggerAll = RoundState = 2
+TriggerAll = StateType != A
+TriggerAll = Ctrl
+triggerall = stateno != 25
+triggerall = stateno != 26
+triggerall = stateno != 107
+trigger1   = p2movetype != A
+Trigger1 = P2BodyDist X >= 30
+Trigger1 = Random = [0,500]
+
+;ダッシュしゃがみ弱
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 450
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(12) = 1
+triggerall = p2movetype != A
+triggerall = roundstate = 2
+triggerall = stateno  = 102
+triggerall = stateno != 25
+triggerall = stateno != 26
+triggerall = stateno != 107
+trigger1 = P2BodyDist X = [0,15]
+trigger1 = Random = [0,400]
+
+;しゃがみ弱
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 400
+TriggerAll = StateType = C
+triggerall = var(59) = 1
+triggerall = var(12) = 1
+triggerall = p2movetype != A
+triggerall = roundstate = 2
+trigger1 = stateno = 450
+trigger1 = movecontact
+trigger1 = time >= 13
+trigger1 = Random = [0,1000]
+
+;ダッシュ攻撃
+[State -1, Light Kung Fu Knee]
+type = ChangeState
+value = 240
+TriggerAll = StateType != A
+triggerall = var(59) = 1
+triggerall = var(12) = 1
+triggerall = p2movetype != A
+triggerall = roundstate = 2
+triggerall = stateno  = 102
+triggerall = stateno != 25
+triggerall = stateno != 26
+triggerall = stateno != 107
+trigger1 = P2BodyDist X = [0,15]
+trigger1 = Random = [401,800]
+

@@ -1,0 +1,252 @@
+変数のアドレス早見表です。
+何も説明が書いてない部分は未使用。
+Helperは独自のvarを持ちます
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+■整数の変数■
+
+ Var(0)  = スタンドモードON/OFF
+ Var(1)  = 
+ Var(2)  = ボタン判別
+ Var(3)  = 
+ Var(4)  = 
+ Var(5)  = 
+ Var(6)　= bit演算を用いて色々格納してます
+ 1:KO演出用
+ 2:KO演出用
+ 4:ジャンプ管理(Lジャンプ距離)
+ 8:ジャンプ管理(Dジャンプ距離)
+ 16:ジャンプ管理(小ジャンプ)
+ 32:Life補正相手キャラ判別
+ 64:パートナーキャラ判別用
+128:ポーズ認識用
+
+1048576:ガーキャンデムフラグ
+
+ Var(7)  = 
+ Var(8)  = pausetime
+ Var(9)  = スタンド出現フラグ(0;待機 1;出現中 2;タンデム)
+
+ Var(10) = 蜂の巣time
+ Var(11) = 
+ Var(12) = 
+ Var(13) = 子供化中
+ Var(14) = p2id
+ Var(15) = p4id
+ Var(16) = 
+ Var(17) = 
+ Var(18) = HitPauseTime
+ Var(19) = 擬似HitPause
+
+ Var(20) = 便利var
+ Var(21) = カッサバ
+ Var(22) = カッサバ
+ Var(23) = カッサバ
+ Var(24) = カッサバ
+ Var(25) = カッサバ
+ Var(26) = カッサバ
+ Var(27) = 
+ Var(28) = 
+ Var(29) = 
+ Var(30) = 
+
+ Var(31) = タンデムフラグ
+ Var(32) = タンデム不可時間
+ Var(33) = 転倒&復帰誘導用
+ Var(34) = pausetime
+ Var(35) = 先行入力（ボタン）
+ Var(36) = 先行入力（コマンド）
+ Var(37) = 
+ Var(38) = 
+ Var(39) = 
+
+ var(40) = コンボ数
+ var(41) = 
+ var(42) = 攻撃力補正(ライフ)
+ var(43) = 攻撃力補正(相手ライフ)
+ var(44) = 攻撃力補正ON/OFF判別
+ var(45) = 
+ var(46) = 
+ var(47) = 
+ Var(48) = スタンドoff不可時間
+ Var(49) = 
+
+ Var(50) = スタンドゲージ回復不可時間
+ Var(51) = Life（削り無効などに使用）
+ Var(52) = hitshaketime(スタンドゲージ用)
+ Var(53) = hittime(スタンドゲージ用)
+ Var(54) = hitshaketime(スタンドゲージ用2)
+ Var(55) = hittime(スタンドゲージ用2)
+ Var(56) = 回り込み不可時間
+ Var(57) = 
+ Var(58) = 
+ Var(59) = 
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+■整数の変数(standhelper)■
+
+ Var(0)  = 
+ Var(1)  = 
+ Var(2)  = 
+ Var(3)  = 
+ Var(4)  = 
+ Var(5)  = 
+ Var(6)  = 
+ Var(7)  = 
+ Var(8)  = 
+ Var(9)  = 
+
+ Var(10) = 
+ Var(11) = 
+ Var(12) = 
+ Var(13) = 
+ Var(14) = 
+ Var(15) = 
+ Var(16) = 
+ Var(17) = 
+ Var(18) = 
+ Var(19) = 
+
+ Var(20) = 便利var
+ Var(21) = ガキンチョがッ！Targetフラグ
+ Var(22) = 
+ Var(23) = 
+ Var(24) = 
+ Var(25) = スタンドゲージ減少用
+ Var(26) = 
+ Var(27) = 
+ Var(28) = 
+ Var(29) = 
+
+ Var(30) = 
+ Var(31) = 
+ Var(32) = 
+ Var(33) = 
+ Var(34) = 
+ Var(35) = 
+ Var(36) = 
+ Var(37) = 
+ Var(38) = 
+ Var(39) = 
+
+ Var(40) = 
+ Var(41) = 
+ Var(42) = 
+ Var(43) = ヒット確認
+ Var(44) = 
+ Var(45) = 
+ Var(46) = 
+ Var(47) = 
+ Var(48) = 
+ Var(49) = 
+
+ Var(50) = ゲージ増量
+ Var(51) = 
+ Var(52) = 
+ Var(53) = 
+ Var(54) = 
+ Var(55) = 
+ Var(56) = 
+ Var(57) = 
+ Var(58) = 
+ Var(59) = 
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+■小数点以下も使える変数■（浮動小数点数を使用）
+
+FVar(0)  = 最終補正
+FVar(1)  = ライフ補正
+FVar(2)  = スタンドゲージ
+FVar(3)  = cornerpush
+FVar(4)  = cornerpush引き継ぎ
+FVar(5)  = cornerpush用
+FVar(6)  = p2dist x
+FVar(7)  = 投げ制限
+FVar(8)  = 
+FVar(9)  = 
+
+FVar(10) = 影の長さ
+FVar(11) = 
+FVar(12) = 
+FVar(13) = 
+FVar(14) = 
+FVar(15) = ヘルパーのgethitvar(yaccel)
+FVar(16) = 
+FVar(17) = 
+FVar(18) = 
+FVar(19) = 
+
+FVar(20) = Son時cornerpush
+FVar(21) = 子供化時cornerpush
+FVar(22) = Son時cornerpush用
+FVar(23) = 子供化時cornerpush用
+FVar(24) = 
+FVar(25) = 
+FVar(26) = 
+FVar(27) = 
+FVar(28) = 
+FVar(29) = 
+
+FVar(30) = 
+FVar(31) = 
+FVar(32) = 
+FVar(33) = 
+FVar(34) = 
+FVar(35) = 
+FVar(36) = 
+FVar(37) = 
+FVar(38) = 
+FVar(39) = 
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+■小数点以下も使える変数■（浮動小数点数を使用）(standhelper)
+
+FVar(0)  = 
+FVar(1)  = 
+FVar(2)  = 
+FVar(3)  = cornerpush
+FVar(4)  = 
+FVar(5)  = cornerpush用
+FVar(6)  = 
+FVar(7)  = 
+FVar(8)  = 
+FVar(9)  = 
+
+FVar(10) = 
+FVar(11) = 
+FVar(12) = 
+FVar(13) = 
+FVar(14) = 
+FVar(15) = 
+FVar(16) = 
+FVar(17) = 
+FVar(18) = 
+FVar(19) = 
+
+FVar(20) = 
+FVar(21) = 
+FVar(22) = 
+FVar(23) = 
+FVar(24) = 子供化時cornerpush用2
+FVar(25) = 
+FVar(26) = 
+FVar(27) = 
+FVar(28) = 
+FVar(29) = 
+
+FVar(30) = 
+FVar(31) = 
+FVar(32) = 
+FVar(33) = 
+FVar(34) = 
+FVar(35) = 
+FVar(36) = 
+FVar(37) = 
+FVar(38) = 
+FVar(39) = 
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+■チャンネル■
+
+channel = 0 : 声のチャンネル
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

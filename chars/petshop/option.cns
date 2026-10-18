@@ -1,0 +1,24 @@
+;コンフィグ(Config)
+[statedef 9999]
+ctrl = 0
+anim = 90000
+
+;音声の変更。
+[state -1]
+type = ParentVarSet
+trigger1 = time=0
+var(48)=1;(0:DC版、1:AC版)
+
+[state -1]
+type = ParentVarSet
+trigger1 = time=0
+var(53)=0;(1:ジョジョ体力システムON)(未実装)
+
+[state -1]
+type = ParentVarSet
+trigger1 = time=0
+var(59)=0;(1:PS版)(未搭載)
+
+[state -1]
+type = Destroyself
+trigger1 = time=0

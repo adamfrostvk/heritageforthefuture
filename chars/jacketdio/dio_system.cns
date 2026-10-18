@@ -1,0 +1,6275 @@
+;---------------------------------------------------------------------------
+;スタンドゲージ
+[Statedef 6000]
+ctrl = 0
+anim = 6900
+ownpal = 1
+
+;config呼び出し
+[State 6000, Helper]
+type = Helper
+trigger1 = time = 1
+id = 30001
+name = "config"
+pos = -300,0
+postype = Left
+stateno = 30001
+helpertype = normal
+keyctrl = 0
+ownpal = 1
+ignorehitpause = 1
+pausemovetime = 999999
+supermovetime = 999999
+
+[State 6000, Explod];背景
+type = Explod
+trigger1 = !NumExplod(6002)
+trigger1 = time >= 2
+anim = ifelse(teamside=1,6002,6052)
+id = 6002
+postype = Back
+pos = 140+var(0),48-var(1)
+ownpal = 1
+bindtime = -1
+ignorehitpause = 1
+sprpriority = -103
+pausemovetime = -1
+supermovetime = -1
+scale = 80,4
+
+[State 6000, Explod];ゲージ
+type = Explod
+trigger1 = !NumExplod(6001)
+trigger1 = time >= 2
+anim = ifelse(teamside=1,6001,6051)
+id = 6001
+postype = Back
+pos = 140+var(0),48-var(1)
+ownpal = 0
+bindtime = -1
+ignorehitpause = 1
+sprpriority = -102
+pausemovetime = -1
+supermovetime = -1
+scale = 80,1
+
+[State 6000, Explod];枠
+type = Explod
+trigger1 = !NumExplod(6000)
+trigger1 = time >= 2
+anim = ifelse(teamside=1,6000,6050)
+id = 6000
+postype = Back
+pos = 140+var(0),48-var(1)
+ownpal = 1
+bindtime = -1
+ignorehitpause = 1
+sprpriority = -101
+pausemovetime = -1
+supermovetime = -1
+scale = .5,.5
+
+[State 6000, Explod];STAND
+type = Explod
+trigger1 = root,var(49)||root,stateno=1250
+trigger1 = !NumExplod(6003)
+trigger1 = time >= 2
+anim = 6003
+id = 6003
+postype = Back
+pos = ifelse(teamside=1,102,137)+var(0),51-var(1)
+ownpal = 1
+bindtime = -1
+ignorehitpause = 1
+sprpriority = -100
+facing = ifelse(teamside=1,1,-1)
+pausemovetime = -1
+supermovetime = -1
+scale = .5,.5
+
+[State 6000, Explod];×
+type = Explod
+trigger1 = root,var(32)
+trigger1 = !NumExplod(6004)
+trigger1 = time >= 2
+anim = 6004
+id = 6004
+postype = Back
+pos = 140+var(0),48-var(1)
+ownpal = 1
+bindtime = -1
+ignorehitpause = 1
+sprpriority = -100
+pausemovetime = -1
+supermovetime = -1
+scale = .5,.5
+
+[State 6000, RemoveExplod]
+type = RemoveExplod
+trigger1 = root,fvar(20)
+trigger2 = root,NumHelper(9000)
+trigger3 = roundstate = 4
+trigger3 = matchover
+trigger4 = root,fvar(14)
+Id = 6000
+ignorehitpause = 1
+
+[State 6000, ModifyExplod]
+type = ModifyExplod
+trigger1 = NumExplod(6001)
+Id = 6001
+scale = ifelse(root,var(54)>=80,80.5,root,var(54)),1
+ignorehitpause = 1
+
+[State 6000, RemoveExplod]
+type = RemoveExplod
+trigger1 = root,fvar(20)
+trigger2 = root,NumHelper(9000)
+trigger3 = roundstate = 4
+trigger3 = matchover
+trigger4 = root,fvar(14)
+Id = 6001
+ignorehitpause = 1
+
+[State 6000, RemoveExplod]
+type = RemoveExplod
+trigger1 = root,fvar(20)
+trigger2 = root,NumHelper(9000)
+trigger3 = roundstate = 4
+trigger3 = matchover
+trigger4 = root,fvar(14)
+Id = 6002
+ignorehitpause = 1
+
+[State 6000, RemoveExplod]
+type = RemoveExplod
+trigger1 = root,fvar(20)
+trigger2 = root,NumHelper(9000)
+trigger3 = roundstate = 4
+trigger3 = matchover
+trigger4 = !root,var(49)&&root,stateno!=1250
+trigger5 = root,fvar(14)
+Id = 6003
+
+[State 6000, RemoveExplod]
+type = RemoveExplod
+trigger1 = root,fvar(20)
+trigger2 = root,NumHelper(9000)
+trigger3 = roundstate = 4
+trigger3 = matchover
+trigger4 = !root,var(32)
+trigger5 = root,fvar(14)
+Id = 6004
+
+[State 6000, VarAdd]
+type = VarAdd
+trigger1 = var(3)
+var(3) = -1
+ignorehitpause = 1
+
+[State 6000, VarSet]
+type = VarSet
+trigger1 = var(2) - root,var(54) > 0
+var(3) = 8
+ignorehitpause = 1
+
+[State 6000, PalFX]
+type = PalFX
+triggerall = (root,var(8) = 3 && time%4=1) || root,var(8) != 3
+trigger1 = var(3) = 8 || var(3) = 4
+trigger2 = root,var(54) <= 16
+trigger2 = !var(3) && time%4=0
+add = 128,-256,-256
+time = 2
+persistent = 1
+ignorehitpause = 1
+
+[State 6000, VarSet]
+type = VarSet
+trigger1 = 1
+var(2) = root,var(54)
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;メッセージアイコン（待機）
+[Statedef 6500]
+ctrl = 0
+anim = 6900
+ownpal = 1
+
+;config呼び出し
+[State 6500, Helper]
+type = Helper
+trigger1 = !var(4)
+id = 30002
+name = "config"
+pos = -300,0
+postype = Left
+stateno = 30002
+helpertype = normal
+keyctrl = 0
+ownpal = 1
+ignorehitpause = 1
+pausemovetime = 999999
+supermovetime = 999999
+
+[State 6500, VarSet]
+type = VarSet
+trigger1 = !var(4)
+var(4) = 1
+ignorehitpause = 1
+
+[State 6500, VarSet]
+type = VarSet
+trigger1 = !var(0)
+trigger1 = root,var(49) && root,prevstateno != 1250
+var(0) = 1
+ignorehitpause = 1
+
+[State 6500, VarSet]
+type = VarSet
+trigger1 = !root,var(49) && root,stateno != 1250
+var(0) = 0
+ignorehitpause = 1
+
+[State 6500, VarSet]
+type = VarSet
+trigger1 = root,var(8) != 3 && !root,var(39)
+trigger1 = !var(1)
+trigger1 = root,var(54) = (0,16]
+var(1) = 1
+ignorehitpause = 1
+
+[State 6500, VarSet]
+type = VarSet
+trigger1 = root,var(54) > 16
+var(1) = 0
+ignorehitpause = 1
+
+[State 6500, ParentVarSet]
+type = VarSet
+trigger1 = !var(2)
+trigger1 = root,var(58) = 1
+var(2) = 1
+ignorehitpause = 1
+
+[State 6500, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = var(0) = 1
+value = 6501
+
+[State 6500, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = var(1) = 1
+value = 6502
+
+[State 6500, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = root,stateno = 4000 && root,time = 1
+trigger2 = root,stateno = 4100 && root,time = 1
+value = 6503
+
+[State 6500, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = var(2) = 1
+value = 6504
+
+[State 6500, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = root,stateno = 1900 && root,time = 1
+trigger2 = root,stateno = 1950 && root,time = 1
+value = 6505
+
+[State 6500, ModifyExplod]
+type = ModifyExplod
+trigger1 = NumExplod(6500)
+Id = 6500
+scale = 1,1
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;メッセージアイコン（STAND ON）
+[Statedef 6501]
+ctrl = 0
+anim = 6900
+ownpal = 1
+
+[State 6501, VarSet]
+type = VarSet
+trigger1 = time = 1
+var(0) = 2
+ignorehitpause = 1
+
+[State 6501, RemoveExplod]
+type = RemoveExplod
+trigger1 = time = 0
+trigger2 = time = 60
+ID = 6500
+persistent = 1
+
+[State 6501, Explod]
+type = Explod
+trigger1 = time = 1
+id = 6500
+pos = 0,0
+postype = Back
+anim = ifelse(teamside=1,6500,6550)
+ownpal = 1
+ontop = 1
+bindtime = -1
+facing = ifelse(teamside=1,1,-1)
+pausemovetime = 999999
+supermovetime = 999999
+scale = .5,.5
+
+[State 6501, ModifyExplod]
+type = ModifyExplod
+triggerall = time <= 20
+trigger1 = Numexplod(6500)
+Id = 6500
+postype = back
+pos = ceil(-120+(time*8)),80-var(3)
+facing = ifelse(teamside=1,1,-1)
+ignorehitpause = 1
+
+[State 6501, ModifyExplod]
+type = ModifyExplod
+triggerall = time = 22
+trigger1 = Numexplod(6500)
+Id = 6500
+postype = Back
+pos = 32,80-var(3)
+facing = ifelse(teamside=1,1,-1)
+ignorehitpause = 1
+
+[State 6501, VarSet]
+type = VarSet
+trigger1 = root,var(8) != 3 && !root,var(39)
+trigger1 = !var(1)
+trigger1 = root,var(54) = [16,0)
+var(1) = 1
+ignorehitpause = 1
+
+[State 6501, VarSet]
+type = VarSet
+trigger1 = root,var(54) > 16
+var(1) = 0
+ignorehitpause = 1
+
+[State 6501, ParentVarSet]
+type = VarSet
+trigger1 = !var(2)
+trigger1 = root,var(58) = 1
+var(2) = 1
+ignorehitpause = 1
+
+[State 6501, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = var(1) = 1
+value = 6502
+
+[State 6501, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = root,stateno = 4000 && root,time = 1
+trigger2 = root,stateno = 4100 && root,time = 1
+value = 6503
+
+[State 6501, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = var(2) = 1
+value = 6504
+
+[State 6501, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = root,stateno = 1900 && root,time = 1
+trigger2 = root,stateno = 1950 && root,time = 1
+value = 6505
+
+[State 6501, ChangeState]
+type = changestate
+trigger1 = Time = 60
+value = 6500
+
+[State 6501, ModifyExplod]
+type = ModifyExplod
+triggerall = NumExplod(6500)
+trigger1 = NumHelper(9000)||(parent,var(52)&&enemynear,NumHelper(9000))||parent,fvar(20)
+trigger2 = roundstate != [2,3]
+trigger2 = matchover
+Id = 6500
+scale = 0,0
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;メッセージアイコン（DANGER）
+[Statedef 6502]
+ctrl = 0
+anim = 6900
+ownpal = 1
+
+[State 6502, VarSet]
+type = VarSet
+trigger1 = time = 1
+var(1) = 2
+ignorehitpause = 1
+
+[State 6502, RemoveExplod]
+type = RemoveExplod
+trigger1 = time = 0
+trigger2 = time = 60
+ID = 6500
+persistent = 1
+
+[State 6502, Explod]
+type = Explod
+trigger1 = time = 1
+id = 6500
+pos = 0,0
+postype = Back
+anim = ifelse(teamside=1,6501,6551)
+ownpal = 1
+ontop = 1
+bindtime = -1
+facing = ifelse(teamside=1,1,-1)
+pausemovetime = 999999
+supermovetime = 999999
+scale = .5,.5
+
+[State 6502, ModifyExplod]
+type = ModifyExplod
+triggerall = time <= 20
+trigger1 = Numexplod(6500)
+Id = 6500
+postype = back
+pos = ceil(-120+(time*8)),80-var(3)
+facing = ifelse(teamside=1,1,-1)
+ignorehitpause = 1
+
+[State 6502, ModifyExplod]
+type = ModifyExplod
+triggerall = time = 22
+trigger1 = Numexplod(6500)
+Id = 6500
+postype = Back
+pos = 32,80-var(3)
+facing = ifelse(teamside=1,1,-1)
+ignorehitpause = 1
+
+[State 6502, VarSet]
+type = VarSet
+trigger1 = !var(0)
+trigger1 = root,var(49) && root,prevstateno != 1250
+var(0) = 1
+ignorehitpause = 1
+
+[State 6502, VarSet]
+type = VarSet
+trigger1 = !root,var(49) && root,stateno != 1250
+var(0) = 0
+ignorehitpause = 1
+
+[State 6502, ParentVarSet]
+type = VarSet
+trigger1 = !var(2)
+trigger1 = root,var(58) = 1
+var(2) = 1
+ignorehitpause = 1
+
+[State 6502, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = var(0) = 1
+value = 6501
+
+[State 6502, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = root,stateno = 4000 && root,time = 1
+trigger2 = root,stateno = 4100 && root,time = 1
+value = 6503
+
+[State 6502, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = var(2) = 1
+value = 6504
+
+[State 6502, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = root,stateno = 1900 && root,time = 1
+trigger2 = root,stateno = 1950 && root,time = 1
+value = 6505
+
+[State 6502, ChangeState]
+type = changestate
+trigger1 = Time = 60
+value = 6500
+
+[State 6000, ModifyExplod]
+type = ModifyExplod
+triggerall = NumExplod(6500)
+trigger1 = NumHelper(9000)||(parent,var(52)&&enemynear,NumHelper(9000))||parent,fvar(20)
+trigger2 = roundstate != [2,3]
+trigger2 = matchover
+Id = 6500
+scale = 0,0
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;メッセージアイコン（STAND CRUSH）
+[Statedef 6503]
+ctrl = 0
+anim = 6900
+ownpal = 1
+
+[State 6503, RemoveExplod]
+type = RemoveExplod
+trigger1 = time = 0
+trigger2 = time = 60
+ID = 6500
+persistent = 1
+
+[State 6503, Explod]
+type = Explod
+trigger1 = time = 1
+id = 6500
+pos = 0,0
+postype = Back
+anim = ifelse(teamside=1,6502,6552)
+ownpal = 1
+ontop = 1
+bindtime = -1
+facing = ifelse(teamside=1,1,-1)
+pausemovetime = 999999
+supermovetime = 999999
+scale = .5,.5
+
+[State 6503, ModifyExplod]
+type = ModifyExplod
+triggerall = time <= 20
+trigger1 = Numexplod(6500)
+Id = 6500
+postype = back
+pos = ceil(-120+(time*8)),80-var(3)
+facing = ifelse(teamside=1,1,-1)
+ignorehitpause = 1
+
+[State 6503, ModifyExplod]
+type = ModifyExplod
+triggerall = time = 22
+trigger1 = Numexplod(6500)
+Id = 6500
+postype = Back
+pos = 32,80-var(3)
+facing = ifelse(teamside=1,1,-1)
+ignorehitpause = 1
+
+[State 6503, VarSet]
+type = VarSet
+trigger1 = !var(0)
+trigger1 = root,var(49) && root,prevstateno != 1250
+var(0) = 1
+ignorehitpause = 1
+
+[State 6503, VarSet]
+type = VarSet
+trigger1 = !root,var(49) && root,stateno != 1250
+var(0) = 0
+ignorehitpause = 1
+
+[State 6503, VarSet]
+type = VarSet
+trigger1 = root,var(8) != 3 && !root,var(39)
+trigger1 = !var(1)
+trigger1 = root,var(54) = [16,0)
+var(1) = 1
+ignorehitpause = 1
+
+[State 6503, VarSet]
+type = VarSet
+trigger1 = root,var(54) > 16
+var(1) = 0
+ignorehitpause = 1
+
+[State 6503, ParentVarSet]
+type = VarSet
+trigger1 = !var(2)
+trigger1 = root,var(58) = 1
+var(2) = 1
+ignorehitpause = 1
+
+[State 6503, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = var(0) = 1
+value = 6501
+
+[State 6503, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = var(1) = 1
+value = 6502
+
+[State 6503, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = var(2) = 1
+value = 6504
+
+[State 6503, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = root,stateno = 1900 && root,time = 1
+trigger2 = root,stateno = 1950 && root,time = 1
+value = 6505
+
+[State 6503, ChangeState]
+type = changestate
+trigger1 = Time = 60
+value = 6500
+
+[State 6000, ModifyExplod]
+type = ModifyExplod
+triggerall = NumExplod(6500)
+trigger1 = NumHelper(9000)||(parent,var(52)&&enemynear,NumHelper(9000))||parent,fvar(20)
+trigger2 = roundstate != [2,3]
+trigger2 = matchover
+Id = 6500
+scale = 0,0
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;メッセージアイコン（FIRST STRIKE）
+[Statedef 6504]
+ctrl = 0
+anim = 6900
+ownpal = 1
+
+[State 6504, VarSet]
+type = VarSet
+trigger1 = time = 1
+var(2) = 2
+ignorehitpause = 1
+
+[State 6504, RemoveExplod]
+type = RemoveExplod
+trigger1 = time = 0
+trigger2 = time = 60
+ID = 6500
+persistent = 1
+
+[State 6504, Explod]
+type = Explod
+trigger1 = time = 1
+id = 6500
+pos = 0,0
+postype = Back
+anim = ifelse(teamside=1,6503,6553)
+ownpal = 1
+ontop = 1
+bindtime = -1
+facing = ifelse(teamside=1,1,-1)
+pausemovetime = 999999
+supermovetime = 999999
+scale = .5,.5
+
+[State 6504, ModifyExplod]
+type = ModifyExplod
+triggerall = time <= 20
+trigger1 = Numexplod(6500)
+Id = 6500
+postype = back
+pos = ceil(-120+(time*8)),80-var(3)
+facing = ifelse(teamside=1,1,-1)
+ignorehitpause = 1
+
+[State 6504, ModifyExplod]
+type = ModifyExplod
+triggerall = time = 22
+trigger1 = Numexplod(6500)
+Id = 6500
+postype = Back
+pos = 32,80-var(3)
+facing = ifelse(teamside=1,1,-1)
+ignorehitpause = 1
+
+[State 6504, VarSet]
+type = VarSet
+trigger1 = !var(0)
+trigger1 = root,var(49) && root,prevstateno != 1250
+var(0) = 1
+ignorehitpause = 1
+
+[State 6504, VarSet]
+type = VarSet
+trigger1 = !root,var(49) && root,stateno != 1250
+var(0) = 0
+ignorehitpause = 1
+
+[State 6504, VarSet]
+type = VarSet
+trigger1 = root,var(8) != 3 && !root,var(39)
+trigger1 = !var(1)
+trigger1 = root,var(54) = [16,0)
+var(1) = 1
+ignorehitpause = 1
+
+[State 6504, VarSet]
+type = VarSet
+trigger1 = root,var(54) > 16
+var(1) = 0
+ignorehitpause = 1
+
+[State 6504, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = var(0) = 1
+value = 6501
+
+[State 6504, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = var(1) = 1
+value = 6502
+
+[State 6504, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = root,stateno = 4000 && root,time = 1
+trigger2 = root,stateno = 4100 && root,time = 1
+value = 6503
+
+[State 6504, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = root,stateno = 1900 && root,time = 1
+trigger2 = root,stateno = 1950 && root,time = 1
+value = 6505
+
+[State 6504, ChangeState]
+type = changestate
+trigger1 = Time = 60
+value = 6500
+
+[State 6000, ModifyExplod]
+type = ModifyExplod
+triggerall = NumExplod(6500)
+trigger1 = NumHelper(9000)||(parent,var(52)&&enemynear,NumHelper(9000))||parent,fvar(20)
+trigger2 = roundstate != [2,3]
+trigger2 = matchover
+Id = 6500
+scale = 0,0
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;メッセージアイコン（GUARD CANCEL）
+[Statedef 6505]
+ctrl = 0
+anim = 6900
+ownpal = 1
+
+[State 6505, RemoveExplod]
+type = RemoveExplod
+trigger1 = time = 0
+trigger2 = time = 60
+ID = 6500
+persistent = 1
+
+[State 6505, Explod]
+type = Explod
+trigger1 = time = 1
+id = 6500
+pos = 0,0
+postype = Back
+anim = ifelse(teamside=1,6504,6554)
+ownpal = 1
+ontop = 1
+bindtime = -1
+facing = ifelse(teamside=1,1,-1)
+pausemovetime = 999999
+supermovetime = 999999
+scale = .5,.5
+
+[State 6505, ModifyExplod]
+type = ModifyExplod
+triggerall = time <= 20
+trigger1 = Numexplod(6500)
+Id = 6500
+postype = back
+pos = ceil(-120+(time*8)),80-var(3)
+facing = ifelse(teamside=1,1,-1)
+ignorehitpause = 1
+
+[State 6505, ModifyExplod]
+type = ModifyExplod
+triggerall = time = 22
+trigger1 = Numexplod(6500)
+Id = 6500
+postype = Back
+pos = 32,80-var(3)
+facing = ifelse(teamside=1,1,-1)
+ignorehitpause = 1
+
+[State 6505, VarSet]
+type = VarSet
+trigger1 = !var(0)
+trigger1 = root,var(49) && root,prevstateno != 1250
+var(0) = 1
+ignorehitpause = 1
+
+[State 6505, VarSet]
+type = VarSet
+trigger1 = !root,var(49) && root,stateno != 1250
+var(0) = 0
+ignorehitpause = 1
+
+[State 6505, VarSet]
+type = VarSet
+trigger1 = root,var(8) != 3 && !root,var(39)
+trigger1 = !var(1)
+trigger1 = root,var(54) = [16,0)
+var(1) = 1
+ignorehitpause = 1
+
+[State 6505, VarSet]
+type = VarSet
+trigger1 = root,var(54) > 16
+var(1) = 0
+ignorehitpause = 1
+
+[State 6505, ParentVarSet]
+type = VarSet
+trigger1 = !var(2)
+trigger1 = root,var(58) = 1
+var(2) = 1
+ignorehitpause = 1
+
+[State 6505, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = var(0) = 1
+value = 6501
+
+[State 6505, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = var(1) = 1
+value = 6502
+
+[State 6505, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = root,stateno = 4000 && root,time = 1
+trigger2 = root,stateno = 4100 && root,time = 1
+value = 6503
+
+[State 6505, ChangeState]
+type = changestate
+triggerall = time > 1
+triggerall = roundstate = 2
+trigger1 = var(2) = 1
+value = 6504
+
+[State 6505, ChangeState]
+type = changestate
+trigger1 = Time = 60
+value = 6500
+
+[State 6000, ModifyExplod]
+type = ModifyExplod
+triggerall = NumExplod(6500)
+trigger1 = NumHelper(9000)||(parent,var(52)&&enemynear,NumHelper(9000))||parent,fvar(20)
+trigger2 = roundstate != [2,3]
+trigger2 = matchover
+Id = 6500
+scale = 0,0
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;勝利アイコン
+[Statedef 6600]
+ctrl = 0
+anim = 6900
+
+[State 6600, Explod-1]
+type = Explod
+triggerall = roundstate = 4
+triggerall = !root,var(55)
+triggerall = teamside = 1
+trigger1 = time = 1
+Anim = 6600
+Id = 6600
+pos = 0,0
+postype = left
+ownpal = 1
+ontop = 1
+bindtime = -1
+removetime = 100
+scale = .5,.5
+pausemovetime = 99999999
+
+[State 6600, ModifyExplod-1]
+type = ModifyExplod
+triggerall = !root,var(55)
+triggerall = teamside = 1
+triggerall = time <= 20
+trigger1 = NumExplod(6600)
+Id = 6600
+postype = left
+pos = ceil(-285+(time*15)),82
+
+[State 6600, ModifyExplod-1]
+type = ModifyExplod
+triggerall = !root,var(55)
+triggerall = teamside = 1
+triggerall = time >= 81
+trigger1 = NumExplod(6600)
+Id = 6600
+postype = left
+pos = ceil(15-((time-80)*15)),82
+
+[State 6600, ModifyExplod-1]
+type = ModifyExplod
+triggerall = !root,var(55)
+triggerall = teamside = 1
+triggerall = time <= 20
+trigger1 = NumExplod(6600)
+trigger1 = numpartner
+trigger1 = root,ID > partner,ID
+trigger1 = partner,authorname="warusaki3" && partner,fvar(39) = [4,6]
+Id = 6600
+postype = left
+pos = ceil(-210+(time*15)),82
+
+[State 6600, ModifyExplod-1]
+type = ModifyExplod
+triggerall = !root,var(55)
+triggerall = teamside = 1
+triggerall = time >= 81
+trigger1 = NumExplod(6600)
+trigger1 = numpartner
+trigger1 = root,ID > partner,ID
+trigger1 = partner,authorname="warusaki3" && partner,fvar(39) = [4,6]
+Id = 6600
+postype = left
+pos = ceil(90-((time-80)*15)),82
+scale = .25,.5
+
+[State 6600, ModifyExplod-1]
+type = ModifyExplod
+triggerall = !root,var(55)
+trigger1 = NumExplod(6600)
+trigger1 = numpartner
+trigger1 = partner,authorname="warusaki3" && partner,fvar(39) = [4,6]
+Id = 6600
+scale = .25,.5
+
+[State 6600, Explod-2]
+type = Explod
+triggerall = roundstate = 4
+triggerall = !root,var(55)
+triggerall = teamside = 2
+trigger1 = time = 1
+Anim = 6600
+id = 6650
+pos = 0,0
+postype = left
+ownpal = 1
+ontop = 1
+bindtime = -1
+removetime = 100
+scale = .5,.5
+pausemovetime = 99999999
+
+[State 6600, ModifyExplod-2]
+type = ModifyExplod
+triggerall = !root,var(55)
+triggerall = teamside = 2
+triggerall = time <= 20
+trigger1 = NumExplod(6650)
+Id = 6650
+postype = left
+pos = ceil(420-(time*15)),82
+
+[State 6600, ModifyExplod-2]
+type = ModifyExplod
+triggerall = !root,var(55)
+triggerall = teamside = 2
+triggerall = time >= 81
+trigger1 = NumExplod(6650)
+Id = 6650
+postype = left
+pos = ceil(120+((time-80)*15)),82
+
+[State 6600, ModifyExplod-2]
+type = ModifyExplod
+triggerall = !root,var(55)
+triggerall = teamside = 2
+triggerall = time <= 20
+trigger1 = NumExplod(6650)
+trigger1 = numpartner
+trigger1 = root,ID > partner,ID
+trigger1 = partner,authorname="warusaki3" && partner,fvar(39) = [4,6]
+Id = 6650
+postype = left
+pos = ceil(505-(time*15)),82
+
+[State 6600, ModifyExplod-2]
+type = ModifyExplod
+triggerall = !root,var(55)
+triggerall = teamside = 2
+triggerall = time >= 81
+trigger1 = NumExplod(6650)
+trigger1 = numpartner
+trigger1 = root,ID > partner,ID
+trigger1 = partner,authorname="warusaki3" && partner,fvar(39) = [4,6]
+Id = 6650
+postype = left
+pos = ceil(205+((time-80)*15)),82
+
+[State 6600, ModifyExplod-2]
+type = ModifyExplod
+triggerall = !root,var(55)
+trigger1 = NumExplod(6650)
+trigger1 = numpartner
+trigger1 = partner,authorname="warusaki3" && partner,fvar(39) = [4,6]
+Id = 6650
+scale = .25,.5
+
+[State 6600, Explod-3]
+type = Explod
+triggerall = roundstate = 4
+triggerall = !root,var(55)
+triggerall = teamside = 1
+trigger1 = time = 7
+Anim = 6601
+id = 6601
+pos = 0,0
+postype = left
+ownpal = 1
+ontop = 1
+bindtime = -1
+removetime = 100
+scale = .5,.5
+pausemovetime = 99999999
+
+[State 6600, ModifyExplod-3]
+type = ModifyExplod
+triggerall = !root,var(55)
+triggerall = teamside = 1
+triggerall = time <= 26
+trigger1 = NumExplod(6601)
+Id = 6601
+postype = left
+pos = ceil(-285+((time-6)*15)),82
+
+[State 6600, ModifyExplod-3]
+type = ModifyExplod
+triggerall = !root,var(55)
+triggerall = teamside = 1
+triggerall = time >= 81
+trigger1 = Numexplod(6601)
+Id = 6601
+postype = left
+pos = ceil(15-((time-80)*15)),82
+
+[State 6600, Explod-4]
+type = Explod
+triggerall = roundstate = 4
+triggerall = !root,var(55)
+triggerall = teamside = 2
+trigger1 = time = 7
+Anim = 6601
+id = 6651
+pos = 0,0
+postype = left
+ownpal = 1
+ontop = 1
+bindtime = -1
+removetime = 100
+scale = .5,.5
+pausemovetime = 99999999
+
+[State 6600, ModifyExplod-4]
+type = ModifyExplod
+triggerall = !root,var(55)
+triggerall = teamside = 2
+triggerall = time <= 26
+trigger1 = NumExplod(6651)
+Id = 6651
+postype = left
+pos = ceil(420-((time-6)*15)),82
+
+[State 6600, ModifyExplod-4]
+type = ModifyExplod
+triggerall = !root,var(55)
+triggerall = teamside = 2
+triggerall = time >= 81
+trigger1 = NumExplod(6651)
+Id = 6651
+postype = left
+pos = ceil(120+((time-80)*15)),82
+
+[State 6600, Explod-5]
+type = Explod
+triggerall = roundstate = 4
+triggerall = !root,var(56)
+triggerall = matchover
+trigger1 = time = 1
+Anim = 6602
+id = 6602
+pos = 0,0
+postype = left
+ownpal = 1
+ontop = 1
+bindtime = -1
+removetime = -1
+scale = .5,.5
+pausemovetime = 99999999
+
+[State 6600, ModifyExplod-5]
+type = ModifyExplod
+triggerall = !root,var(56)
+triggerall = time <= 14
+trigger1 = NumExplod(6602)
+Id = 6602
+postype = left
+pos = ceil(429-(time*27)),208
+
+[State 6600, ModifyExplod-5]
+type = ModifyExplod
+triggerall = !root,var(56)
+triggerall = time = [15,19]
+trigger1 = Numexplod(6602)
+Id = 6602
+postype = left
+pos = ceil(-51+((time-14)*16)),208
+ignorehitpause = 1
+
+[State 6600, ModifyExplod-5]
+type = ModifyExplod
+triggerall = !root,var(56)
+triggerall = time = 20
+trigger1 = NumExplod(6602)
+Id = 6602
+postype = left
+pos = 29,208
+
+[State 6600, Sound]
+type = PlaySnd
+triggerall = roundstate = 4
+triggerall = !var(55) || (!var(56) && matchover)
+trigger1 = time = 20
+value = 6600,0
+
+;---------------------------------------------------------------------------
+;スーパーコンボ発動エフェクト
+[Statedef 8000]
+ctrl = 0
+anim = 6900
+
+[State 8000, Explod-1]
+type = Explod
+trigger1 = time = 0
+Anim = 8000
+pos = 0,0
+postype = P1
+ownpal = 1
+ontop = 1
+scale = const(size.xscale),const(size.yscale)
+pausemovetime = 30
+supermovetime = 30
+
+[State 8000, Explod-2]
+type = Explod
+trigger1 = time = 0
+Anim = 8700
+pos = 0,0
+postype = Left
+ownpal = 1
+bindtime = -1
+removetime = 30
+scale = .84,1.08
+sprpriority = -105
+pausemovetime = 30
+supermovetime = 30
+
+[State 8000, Explod-3]
+type = Explod
+trigger1 = time = 7
+Anim = 7900
+id = 7900
+pos = -30,380
+postype = back
+ownpal = 1
+bindtime = -1
+removetime = 23
+sprpriority = -90
+pausemovetime = 23
+supermovetime = 23
+
+[State 8000, ModifyExplod-3]
+type = ModifyExplod
+trigger1 = Numexplod(7900)
+Id = 7900
+postype = back
+pos = ceil(-20+((random%16)*ifelse((time%6=[1,3]),-1,1))),ceil(170+((random%16)*ifelse((time%6=[1,3]),-1,1)))
+scale = ifelse(time>=22,2,.2+((time-6)*.125))*.833,ifelse(time>=22,2,.2+((time-6)*.125))*1.07
+
+[State 8000, AssertSpecial-1]
+type = AssertSpecial
+trigger1 = time <= 29
+flag = NoFG
+flag2 = NoBG
+
+[State 8000, DestroySelf]
+type = DestroySelf
+trigger1 = time = 31
+
+;---------------------------------------------------------------------------
+;タンデムコンボ発動エフェクト
+[Statedef 8001]
+ctrl = 0
+anim = 6900
+
+[State 8001, Explod-1]
+type = Explod
+trigger1 = time = 0
+Anim = 8000
+pos = 0,0
+postype = P1
+ownpal = 1
+ontop = 1
+scale = const(size.xscale),const(size.yscale)
+pausemovetime = 120
+supermovetime = 120
+
+[State 8001, Explod-2]
+type = Explod
+trigger1 = time = 0
+Anim = 8710
+pos = 0, 0
+postype = Left
+ownpal = 1
+bindtime = -1
+removetime = 120
+scale = .84,1.08
+sprpriority = -105
+pausemovetime = 120
+supermovetime = 120
+
+[State 8001, Explod-3]
+type = Explod
+trigger1 = Time = 0
+Anim = 7900
+id = 7900
+pos = -30, 380
+postype = back
+ownpal = 1
+bindtime = -1
+removetime = 120
+scale = .84,1.08
+sprpriority = -90
+pausemovetime = 120
+supermovetime = 120
+
+[State 8001, ModifyExplod-3]
+type = ModifyExplod
+trigger1 = time <= 8
+Id = 7900
+postype = back
+pos = ceil(-96+(time*12)),120
+
+[State 8001, AssertSpecial]
+type = AssertSpecial
+trigger1 = time <= 119
+flag = NoFG
+flag2 = NoBG
+
+[State 8001, DestroySelf]
+type = DestroySelf
+trigger1 = time = 120
+
+;---------------------------------------------------------------------------
+;燃焼エフェクト
+[Statedef 8600]
+type = A
+movetype = I
+physics = N
+ctrl = 0
+anim = 8600
+sprpriority = 3
+
+[State 8600, Assert]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 8600, ChangeAnim]
+type = ChangeAnim
+trigger1 = root,var(0) = 1
+value = anim
+
+[State 8600, PosSet]
+type = PosSet
+trigger1 = 1
+x = enemynear,pos x
+y = enemynear,pos y
+
+[State 8600, ChangeState]
+type = ChangeState
+trigger1 = !root,numtarget
+value = 8601
+
+[State 8600, DestroySelf]
+type = DestroySelf
+trigger1 = root,var(27) = 1
+
+;---------------------------------------------------------------------------
+;燃焼エフェクト（終了）
+[Statedef 8601]
+type = A
+movetype = I
+physics = N
+ctrl = 0
+anim = 8601
+sprpriority = 3
+
+[State 8601, Assert]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 8601, PosSet]
+type = PosSet
+trigger1 = 1
+x = enemynear,pos x
+y = enemynear,pos y
+
+[State 8601, DestroySelf]
+type = DestroySelf
+trigger1 = animtime = 0
+
+;---------------------------------------------------------------------------
+;敗北時演出（通常）
+[Statedef 9000]
+ctrl = 0
+anim = 6900
+type = A
+movetype = I
+physics = N
+
+[State 9000, 1]
+type = turn
+trigger1 = time = 0
+trigger1 = facing != root,facing
+
+[State 9000, Assert]
+type = AssertSpecial
+trigger1 = time < 60
+flag = NoFG
+flag2 = NoBG
+
+[State 9000, EnvColor]
+type = palfx
+trigger1 = time = (10,35)
+add = 5*(time-10),5*(time-10),5*(time-10)
+time = 1
+persistent = 1
+ignorehitpause = 1
+
+[State 9000, EnvColor]
+type = palfx
+trigger1 = time >= 35
+add = 128,128,128
+time = 1
+persistent = 1
+ignorehitpause = 1
+
+[State 9001, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0
+value = 9000, 1
+
+[State 9001, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0
+value = 9000, 1
+
+[State 9000, VarSet]
+type = VarSet
+trigger1 = time = 1
+fvar(38) = 200
+
+[State 9000, VarSet]
+type = VarSet
+trigger1 = 1
+fvar(38) = ifelse(fvar(38)*.6<.33,.33,fvar(38)*.6)
+
+[State 9000, VarAdd]
+type = VarAdd
+trigger1 = 1
+fvar(39) = fvar(38)
+ignorehitpause = 1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 7910
+id = 7910
+pos = 160,120
+postype = back
+sprpriority = -90
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = 1.4*root,const(size.xscale),1.4*root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8730
+id = 8730
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8731
+id = 8731
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8732
+id = 8732
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8733
+id = 8733
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8730
+id = 8735
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8731
+id = 8736
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8732
+id = 8737
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8733
+id = 8738
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7910)
+Id = 7910
+postype = back
+pos = ceil(400-fvar(39)),120
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8730)
+Id = 8730
+postype = back
+pos = -(time*8)%512,-8
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8731)
+Id = 8731
+postype = back
+pos = -(time*12)%512,88
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8732)
+Id = 8732
+postype = back
+pos = -(time*16)%512,152
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8733)
+Id = 8733
+postype = back
+pos = -(time*20)%512,216
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8735)
+Id = 8735
+postype = back
+pos = 512-(time*8)%512,-8
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8736)
+Id = 8736
+postype = back
+pos = 512-(time*12)%512,88
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8737)
+Id = 8737
+postype = back
+pos = 512-(time*16)%512,152
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8738)
+Id = 8738
+postype = back
+pos = 512-(time*20)%512,216
+ignorehitpause = 1
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = time = 60
+trigger2 = RoundState = 4
+id = 7910
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8730
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8731
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8732
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8733
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8735
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8736
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8737
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8738
+
+[State 9000, DestroySelf]
+type = DestroySelf
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+
+;---------------------------------------------------------------------------
+;敗北時演出（蜂の巣）
+[Statedef 9001]
+ctrl = 0
+anim = 6900
+type = A
+movetype = I
+physics = N
+
+[State 9000, 1]
+type = turn
+trigger1 = time = 0
+trigger1 = facing != root,facing
+
+[State 9000, Assert]
+type = AssertSpecial
+trigger1 = time < 60
+flag = NoFG
+flag2 = NoBG
+
+[State 9000, EnvColor]
+type = palfx
+trigger1 = time = (10,35)
+add = 5*(time-10),5*(time-10),5*(time-10)
+time = 1
+persistent = 1
+ignorehitpause = 1
+
+[State 9000, EnvColor]
+type = palfx
+trigger1 = time >= 35
+add = 128,128,128
+time = 1
+persistent = 1
+ignorehitpause = 1
+
+[State 9001, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0
+value = 9000, 1
+
+[State 9001, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0
+value = 9000, 1
+
+[State 9000, VarSet]
+type = VarSet
+trigger1 = time = 1
+fvar(38) = 200
+
+[State 9000, VarSet]
+type = VarSet
+trigger1 = 1
+fvar(38) = ifelse(fvar(38)*.6<.33,.33,fvar(38)*.6)
+
+[State 9001, VarAdd]
+type = VarAdd
+trigger1 = 1
+fvar(39) = fvar(38)
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 0
+v = 0
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 0
+fvar(0) = var(0)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 0
+v = 0
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 0
+v = 1
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 0
+fvar(1) = var(1)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 0
+v = 1
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 0
+v = 2
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 0
+fvar(2) = var(2)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 0
+v = 2
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 0
+v = 3
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 0
+fvar(3) = var(3)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 0
+v = 3
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 3
+v = 4
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 3
+fvar(4) = var(4)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 3
+v = 4
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 3
+v = 5
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 3
+fvar(5) = var(5)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 3
+v = 5
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 3
+v = 6
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 3
+fvar(6) = var(6)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 3
+v = 6
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 3
+v = 7
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 3
+fvar(7) = var(7)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 3
+v = 7
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 6
+v = 8
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 6
+fvar(8) = var(8)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 6
+v = 8
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 6
+v = 9
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 6
+fvar(9) = var(9)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 6
+v = 9
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 6
+v = 10
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 6
+fvar(10) = var(10)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 6
+v = 10
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 6
+v = 11
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 6
+fvar(11) = var(11)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 6
+v = 11
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 9
+v = 12
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 9
+fvar(12) = var(12)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 9
+v = 12
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 9
+v = 13
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 9
+fvar(13) = var(13)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 9
+v = 13
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 9
+v = 14
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 9
+fvar(14) = var(14)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 9
+v = 14
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 9
+v = 15
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 9
+fvar(15) = var(15)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 9
+v = 15
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 12
+v = 16
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 12
+fvar(16) = var(16)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 12
+v = 16
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 12
+v = 17
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 12
+fvar(17) = var(17)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 12
+v = 17
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 12
+v = 18
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 12
+fvar(18) = var(18)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 12
+v = 18
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 12
+v = 19
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 12
+fvar(19) = var(19)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 12
+v = 19
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 15
+v = 20
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 15
+fvar(20) = var(20)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 15
+v = 20
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 15
+v = 21
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 15
+fvar(21) = var(21)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 15
+v = 21
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 15
+v = 22
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 15
+fvar(22) = var(22)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 15
+v = 22
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 15
+v = 23
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 15
+fvar(23) = var(23)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 15
+v = 23
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 18
+v = 24
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 18
+fvar(24) = var(24)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 18
+v = 24
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 18
+v = 25
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 18
+fvar(25) = var(25)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 18
+v = 25
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 18
+v = 26
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 18
+fvar(26) = var(26)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 18
+v = 26
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 18
+v = 27
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 18
+fvar(27) = var(27)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 18
+v = 27
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 21
+v = 28
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 21
+fvar(28) = var(28)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 21
+v = 28
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 21
+v = 29
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 21
+fvar(29) = var(29)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 21
+v = 29
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 21
+v = 30
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 21
+fvar(30) = var(30)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 21
+v = 30
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 21
+v = 31
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 21
+fvar(31) = var(31)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 21
+v = 31
+range = -120,120
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 0
+anim = 7930
+id = 7930
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 0
+anim = 7931
+id = 7931
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 0
+anim = 7932
+id = 7932
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 0
+anim = 7933
+id = 7933
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 3
+anim = 7930
+id = 7934
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 3
+anim = 7931
+id = 7935
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 3
+anim = 7932
+id = 7936
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 3
+anim = 7933
+id = 7937
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 6
+anim = 7930
+id = 7938
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 6
+anim = 7931
+id = 7939
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 6
+anim = 7932
+id = 7940
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 6
+anim = 7933
+id = 7941
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 9
+anim = 7930
+id = 7942
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 9
+anim = 7931
+id = 7943
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 9
+anim = 7932
+id = 7944
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 9
+anim = 7933
+id = 7945
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 12
+anim = 7930
+id = 7946
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 12
+anim = 7931
+id = 7947
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 12
+anim = 7932
+id = 7948
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 12
+anim = 7933
+id = 7949
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 15
+anim = 7930
+id = 7950
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 15
+anim = 7931
+id = 7951
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 15
+anim = 7932
+id = 7952
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 15
+anim = 7933
+id = 7953
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 18
+anim = 7930
+id = 7954
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 18
+anim = 7931
+id = 7955
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 18
+anim = 7932
+id = 7956
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 18
+anim = 7933
+id = 7957
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 21
+anim = 7930
+id = 7958
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 21
+anim = 7931
+id = 7959
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 21
+anim = 7932
+id = 7960
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 21
+anim = 7933
+id = 7961
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 7910
+id = 7910
+pos = 360,120
+postype = Back
+sprpriority = -90
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = 1.4*root,const(size.xscale),1.4*root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8740
+id = 8730
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8741
+id = 8731
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8742
+id = 8732
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8743
+id = 8733
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8740
+id = 8735
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8741
+id = 8736
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8742
+id = 8737
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8743
+id = 8738
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7910)
+Id = 7910
+postype = back
+pos = ceil(400-fvar(39)),120
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7930)
+Id = 7930
+postype = back
+pos = ceil(400-fvar(39)+fvar(0)),120+var(0)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7931)
+Id = 7931
+postype = back
+pos = ceil(400-fvar(39)+fvar(1)),120+var(1)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7932)
+Id = 7932
+postype = back
+pos = ceil(400-fvar(39)+fvar(2)),120+var(2)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7933)
+Id = 7933
+postype = back
+pos = ceil(400-fvar(39)+fvar(3)),120+var(3)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7934)
+Id = 7934
+postype = back
+pos = ceil(400-fvar(39)+fvar(4)),120+var(4)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7935)
+Id = 7935
+postype = back
+pos = ceil(400-fvar(39)+fvar(5)),120+var(5)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7936)
+Id = 7936
+postype = back
+pos = ceil(400-fvar(39)+fvar(6)),120+var(6)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7937)
+Id = 7937
+postype = back
+pos = ceil(400-fvar(39)+fvar(7)),120+var(7)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7938)
+Id = 7938
+postype = back
+pos = ceil(400-fvar(39)+fvar(8)),120+var(8)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7939)
+Id = 7939
+postype = back
+pos = ceil(400-fvar(39)+fvar(9)),120+var(9)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7940)
+Id = 7940
+postype = back
+pos = ceil(400-fvar(39)+fvar(10)),120+var(10)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7941)
+Id = 7941
+postype = back
+pos = ceil(400-fvar(39)+fvar(11)),120+var(11)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7942)
+Id = 7942
+postype = back
+pos = ceil(400-fvar(39)+fvar(12)),120+var(12)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7943)
+Id = 7943
+postype = back
+pos = ceil(400-fvar(39)+fvar(13)),120+var(13)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7944)
+Id = 7944
+postype = back
+pos = ceil(400-fvar(39)+fvar(14)),120+var(14)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7945)
+Id = 7945
+postype = back
+pos = ceil(400-fvar(39)+fvar(15)),120+var(15)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7946)
+Id = 7946
+postype = back
+pos = ceil(400-fvar(39)+fvar(16)),120+var(16)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7947)
+Id = 7947
+postype = back
+pos = ceil(400-fvar(39)+fvar(17)),120+var(17)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7948)
+Id = 7948
+postype = back
+pos = ceil(400-fvar(39)+fvar(18)),120+var(18)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7949)
+Id = 7949
+postype = back
+pos = ceil(400-fvar(39)+fvar(19)),120+var(19)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7950)
+Id = 7950
+postype = back
+pos = ceil(400-fvar(39)+fvar(20)),120+var(20)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7951)
+Id = 7951
+postype = back
+pos = ceil(400-fvar(39)+fvar(21)),120+var(21)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7952)
+Id = 7952
+postype = back
+pos = ceil(400-fvar(39)+fvar(22)),120+var(22)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7953)
+Id = 7953
+postype = back
+pos = ceil(400-fvar(39)+fvar(23)),120+var(23)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7954)
+Id = 7954
+postype = back
+pos = ceil(400-fvar(39)+fvar(24)),120+var(24)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7955)
+Id = 7955
+postype = back
+pos = ceil(400-fvar(39)+fvar(25)),120+var(25)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7956)
+Id = 7956
+postype = back
+pos = ceil(400-fvar(39)+fvar(26)),120+var(26)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7957)
+Id = 7957
+postype = back
+pos = ceil(400-fvar(39)+fvar(27)),120+var(27)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7958)
+Id = 7958
+postype = back
+pos = ceil(400-fvar(39)+fvar(28)),120+var(28)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7959)
+Id = 7959
+postype = back
+pos = ceil(400-fvar(39)+fvar(29)),120+var(29)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7960)
+Id = 7960
+postype = back
+pos = ceil(400-fvar(39)+fvar(30)),120+var(30)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7961)
+Id = 7961
+postype = back
+pos = ceil(400-fvar(39)+fvar(31)),120+var(31)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8730)
+id = 8730
+postype = back
+pos = -(time*8)%512,-8
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8731)
+id = 8731
+postype = back
+pos = -(time*12)%512,88
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8732)
+id = 8732
+postype = back
+pos = -(time*16)%512,152
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8733)
+id = 8733
+postype = back
+pos = -(time*20)%512,216
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8735)
+id = 8735
+postype = back
+pos = 512-(time*8)%512,-8
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8736)
+id = 8736
+postype = back
+pos = 512-(time*12)%512,88
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8737)
+id = 8737
+postype = back
+pos = 512-(time*16)%512,152
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8738)
+id = 8738
+postype = back
+pos = 512-(time*20)%512,216
+ignorehitpause = 1
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = time = 60
+trigger2 = RoundState = 4
+id = 7910
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7930
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7931
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7932
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7933
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7934
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7935
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7936
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7937
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7938
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7939
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7940
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7941
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7942
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7943
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7944
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7945
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7946
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7947
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7948
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7949
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7950
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7951
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7952
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7953
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7954
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7955
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7956
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7957
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7958
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7959
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7960
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 7961
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8730
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8731
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8732
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8733
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8735
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8736
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8737
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8738
+
+[State 9001, DestroySelf]
+type = DestroySelf
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+
+;---------------------------------------------------------------------------
+;敗北時演出（横切断）
+[Statedef 9002]
+ctrl = 0
+anim = 6900
+type = A
+movetype = I
+physics = N
+
+[State 9000, 1]
+type = turn
+trigger1 = time = 0
+trigger1 = facing != root,facing
+
+[State 9000, Assert]
+type = AssertSpecial
+trigger1 = time < 60
+flag = NoFG
+flag2 = NoBG
+
+[State 9000, EnvColor]
+type = palfx
+trigger1 = time = (10,35)
+add = 5*(time-10),5*(time-10),5*(time-10)
+time = 1
+persistent = 1
+ignorehitpause = 1
+
+[State 9000, EnvColor]
+type = palfx
+trigger1 = time >= 35
+add = 128,128,128
+time = 1
+persistent = 1
+ignorehitpause = 1
+
+[State 9001, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0
+value = 9000, 1
+
+[State 9001, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0
+value = 9000, 1
+
+[State 9000, VarSet]
+type = VarSet
+trigger1 = time = 1
+fvar(38) = 200
+
+[State 9000, VarSet]
+type = VarSet
+trigger1 = 1
+fvar(38) = ifelse(fvar(38)*.6<.33,.33,fvar(38)*.6)
+
+[State 9000, VarAdd]
+type = VarAdd
+trigger1 = 1
+fvar(39) = fvar(38)
+ignorehitpause = 1
+
+[State 9000, VarAdd]
+type = VarAdd
+trigger1 = time >= 6
+fvar(39) = -1.8*root,const(size.xscale)
+ignorehitpause = 1
+
+[State 9000, VarAdd]
+type = VarAdd
+trigger1 = 1
+fvar(37) = fvar(38)
+ignorehitpause = 1
+
+[State 9000, VarAdd]
+type = VarAdd
+trigger1 = time >= 6
+fvar(37) = 1.8*root,const(size.xscale)
+ignorehitpause = 1
+
+[State 9000, VarAdd]
+type = VarAdd
+trigger1 = time >= 6
+fvar(36) = -1.5*root,const(size.yscale)
+ignorehitpause = 1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 7911
+id = 7911
+pos = 160,120
+postype = back
+sprpriority = -90
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = 1.4*root,const(size.xscale),1.4*root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 7912
+id = 7912
+pos = 160,120
+postype = back
+sprpriority = -90
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = 1.4*root,const(size.xscale),1.4*root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 7913
+id = 7911
+pos = 160,120
+postype = back
+sprpriority = -90
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = 1.4*root,const(size.xscale),1.4*root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 7914
+id = 7912
+pos = 160,120
+postype = back
+sprpriority = -90
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = 1.4*root,const(size.xscale),1.4*root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8740
+id = 8730
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8741
+id = 8731
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8742
+id = 8732
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8743
+id = 8733
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8740
+id = 8735
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8741
+id = 8736
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8742
+id = 8737
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8743
+id = 8738
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7911)
+Id = 7911
+postype = back
+pos = ceil(400-fvar(39)),ceil(120-fvar(36))
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7912)
+Id = 7912
+postype = back
+pos = ceil(400-fvar(37)),ceil(120+fvar(36))
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8730)
+Id = 8730
+postype = back
+pos = -(time*8)%512,-8
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8731)
+Id = 8731
+postype = back
+pos = -(time*12)%512,88
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8732)
+Id = 8732
+postype = back
+pos = -(time*16)%512,152
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8733)
+Id = 8733
+postype = back
+pos = -(time*20)%512,216
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8735)
+Id = 8735
+postype = back
+pos = 512-(time*8)%512,-8
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8736)
+Id = 8736
+postype = back
+pos = 512-(time*12)%512,88
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8737)
+Id = 8737
+postype = back
+pos = 512-(time*16)%512,152
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8738)
+Id = 8738
+postype = back
+pos = 512-(time*20)%512,216
+ignorehitpause = 1
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = time = 60
+trigger2 = RoundState = 4
+id = 7911
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = time = 60
+trigger2 = RoundState = 4
+id = 7912
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7911)
+id = 8730
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7911)
+id = 8731
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7911)
+id = 8732
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7911)
+id = 8733
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7911)
+id = 8735
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7911)
+id = 8736
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7911)
+id = 8737
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7911)
+id = 8738
+
+[State 9000, DestroySelf]
+type = DestroySelf
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7911)
+
+;---------------------------------------------------------------------------
+;敗北時演出（縦切断）
+[Statedef 9003]
+ctrl = 0
+anim = 6900
+type = A
+movetype = I
+physics = N
+
+[State 9000, 1]
+type = turn
+trigger1 = time = 0
+trigger1 = facing != root,facing
+
+[State 9000, Assert]
+type = AssertSpecial
+trigger1 = time < 60
+flag = NoFG
+flag2 = NoBG
+
+[State 9000, EnvColor]
+type = palfx
+trigger1 = time = (10,35)
+add = 5*(time-10),5*(time-10),5*(time-10)
+time = 1
+persistent = 1
+ignorehitpause = 1
+
+[State 9000, EnvColor]
+type = palfx
+trigger1 = time >= 35
+add = 128,128,128
+time = 1
+persistent = 1
+ignorehitpause = 1
+
+[State 9001, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0
+value = 9000, 1
+
+[State 9001, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0
+value = 9000, 1
+
+[State 9000, VarSet]
+type = VarSet
+trigger1 = time = 1
+fvar(38) = 200
+
+[State 9000, VarSet]
+type = VarSet
+trigger1 = 1
+fvar(38) = ifelse(fvar(38)*.6<.33,.33,fvar(38)*.6)
+
+[State 9000, VarAdd]
+type = VarAdd
+trigger1 = 1
+fvar(39) = fvar(38)
+ignorehitpause = 1
+
+[State 9000, VarAdd]
+type = VarAdd
+trigger1 = time >= 6
+fvar(39) = -1.88*root,const(size.xscale)
+ignorehitpause = 1
+
+[State 9000, VarAdd]
+type = VarAdd
+trigger1 = 1
+fvar(37) = fvar(38)
+ignorehitpause = 1
+
+[State 9000, VarAdd]
+type = VarAdd
+trigger1 = time >= 6
+fvar(37) = 1.88*root,const(size.xscale)
+ignorehitpause = 1
+
+[State 9000, VarAdd]
+type = VarAdd
+trigger1 = time >= 6
+fvar(36) = -1.8*root,const(size.yscale)
+ignorehitpause = 1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 7911
+id = 7911
+pos = 160,120
+postype = back
+sprpriority = -90
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = 1.4*root,const(size.xscale),1.4*root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 7913
+id = 7912
+pos = 160,120
+postype = back
+sprpriority = -90
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = 1.4*root,const(size.xscale),1.4*root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 7912
+id = 7911
+pos = 160,120
+postype = back
+sprpriority = -90
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = 1.4*root,const(size.xscale),1.4*root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 7914
+id = 7912
+pos = 160,120
+postype = back
+sprpriority = -90
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = 1.4*root,const(size.xscale),1.4*root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8740
+id = 8730
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8741
+id = 8731
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8742
+id = 8732
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8743
+id = 8733
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8740
+id = 8735
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8741
+id = 8736
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8742
+id = 8737
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8743
+id = 8738
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7911)
+Id = 7911
+postype = back
+pos = ceil(400-fvar(39)),ceil(120+fvar(36))
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7912)
+Id = 7912
+postype = back
+pos = ceil(400-fvar(37)),ceil(120-fvar(36))
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8730)
+Id = 8730
+postype = back
+pos = -(time*8)%512,-8
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8731)
+Id = 8731
+postype = back
+pos = -(time*12)%512,88
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8732)
+Id = 8732
+postype = back
+pos = -(time*16)%512,152
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8733)
+Id = 8733
+postype = back
+pos = -(time*20)%512,216
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8735)
+Id = 8735
+postype = back
+pos = 512-(time*8)%512,-8
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8736)
+Id = 8736
+postype = back
+pos = 512-(time*12)%512,88
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8737)
+Id = 8737
+postype = back
+pos = 512-(time*16)%512,152
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8738)
+Id = 8738
+postype = back
+pos = 512-(time*20)%512,216
+ignorehitpause = 1
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = time = 60
+trigger2 = RoundState = 4
+id = 7911
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = time = 60
+trigger2 = RoundState = 4
+id = 7912
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7911)
+id = 8730
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7911)
+id = 8731
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7911)
+id = 8732
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7911)
+id = 8733
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7911)
+id = 8735
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7911)
+id = 8736
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7911)
+id = 8737
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7911)
+id = 8738
+
+[State 9000, DestroySelf]
+type = DestroySelf
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7911)
+
+;---------------------------------------------------------------------------
+;敗北時演出（血まみれ）
+[Statedef 9004]
+ctrl = 0
+anim = 6900
+type = A
+movetype = I
+physics = N
+
+[State 9000, 1]
+type = turn
+trigger1 = time = 0
+trigger1 = facing != root,facing
+
+[State 9000, Assert]
+type = AssertSpecial
+trigger1 = time < 60
+flag = NoFG
+flag2 = NoBG
+
+[State 9000, EnvColor]
+type = palfx
+trigger1 = time = (10,35)
+add = 10*(time-10),0,0
+time = 1
+persistent = 1
+ignorehitpause = 1
+
+[State 9000, EnvColor]
+type = palfx
+trigger1 = time >= 35
+add = 256,0,0
+time = 1
+persistent = 1
+ignorehitpause = 1
+
+[State 9001, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0
+value = 9000, 1
+
+[State 9001, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0
+value = 9000, 1
+
+[State 9000, VarSet]
+type = VarSet
+trigger1 = time = 1
+fvar(38) = 200
+
+[State 9000, VarSet]
+type = VarSet
+trigger1 = 1
+fvar(38) = ifelse(fvar(38)*.6<.33,.33,fvar(38)*.6)
+
+[State 9001, VarAdd]
+type = VarAdd
+trigger1 = 1
+fvar(39) = fvar(38)
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 0
+v = 0
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 0
+fvar(0) = var(0)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 0
+v = 0
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 0
+v = 1
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 0
+fvar(1) = var(1)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 0
+v = 1
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 0
+v = 2
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 0
+fvar(2) = var(2)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 0
+v = 2
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 0
+v = 3
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 0
+fvar(3) = var(3)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 0
+v = 3
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 3
+v = 4
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 3
+fvar(4) = var(4)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 3
+v = 4
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 3
+v = 5
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 3
+fvar(5) = var(5)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 3
+v = 5
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 3
+v = 6
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 3
+fvar(6) = var(6)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 3
+v = 6
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 3
+v = 7
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 3
+fvar(7) = var(7)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 3
+v = 7
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 6
+v = 8
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 6
+fvar(8) = var(8)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 6
+v = 8
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 6
+v = 9
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 6
+fvar(9) = var(9)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 6
+v = 9
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 6
+v = 10
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 6
+fvar(10) = var(10)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 6
+v = 10
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 6
+v = 11
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 6
+fvar(11) = var(11)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 6
+v = 11
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 9
+v = 12
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 9
+fvar(12) = var(12)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 9
+v = 12
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 9
+v = 13
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 9
+fvar(13) = var(13)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 9
+v = 13
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 9
+v = 14
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 9
+fvar(14) = var(14)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 9
+v = 14
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 9
+v = 15
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 9
+fvar(15) = var(15)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 9
+v = 15
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 12
+v = 16
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 12
+fvar(16) = var(16)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 12
+v = 16
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 12
+v = 17
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 12
+fvar(17) = var(17)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 12
+v = 17
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 12
+v = 18
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 12
+fvar(18) = var(18)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 12
+v = 18
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 12
+v = 19
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 12
+fvar(19) = var(19)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 12
+v = 19
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 15
+v = 20
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 15
+fvar(20) = var(20)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 15
+v = 20
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 15
+v = 21
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 15
+fvar(21) = var(21)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 15
+v = 21
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 15
+v = 22
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 15
+fvar(22) = var(22)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 15
+v = 22
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 15
+v = 23
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 15
+fvar(23) = var(23)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 15
+v = 23
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 18
+v = 24
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 18
+fvar(24) = var(24)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 18
+v = 24
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 18
+v = 25
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 18
+fvar(25) = var(25)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 18
+v = 25
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 18
+v = 26
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 18
+fvar(26) = var(26)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 18
+v = 26
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 18
+v = 27
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 18
+fvar(27) = var(27)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 18
+v = 27
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 21
+v = 28
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 21
+fvar(28) = var(28)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 21
+v = 28
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 21
+v = 29
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 21
+fvar(29) = var(29)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 21
+v = 29
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 21
+v = 30
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 21
+fvar(30) = var(30)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 21
+v = 30
+range = -120,120
+
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 21
+v = 31
+range = -160,160
+[State 9001, VarSet]
+type = VarSet
+trigger1 = time = 21
+fvar(31) = var(31)
+[State 9001, VarRandom]
+type = VarRandom
+trigger1 = time = 21
+v = 31
+range = -120,120
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 0
+anim = 8340
+id = 8340
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 0
+anim = 8341
+id = 8341
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 0
+anim = 8342
+id = 8342
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 0
+anim = 8343
+id = 8343
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 3
+anim = 8340
+id = 8344
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 3
+anim = 8341
+id = 8345
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 3
+anim = 8342
+id = 8346
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 3
+anim = 8343
+id = 8347
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 6
+anim = 8340
+id = 8348
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 6
+anim = 8341
+id = 8349
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 6
+anim = 8342
+id = 8350
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 6
+anim = 8343
+id = 8351
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 9
+anim = 8340
+id = 8352
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 9
+anim = 8341
+id = 8353
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 9
+anim = 8342
+id = 8354
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 9
+anim = 8343
+id = 8355
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 12
+anim = 8340
+id = 8356
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 12
+anim = 8341
+id = 8357
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 12
+anim = 8342
+id = 8358
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 12
+anim = 8343
+id = 8359
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 15
+anim = 8340
+id = 8360
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 15
+anim = 8341
+id = 8361
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 15
+anim = 8342
+id = 8362
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 15
+anim = 8343
+id = 8363
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 18
+anim = 8340
+id = 8364
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 18
+anim = 8341
+id = 8365
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 18
+anim = 8342
+id = 8366
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 18
+anim = 8343
+id = 8367
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 21
+anim = 8340
+id = 8368
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 21
+anim = 8341
+id = 8369
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 21
+anim = 8342
+id = 8370
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = time = 21
+anim = 8343
+id = 8371
+pos = 0,0
+postype = back
+sprpriority = -89
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = root,const(size.xscale),root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 7910
+id = 7910
+pos = 360,120
+postype = Back
+sprpriority = -90
+ownpal = 0
+bindtime = -1
+removetime = 60
+scale = 1.4*root,const(size.xscale),1.4*root,const(size.yscale)
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8740
+id = 8730
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 1
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8741
+id = 8731
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 1
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8742
+id = 8732
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 1
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8743
+id = 8733
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 1
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8740
+id = 8735
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 1
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8741
+id = 8736
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 1
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8742
+id = 8737
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 1
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8743
+id = 8738
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 1
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(7910)
+Id = 7910
+postype = back
+pos = ceil(400-fvar(39)),120
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8340)
+Id = 8340
+postype = back
+pos = ceil(400-fvar(39)+fvar(0)),120+var(0)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8341)
+Id = 8341
+postype = back
+pos = ceil(400-fvar(39)+fvar(1)),120+var(1)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8342)
+Id = 8342
+postype = back
+pos = ceil(400-fvar(39)+fvar(2)),120+var(2)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8343)
+Id = 8343
+postype = back
+pos = ceil(400-fvar(39)+fvar(3)),120+var(3)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8344)
+Id = 8344
+postype = back
+pos = ceil(400-fvar(39)+fvar(4)),120+var(4)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8345)
+Id = 8345
+postype = back
+pos = ceil(400-fvar(39)+fvar(5)),120+var(5)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8346)
+Id = 8346
+postype = back
+pos = ceil(400-fvar(39)+fvar(6)),120+var(6)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8347)
+Id = 8347
+postype = back
+pos = ceil(400-fvar(39)+fvar(7)),120+var(7)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8348)
+Id = 8348
+postype = back
+pos = ceil(400-fvar(39)+fvar(8)),120+var(8)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8349)
+Id = 8349
+postype = back
+pos = ceil(400-fvar(39)+fvar(9)),120+var(9)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8350)
+Id = 8350
+postype = back
+pos = ceil(400-fvar(39)+fvar(10)),120+var(10)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8351)
+Id = 8351
+postype = back
+pos = ceil(400-fvar(39)+fvar(11)),120+var(11)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8352)
+Id = 8352
+postype = back
+pos = ceil(400-fvar(39)+fvar(12)),120+var(12)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8353)
+Id = 8353
+postype = back
+pos = ceil(400-fvar(39)+fvar(13)),120+var(13)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8354)
+Id = 8354
+postype = back
+pos = ceil(400-fvar(39)+fvar(14)),120+var(14)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8355)
+Id = 8355
+postype = back
+pos = ceil(400-fvar(39)+fvar(15)),120+var(15)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8356)
+Id = 8356
+postype = back
+pos = ceil(400-fvar(39)+fvar(16)),120+var(16)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8357)
+Id = 8357
+postype = back
+pos = ceil(400-fvar(39)+fvar(17)),120+var(17)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8358)
+Id = 8358
+postype = back
+pos = ceil(400-fvar(39)+fvar(18)),120+var(18)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8359)
+Id = 8359
+postype = back
+pos = ceil(400-fvar(39)+fvar(19)),120+var(19)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8360)
+Id = 8360
+postype = back
+pos = ceil(400-fvar(39)+fvar(20)),120+var(20)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8361)
+Id = 8361
+postype = back
+pos = ceil(400-fvar(39)+fvar(21)),120+var(21)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8362)
+Id = 8362
+postype = back
+pos = ceil(400-fvar(39)+fvar(22)),120+var(22)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8363)
+Id = 8363
+postype = back
+pos = ceil(400-fvar(39)+fvar(23)),120+var(23)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8364)
+Id = 8364
+postype = back
+pos = ceil(400-fvar(39)+fvar(24)),120+var(24)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8365)
+Id = 8365
+postype = back
+pos = ceil(400-fvar(39)+fvar(25)),120+var(25)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8366)
+Id = 8366
+postype = back
+pos = ceil(400-fvar(39)+fvar(26)),120+var(26)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8367)
+Id = 8367
+postype = back
+pos = ceil(400-fvar(39)+fvar(27)),120+var(27)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8368)
+Id = 8368
+postype = back
+pos = ceil(400-fvar(39)+fvar(28)),120+var(28)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8369)
+Id = 8369
+postype = back
+pos = ceil(400-fvar(39)+fvar(29)),120+var(29)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8370)
+Id = 8370
+postype = back
+pos = ceil(400-fvar(39)+fvar(30)),120+var(30)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8371)
+Id = 8371
+postype = back
+pos = ceil(400-fvar(39)+fvar(31)),120+var(31)
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8730)
+id = 8730
+postype = back
+pos = -(time*8)%512,-8
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8731)
+id = 8731
+postype = back
+pos = -(time*12)%512,88
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8732)
+id = 8732
+postype = back
+pos = -(time*16)%512,152
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8733)
+id = 8733
+postype = back
+pos = -(time*20)%512,216
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8735)
+id = 8735
+postype = back
+pos = 512-(time*8)%512,-8
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8736)
+id = 8736
+postype = back
+pos = 512-(time*12)%512,88
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8737)
+id = 8737
+postype = back
+pos = 512-(time*16)%512,152
+ignorehitpause = 1
+
+[State 9001, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8738)
+id = 8738
+postype = back
+pos = 512-(time*20)%512,216
+ignorehitpause = 1
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = time = 60
+trigger2 = RoundState = 4
+id = 7910
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8340
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8341
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8342
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8343
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8344
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8345
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8346
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8347
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8348
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8349
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8350
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8351
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8352
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8353
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8354
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8355
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8356
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8357
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8358
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8359
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8360
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8361
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8362
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8363
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8364
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8365
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8366
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8367
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8368
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8369
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8370
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8371
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8730
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8731
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8732
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8733
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8735
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8736
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8737
+
+[State 9001, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+id = 8738
+
+[State 9001, DestroySelf]
+type = DestroySelf
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(7910)
+
+;---------------------------------------------------------------------------
+;敗北時演出（カットインなし）
+[Statedef 9005]
+ctrl = 0
+anim = 6900
+type = A
+movetype = I
+physics = N
+
+[State 5201, 1]
+type = turn
+trigger1 = time = 0
+trigger1 = facing != root,facing
+
+[State 9000, Assert]
+type = AssertSpecial
+trigger1 = time < 60
+flag = NoFG
+flag2 = NoBG
+
+[State 9001, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0
+value = 9000, 1
+
+[State 9001, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0
+value = 9000, 1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8740
+id = 8730
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8741
+id = 8731
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8742
+id = 8732
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8743
+id = 8733
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8740
+id = 8735
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8741
+id = 8736
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8742
+id = 8737
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 8743
+id = 8738
+pos = 0,0
+postype = back
+sprpriority = -105
+ownpal = 0
+bindtime = -1
+removetime = 60
+pausemovetime = -1
+supermovetime = -1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8730)
+Id = 8730
+postype = back
+pos = -(time*8)%512,-8
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8731)
+Id = 8731
+postype = back
+pos = -(time*12)%512,88
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8732)
+Id = 8732
+postype = back
+pos = -(time*16)%512,152
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8733)
+Id = 8733
+postype = back
+pos = -(time*20)%512,216
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8735)
+Id = 8735
+postype = back
+pos = 512-(time*8)%512,-8
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8736)
+Id = 8736
+postype = back
+pos = 512-(time*12)%512,88
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8737)
+Id = 8737
+postype = back
+pos = 512-(time*16)%512,152
+ignorehitpause = 1
+
+[State 9000, ModifyExplod]
+type = ModifyExplod
+trigger1 = Numexplod(8738)
+Id = 8738
+postype = back
+pos = 512-(time*20)%512,216
+ignorehitpause = 1
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = time = 60
+trigger2 = RoundState = 4
+id = 8730
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(8730)
+id = 8731
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(8730)
+id = 8732
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(8730)
+id = 8733
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(8730)
+id = 8735
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(8730)
+id = 8736
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(8730)
+id = 8737
+
+[State 9000, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(8730)
+id = 8738
+
+[State 9000, DestroySelf]
+type = DestroySelf
+trigger1 = RoundState = 4
+trigger2 = !NumExplod(8730)
+
+;---------------------------------------------------------------------------
+; 管理用ヘルパー
+[Statedef 8500]
+type = S
+movetype = I
+physics = N
+ctrl = 0
+anim = 6900
+
+[State 8500, 1]
+type = varset
+trigger1 = parent,stateno != [150,815]
+var(6) = 0
+
+[State 8500, 1]
+type = varset
+trigger1 = parent,stateno = 150
+trigger2 = parent,stateno = 152
+var(6) = parent,GetHitVar(ctrltime)
+
+[State 8500, 1]
+type = varset
+trigger1 = parent,stateno != [150,815]
+var(5) = 0
+
+[State 8500, 1]
+type = varadd
+trigger1 = parent,stateno = 153
+var(5) = 1
+
+[State 8500, 1]
+type = varset
+trigger1 = parent,stateno != [150,815]
+var(4) = 0
+
+[State 8500, 1]
+type = varadd
+trigger1 = parent,stateno = 151
+var(4) = 1
+
+[State 8500, 1]
+type = varset
+trigger1 = parent,stateno != [150,815]
+var(3) = 0
+
+[State 8500, 1]
+type = varset
+trigger1 = parent,stateno = 150
+trigger2 = parent,stateno = 152
+var(3) = parent,GetHitVar(hittime)

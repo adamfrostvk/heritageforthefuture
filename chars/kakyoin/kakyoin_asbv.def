@@ -1,0 +1,38 @@
+
+[Info]
+Name         = "Kakyoin"
+DisplayName  = "Kakyoin Noriaki"
+VersionDate  = 12,20,2008
+MugenVersion = 04,14,2002
+Author       = "Nimame"
+Pal.Defaults = 4,1,2,3,5
+
+
+
+[Files]
+Cmd      = kakyoin.cmd
+Cns      = asbvoice/kakyoin.cns
+St       = asbvoice/kakyoin.cns
+St2      = asbvoice/hierophant.cns
+St3      = kakyoin-2.cns
+St4	 = kakyo_common.cns
+St5      = config.txt
+St6      = asbvoice/dem.cns
+StCommon = common1.cns
+Sprite   = kakyoin.sff
+Anim     = kakyoin.air
+Sound    = asbvoice/kakyoin.snd
+
+Pal1 = color/kakyo2.act
+Pal2 = color/kakyo3.act
+Pal3 = color/kakyo4.act
+Pal4 = color/kakyo.act
+Pal5 = color/kakyo5.act
+Pal6 = color/kakyo6.act
+Pal7 = asbvoice/ASB.act
+
+;[Arcade]
+;Intro.Storyboard  = 
+;Ending.Storyboard = 
+
+

@@ -1,0 +1,36 @@
+[Info]
+name="petshop" ;キャラ名
+displayname="Petshop" ;画面に表示されるキャラ名
+versiondate=08,11,2013 ;バージョン
+mugenversion=04,14,2001 ;対応しているMUGENのバージョン
+author="rei" ;製作者名
+pal.defaults=4,5,6 ;デフォルトカラー
+
+[Files]
+sprite = petshop.sff ;画像
+sound = petshop.snd ;音声
+anim = petshop.air ;アニメ、判定
+cmd = petshop.cmd ;コマンド
+cns = petshop.cns ;メイン
+st = petshop.cns ;メイン
+st2 = jojo_system.cns ;システム系
+st3 = option.cns ;コンフィグ
+st4 = petshop.ai ;AI
+stcommon=petshop_common1.cns ;コモンステート
+
+pal1 = petshop04.act  ;スタンドボタンカラー(Stand)
+pal2 = petshop05.act  ;スタートボタンカラー(Start)
+;pal3 = petshop06.act  ;オリジナルカラー1(Orig1)
+pal4 = petshop01.act  ;弱ボタンカラー(Light)
+pal5 = petshop02.act  ;中ボタンカラー(Medium)
+pal6 = petshop03.act  ;強ボタンカラー(High)
+;pal7 = petshop10.act  ;オリジナルカラー5(Orig5)
+;pal8 = petshop11.act  ;オリジナルカラー6(Orig6)
+;pal9 = petshop12.act  ;オリジナルカラー7(Orig7)
+;pal10 = petshop07.act ;オリジナルカラー2(Orig2)
+;pal11 = petshop08.act ;オリジナルカラー3(Orig3)
+;pal12 = petshop09.act ;オリジナルカラー4(Orig4)
+
+;[Arcade]
+;intro.storyboard=petshop_intro.def ;オープニング
+;ending.storyboard=petshop_end.def ;エンディング

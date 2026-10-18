@@ -1,0 +1,22 @@
+[Info]
+Name         = "vanillaice"  ;キャラクターの名前（必要な項目なので省略不可）
+DisplayName  = "Iced"  ;M.U.G.E.Nで実際に表示される名前（省略可能）
+VersionDate  = 04,14,2002     ;キャラクターの最終更新日（変えなくてもＯＫ）
+MugenVersion = 04,14,2002     ;キャラクターが動作出来るM.U.G.E.Nの改訂版
+Author       = "Nimame"     ;キャラクターの作成者（必要な項目なので省略不可）
+Pal.Defaults = 6,3,4,2        ;ＣＰＵで出てきた時のカラーパレットの順番
+;-----------------------------------------------------------------------------
+
+[Files]
+Cmd     = vanillaIce_CPU.cmd
+Cns     = vanillaIce_CPU.cns
+St      = vanillaIce_CPU.cns
+St1      = -2,-3.cns
+St2      = config.txt
+St3 	 = vanillaIce_CPU.common.cns
+StCommon = common1.cns
+Sprite  = vanillaIce_CPU.sff
+Anim    = vanillaIce_CPU.air
+Sound   = vanillaIce_CPU.snd
+
+Pal1 = vanillaIce_CPU.act

@@ -1,0 +1,163 @@
+;===========================================================================
+; config
+;===========================================================================
+※関係ない所は変更しないでください
+[Statedef 7525]
+ctrl = 0
+anim = 20000
+
+;===========================================================================
+;システム自重モード（プレイヤー操作時のみ有効)
+;===========================================================================
+;★モード選択
+[state 0, var]
+type = parentvarset
+trigger1 = 1
+var(10) = (0)
+; '=(x)' の値を1に設定するとONになります
+;・アドバンシングガード無し
+;・回り込み弱体化(終了前に無敵が切れるように)
+;・ガーキャンの仕様変更(1ゲージ消費するが出しやすく無敵が伸びる)
+;・AIが起動するとこの設定は無効になります
+
+;===========================================================================
+;[on時の自動復帰等の有無]
+;===========================================================================
+;受身の仕様変更（fvar(6) = ○←数値を変更してください）
+[state 0, var]
+type = parentvarset
+trigger1 = 1
+fvar(6) = 0
+
+;===========================================================================
+;[タンデムの長さ]
+;===========================================================================
+;受身の仕様変更（fvar(9) = ○←数値を変更してください）
+[state 0, var]
+type = parentvarset
+trigger1 = 1
+fvar(9) = (1);1or2
+
+;1…90F (AC版)
+;2…120F(DC版(他ジョジョ勢と同じ))
+
+;※AI起動時は、無条件で2のDC版になります
+
+;===========================================================================
+;[AIタイプ]
+;===========================================================================
+;AIモード設定 var(30) = ○←ここの数字を変更してください
+[State -1]
+type = parentvarset
+trigger1 = 1
+var(30) = 1;0or1
+;AI lv
+;0 : normal 
+;1 : hard(対AI特化)
+
+;AI起動設定 var(31) = ○←ここの数字を変更してください
+[State -1]
+type = parentvarset
+trigger1 = 1
+var(31) = 0;0or1
+;0で操作可 1で常時起動
+
+;===========================================================================
+;[スタンドゲージ位置調整]
+;===========================================================================
+;手動調整横軸（var(4) = ○←数値を変更してください）
+[state 0, var]
+type = parentvarset
+trigger1 = 1
+var(4) = 0
+;===========================================================================
+;手動調整縦軸（var(5) = ○←数値を変更してください）
+[state 0, var]
+type = parentvarset
+trigger1 = 1
+var(5) = 0
+;---------------------------------------------------------------------------
+;自動調整縦軸（パートナーのスタンドゲージと重なる場合自動で動かします）
+;必要ない場合は 2段目のtrigger1 = ○の数値を変更してください 1ON0OFF
+[state 0, var]
+type = parentvarset
+trigger1 = (root,var(6)&64)
+trigger1 = 1
+var(5) = 18
+
+;===========================================================================
+;フラッシュ設定
+;（var(46) = ○←数値を変更してください　1でON、0でOFFです）
+[state 0, var]
+type = parentvarset
+trigger1 = 1
+var(46) = 0
+
+;===========================================================================
+[State 0, end]
+type = DestroySelf
+trigger1 = 1
+;---------------------------------------------------------------------------
+[state 0, var];相手ジョジョ勢判別
+type = parentvarset
+trigger1 = p2name = "dio" || p2name = "final dio" || p2name = "vanillaice" || p2name = "Jotaro Kujo" || p2name = "blackpolnareff" || p2name = "shadow dio" || p2name = "Shadow dio"
+trigger2 = p2name = "Polnareff" || p2name = "kakyoin" || p2name = "avdul" || p2name = "Jotaro"
+trigger3 = p2name = "joseph" || p2name = "Hol horse" || p2name = "Hol horse & Boingo" || p2name = "death13"
+trigger4 = p2name = "Giorno" || p2name = "Fugo" || p2name = "mista" || p2name = "trish una"
+trigger5 = p2name = "hirose koiti" || p2name = "killa yoshikage" || p2name = "zeppeli" || p2name = "Ghiaccio" || p2name = "prosciutto_aniki"
+trigger6 = p2name = "Requiem Giorno" || p2name = "leone abbacchio" || p2name = "jonathan"
+trigger7 = p2name = "Petshop" || p2name = "maraiah" || p2name = "iggy"
+trigger8 = p2name = "DIO BRANDO" || p2name = "alessi" || p2name = "Bruno" || p2name = "yoshikage"
+trigger9 = p2name = "chaka" || p2name = "devo" || p2name ="Joseph Joestar" || p2name = "kakyoin2" 
+trigger10 = p2name = "Rubber Soul" || p2name = "khan" || p2name = "Midler" || p2name = "MIDLER"
+trigger11 = p2name = "Caesar Anthonio Zeppeli" || p2name = "josuke" || p2name = "Emporio" || p2name = "ENIGMA"
+trigger12 = p2name = "blackmore" || p2name = "American idiot" || p2name = "Young Joseph"
+trigger13 = p4name = "enya" || p4name = "cameo" || p4name = "diavolo" || p2name = "1st DIO" || p2name = "Steely Dan"
+fvar(6) = 1
+[state 0, var];相手ジョジョ勢判別2
+type = parentvarset
+trigger1 = p4name = "dio" || p4name = "final dio" || p4name = "vanillaice" || p4name = "Jotaro Kujo" || p4name = "blackpolnareff" || p4name = "shadow dio" || p4name = "Shadow dio"
+trigger2 = p4name = "Polnareff" || p4name = "kakyoin" || p4name = "avdul" || p4name = "Jotaro"
+trigger3 = p4name = "joseph" || p4name = "Hol horse" || p4name = "Hol horse & Boingo" || p4name = "death13"
+trigger4 = p4name = "Giorno" || p4name = "Fugo" || p4name = "mista" || p4name = "trish una"
+trigger5 = p4name = "hirose koiti" || p4name = "killa yoshikage" || p4name = "zeppeli" || p4name = "Ghiaccio" || p2name = "prosciutto_aniki"
+trigger6 = p4name = "Requiem Giorno" || p4name = "leone abbacchio" || p4name = "jonathan"
+trigger7 = p4name = "Petshop" || p4name = "maraiah" || p4name = "iggy"
+trigger8 = p4name = "DIO BRANDO" || p4name = "alessi" || p4name = "Bruno" || p2name = "yoshikage"
+trigger9 = p4name = "chaka" || p4name = "devo" || p4name ="Joseph Joestar" || p4name = "kakyoin2" 
+trigger10 = p4name = "Rubber Soul" || p4name = "khan" || p4name = "Midler" || p4name = "MIDLER"
+trigger11 = p4name = "Caesar Anthonio Zeppeli" || p4name = "josuke" || p4name = "Emporio" || p2name = "ENIGMA"
+trigger12 = p4name = "blackmore" || p4name = "American idiot" || p4name = "Young Joseph"
+trigger13 = p4name = "enya" || p4name = "cameo" || p4name = "diavolo" || p2name = "1st DIO" || p2name = "Steely Dan"
+fvar(6) = 1
+
+;===========================================================================
+
+
+;===========================================================================
+[Statedef 9105]
+ctrl = 0
+anim = 20000
+
+;[表示ONOFF]
+;===========================================================================
+;「WIN」表示ONOFF（var(0) = ○←数値を変更してください　1でON、0でOFFです）
+[state 0, var]
+type = parentvarset
+trigger1 = 1
+var(0) = 1
+;---------------------------------------------------------------------------
+;「To Be Continued...」表示ONOFF（var(1) = ○←数値を変更してください　1でON、0でOFFです）
+[state 0, var]
+type = parentvarset
+trigger1 = 1
+var(1) = 1
+;===========================================================================
+
+;===========================================================================
+[State 0, end]
+type = DestroySelf
+trigger1 = 1
+;---------------------------------------------------------------------------
+;===========================================================================
+

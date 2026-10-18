@@ -1,0 +1,36 @@
+; ここにキャラ情報を書いてください
+[Info]
+name = "Hol horse"        ;キャラの名前
+displayname = "Hol horse" ;表示されるキャラの名前
+versiondate = 12,25,2007    ;キャラの更新情報
+mugenversion = 04,14,2002   ;キャラが動くmugenのバージョン
+author = "y.y"         ;キャラの製作者名
+pal.defaults = 1,2,3,4,5,6      ;敵としてでるキャラのパレット
+
+; Files for the player
+[Files]
+cmd     = hol/hol.cmd   ;キャラのコマンド
+cns     = hol/hol.cns   ;攻撃、必殺技、皇帝
+st      = hol/hol.cns   
+st1      = hol/hol0.cns;基本行動、-2、-3
+st2      = hol/hol2.cns;スパコン
+stcommon = common1.cns 
+sprite  = hol.sff   ;キャラの絵
+anim    = hol.air   ;キャラの動き
+sound   = hol.snd   ;キャラの音
+pal1    = hol/hol01.act  ;キャラの色（最大１２個）
+pal2    = hol/hol02.act
+pal3    = hol/hol03.act
+pal4    = hol/hol04.act
+pal5    = hol/hol05.act
+pal6    = hol/hol06.act
+pal7    = hol/hol07.act
+pal8    = hol/hol08.act
+pal9    = hol/hol09.act
+pal10    = hol/hol10.act
+pal11    = hol/hol11.act
+pal12    = hol/hol12.act
+
+[Arcade]
+intro.storyboard =  holOP.def
+ending.storyboard = holED.def

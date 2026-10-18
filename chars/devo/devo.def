@@ -1,0 +1,28 @@
+[Info]
+Name         = "Devo"  ;キャラクターの名前（必要な項目なので省略不可）
+DisplayName  = "Devo"  ;M.U.G.E.Nで実際に表示される名前（省略可能）
+VersionDate  = 04,14,2002     ;キャラクターの最終更新日（変えなくてもＯＫ）
+MugenVersion = 04,14,2002     ;キャラクターが動作出来るM.U.G.E.Nの改訂版
+Author       = "Nimame"     ;キャラクターの作成者（必要な項目なので省略不可）
+Pal.Defaults = 4,1,2,3,5
+;-----------------------------------------------------------------------------
+
+[Files]
+Cmd     = devo.cmd
+Cns     = devo.cns
+St      = devo.cns
+St1      = -2,-3.cns
+St2      = config.txt
+St3      = ebony.cns
+St4      = dem.cns
+St5	 = devo.common.cns
+StCommon = common1.cns
+Sprite  = devo.sff
+Anim    = devo.air
+Sound   = devo.snd
+
+Pal1 = act/devo2.act
+Pal2 = act/devo3.act
+Pal3 = act/devo4.act
+Pal4 = act/devo1.act
+Pal5 = act/devo5.act

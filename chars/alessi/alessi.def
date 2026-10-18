@@ -1,0 +1,29 @@
+[Info]
+Name         = "Alessi"  ;キャラクターの名前（必要な項目なので省略不可）
+DisplayName  = "Alessi"  ;M.U.G.E.Nで実際に表示される名前（省略可能）
+VersionDate  = 04,14,2002     ;キャラクターの最終更新日（変えなくてもＯＫ）
+MugenVersion = 04,14,2002     ;キャラクターが動作出来るM.U.G.E.Nの改訂版
+Author       = "Nimame"     ;キャラクターの作成者（必要な項目なので省略不可）
+Pal.Defaults = 4,1,2,3,5        ;ＣＰＵで出てきた時のカラーパレットの順番
+;-----------------------------------------------------------------------------
+
+[Files]
+Cmd     = alessi.cmd
+Cns     = alessi.cns
+St      = alessi.cns
+St1      = -2,-3.cns
+St2      = config.txt
+St3     = Seto.cns
+St4     = dem.cns
+St5	= child.cns
+St6 	 = alessi.common.cns
+StCommon = common1.cns
+Sprite  = alessi.sff
+Anim    = alessi.air
+Sound   = alessi.snd
+
+Pal1 = act/alessi2.act
+Pal2 = act/alessi3.act
+Pal3 = act/alessi4.act
+Pal4 = act/alessi1.act
+Pal5 = act/alessi5.act

@@ -1,0 +1,20 @@
+
+Command is Calculator,Right Side
+
+Button Disposition
+x = Light
+y = Medium
+z = High
+a = Stand
+b = L+M+H
+c = Taunt
+s = Taunt
+
+Stand ON/OFF			S
+Stand Appear Attack		236+S(Normal Mode Only)
+Rolling				L+M+H(Normal Mode Only)
+Tandem Attack				214+S
+Guard Cancel			(While Guarding)623+L or M or H
+Advancing Guard/Guard Push	(While Guarding)L+M+H
+Air Recovery				(While Falling)L+M+H(Can Select Direction)
+Ground Recovery				(Before Lie Down)L+M+H

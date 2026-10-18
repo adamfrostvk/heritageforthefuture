@@ -1,0 +1,71 @@
+
+威力の目安(アレッシーの場合) 弱=21 中=42 強=70
+ぶっちゃけ適当でいいです
+
+;;;;;;;
+
+;hitdefです　;の付いていない部分は弄らなくてOK
+[State 0, hit]
+type = hitdef
+trigger1 = animelem = 4	;攻撃判定の付いたコマを指定
+attr = S, NA	;状態に応じて左側のｱﾙﾌｧﾍﾞｯﾄを変更(立ち:S しゃがみ:C ジャンプ:A)
+damage = 21,0	;ダメージを指定。削りは無し
+priority = 3,Hit
+hitflag = MAF
+guardflag = M	;空中攻撃の場合MAにする
+animtype = Light
+air.animtype = Back
+fall.animtype = Back
+pausetime = 8,9		;ヒットポーズ。全部8,9でOK
+sparkno = s6000		;ヒットスパーク。全部弱攻撃のものだと原作っぽい
+sparkxy = -10,-65	;スパークの位置
+guard.sparkno = s6010	;ガードスパーク
+hitsound = s0,0		;ヒット音。全部弱攻撃のものだと原作っぽい
+guardsound = s0,9	;ガード音。全部弱攻撃のものだと原作っぽい
+getpower = 0,0
+givepower = 0,0	;ゲージの増減はなし
+ground.type = high
+ground.slidetime = 12
+ground.hittime = 12
+
+;ここから
+ground.velocity = -6
+guard.velocity = -5.5
+air.type = High
+air.velocity = -3,-4
+ground.cornerpush.veloff = -6
+;ここまでを弱中強に応じて↓から選び入れ替えて使用する
+
+air.cornerpush.veloff = 0
+air.hittime = 12
+fall = 0
+air.fall = 0
+guard.kill = 0
+yaccel = .36
+p2facing = 1
+
+;;;;;;;
+
+
+
+
+弱攻撃
+ground.velocity = -6
+guard.velocity = -5.5
+air.type = High
+air.velocity = -3,-4
+ground.cornerpush.veloff = -6
+
+中攻撃
+ground.velocity = -8.5
+guard.velocity = -8
+air.type = High
+air.velocity = -3,-4
+ground.cornerpush.veloff = -6
+
+強攻撃
+ground.velocity = -10
+guard.velocity = -8
+air.type = High
+air.velocity = -3,-4
+ground.cornerpush.veloff = -6

@@ -1,0 +1,172 @@
+子供化時の攻撃ステート(立ち・しゃがみ・ジャンプの弱攻撃)テンプレートです。
+必要に応じて自由に書き加えてもらってOKです
+hitdefは"hitdefテンプレ.txt"よりコピペしてください
+あとはステート名とステートナンバーを用途に応じて変更してください
+
+技の終了条件は、id=815778369のexplodの存在を感知して戻すといった方法なので
+例えば、アニメ終了と同時に立ちに戻す場合はanimtime=-1をトリガーにExplodすればOKです
+※感知には1F要するのでExplodは技を終わらせたいタイミングから1F早いところで
+
+;------------------------------------------------------------------------------
+;子供化時立弱
+[Statedef 200200]
+type = S
+movetype = A
+physics = N
+ctrl = 0
+velset = 0,0
+anim = 200200	;用意したアニメを指定
+poweradd = 0	;ゲージは当てても増えません
+sprpriority = 1
+facep2 = 1
+
+;投げは喰らわない
+[State 0, nhb]
+type = nothitby
+trigger1 = 1
+value = ,AT
+
+;ステートも奪われないように
+[State 10000, HitOverRide] 
+type = HitOverRide
+trigger1 = 1
+slot = 0
+stateno = -1
+attr = SCA,NA,SA,HA,NP,SP,HP
+time = 1
+
+;位置をy=0(地上)に
+[State 0, pos]
+type = posset
+trigger1 = !time
+y = 0
+
+;;ボイスとか
+;[State 0, snd]
+;type = playsnd
+;trigger1 = 
+;value = 
+;channel = 0
+
+
+;ここにhitdefを入れる
+
+
+;技終了確認explodを射出して攻撃を終了します 空アニメの指定を忘れずに
+[state -2, helper]
+type = explod
+trigger1 = animtime = -1;終わらせたいタイミングから1F早くで
+anim = xxxx;空アニメを指定
+id = 815778369
+pos = 999999999,-999999999
+postype = p1
+ownpal = 1
+keyctrl = 0
+removetime = 1
+pausemovetime = 999999999
+supermovetime = 999999999
+
+;------------------------------------------------------------------------------
+;子供化時しゃがみ弱
+[Statedef 200400]
+type = C;しゃがみ
+movetype = A
+physics = N
+ctrl = 0
+velset = 0,0
+anim = 200400	;用意したアニメを指定
+poweradd = 0	;ゲージは当てても増えません
+sprpriority = 1
+facep2 = 1
+
+;投げは喰らわない
+[State 0, nhb]
+type = nothitby
+trigger1 = 1
+value = ,AT
+
+;ステートも奪われないように
+[State 10000, HitOverRide] 
+type = HitOverRide
+trigger1 = 1
+slot = 0
+stateno = -1
+attr = SCA,NA,SA,HA,NP,SP,HP
+time = 1
+
+;位置をy=0(地上)に
+[State 0, pos]
+type = posset
+trigger1 = !time
+y = 0
+
+;;ボイスとか
+;[State 0, snd]
+;type = playsnd
+;trigger1 = 
+;value = 
+;channel = 0
+
+
+;ここにhitdefを入れる
+
+
+;技終了確認explodを射出して攻撃を終了します 空アニメの指定を忘れずに
+[state -2, helper]
+type = explod
+trigger1 = animtime = -1;終わらせたいタイミングから1F早くで
+anim = xxxx;空アニメを指定
+id = 815778369
+pos = 999999999,-999999999
+postype = p1
+ownpal = 1
+keyctrl = 0
+removetime = 1
+pausemovetime = 999999999
+supermovetime = 999999999
+
+;------------------------------------------------------------------------------
+;子供化時ジャンプ弱
+[Statedef 200600]
+type = A	;空中
+movetype = A
+physics = N	;physice = Aにしちゃうと色々不都合があるのでNで
+ctrl = 0
+anim = 200600
+poweradd = 0
+sprpriority = 1
+
+[State 0, nhb]
+type = nothitby
+trigger1 = 1
+value = ,AT
+
+[State 10000, HitOverRide] 
+type = HitOverRide
+trigger1 = 1
+slot = 0
+stateno = -1
+attr = SCA,NA,SA,HA,NP,SP,HP
+time = 1
+
+;重力はveladdで管理
+[State 50, 2]
+type = veladd
+trigger1 = 1
+y = .4
+
+;;ボイスとか
+;[State 0, snd]
+;type = playsnd
+;trigger1 = 
+;value = 
+;channel = 0
+
+;ここにhitdefを入れる
+
+;着地時攻撃を終了します。基本の200000に移行するのを忘れずに
+[State 0, end]
+type = changestate
+trigger1 = pos y >= 0 && vel y > 0
+value = 200000
+

@@ -1,0 +1,37 @@
+;コンフィグ(Config)
+[statedef 9999]
+ctrl = 0
+anim = 90000
+
+[state 9999 , jjba life]
+type = ParentVarSet
+trigger1 = time=0
+var(53)=0;(1:ジョジョ体力システムON)(未実装)
+
+[state 9999, gauge]
+type = ParentVarSet
+trigger1 = time=0
+var(57)=0;(1:ゲージあり)（未実装）
+
+[state 9999, ps voice]
+type = ParentVarSet
+trigger1 = time=0
+var(58)=0;(1:ＰＳ版ボイス)
+
+;======================
+;スタンドゲージ位置調整(Adjustment position of Stand Gauge)
+;X座標
+[state 9999,varset]
+type = varset
+trigger1 = time=0
+fvar(3) = 60;(60:デフォルト、+：中央、-：端)
+
+;Y座標
+[state 9999,varset]
+type = varset
+trigger1 = time=0
+fvar(4) = 40;(40:デフォルト、+：上、-：下)
+
+[state -1]
+type = Destroyself
+trigger1 = time=0

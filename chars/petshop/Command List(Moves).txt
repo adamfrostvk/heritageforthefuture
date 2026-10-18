@@ -1,0 +1,33 @@
+
+Command is Calculator,Right Side
+
+Button Disposition
+x = Light
+y = Medium
+z = High
+a = Stand
+b = L+M+H
+c = Taunt
+s = Taunt
+
+
+---Basic Moves---
+				4+M
+				1,2,3+S
+Up				(In air)8
+Air Dash			(in air)44 or 66
+Air Rolling			(in air)LMH
+
+---Special Moves---
+Ice Bullet		236+L or M or H
+Icycle Pick		charge or L or M or H, and leave button.
+Ice Lance		214+L or M or H
+Freezon			4123+S
+Death Freeze		236S(After 1,2,3S)	capable tap button.
+
+
+---Hyper Moves---
+Giga Freezon		236+LMH
+Death Penalty		214+LMH
+Guardian Bird Rush	LL6MH
+

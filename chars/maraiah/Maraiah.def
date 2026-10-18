@@ -1,0 +1,36 @@
+[Info]
+name="mariah" ;キャラ名
+displayname="Mariah" ;画面に表示されるキャラ名
+versiondate=02,12,2009 ;バージョン
+mugenversion=04,14,2001 ;対応しているMUGENのバージョン
+author="rei" ;製作者名
+pal.defaults=1,3,7 ;デフォルトカラー
+
+[Files]
+sprite = maraiah.sff ;画像
+sound = maraiah.snd ;音声
+anim = maraiah.air ;アニメ、判定
+cmd = maraiah.cmd ;コマンド
+cns = maraiah.cns ;メイン
+st = maraiah.cns ;メイン
+st2 = jojo_system.cns ;システム系
+st3 = option.cns ;コンフィグ
+st4 = maraiah.ai ;AI
+stcommon=maraiah_common1.cns ;コモンステート
+
+pal1 = maraiah04.act  ;スタンドボタンカラー(Stand)
+pal2 = maraiah05.act  ;スタートボタンカラー(Start)
+pal3 = maraiah06.act  ;オリジナルカラー1(Orig1)
+pal4 = maraiah01.act  ;弱ボタンカラー(Light)
+pal5 = maraiah02.act  ;中ボタンカラー(Medium)
+pal6 = maraiah03.act  ;強ボタンカラー(High)
+;pal7 = maraiah10.act  ;オリジナルカラー5(Orig5)
+;pal8 = maraiah11.act  ;オリジナルカラー6(Orig6)
+;pal9 = maraiah12.act  ;オリジナルカラー7(Orig7)
+;pal10 = maraiah07.act ;オリジナルカラー2(Orig2)
+;pal11 = maraiah08.act ;オリジナルカラー3(Orig3)
+;pal12 = maraiah09.act ;オリジナルカラー4(Orig4)
+
+;[Arcade]
+;intro.storyboard=maraiah_intro.def ;オープニング
+;ending.storyboard=maraiah_end.def ;エンディング

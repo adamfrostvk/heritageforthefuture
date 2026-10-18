@@ -1,0 +1,37 @@
+
+[Info]
+Name         = "Avdul"
+DisplayName  = "Avdul"
+VersionDate  = 07,09,2009
+MugenVersion = 04,14,2002
+Author       = "Nimame"
+Pal.Defaults = 4,1,2,3,5
+
+
+
+[Files]
+Cmd      = avdul.cmd
+Cns      = avdul.cns
+St       = avdul.cns
+St2      = magician.cns
+St3      = avdul-2.cns
+St4	 = avdul_common.cns
+St5	 = config.txt
+St6	 = dem.cns
+StCommon = common1.cns
+Sprite   = avdul.sff
+Anim     = avdul.air
+Sound    = avdul.snd
+
+Pal4 = color/avdul1.act
+Pal5 = color/avdul2.act
+Pal6 = color/avdul3.act
+Pal1 = color/avdul4.act
+Pal2 = color/avdul5.act
+Pal3 = color/avdul6.act
+
+;[Arcade]
+;Intro.Storyboard  = 
+;Ending.Storyboard = 
+
+

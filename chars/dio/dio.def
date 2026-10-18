@@ -1,0 +1,35 @@
+[Info]
+name = "final dio"		;DIO（覚醒版）
+displayname = "DIO"		;DIO（覚醒版）
+versiondate=09,08,2011	;Version date of character
+mugenversion=06,14,2003	;Version of M.U.G.E.N character works on
+author="Warusaki3"		;悪咲3号
+Pal.Defaults=1,2,3,4,5
+
+[Files]
+cmd=fdio.cmd
+cns=fdio.cns
+st=fdio.cns
+st1=fdio_system.cns
+st2=fdio_damage.cns
+st3=config.txt
+stcommon=common1.cns
+sprite=fdio.sff
+anim=fdio.air
+sound=fdio.snd
+pal1=act001.act
+pal2=act002.act
+pal3=act003.act
+pal4=act004.act
+pal5=act005.act
+pal6=act006.act
+pal7=act007.act
+pal8=act008.act
+pal9=act009.act
+pal10=act010.act
+pal11=act011.act
+pal12=act012.act
+
+;[Arcade]
+;intro.storyboard = opening.def
+;ending.storyboard = ending.def

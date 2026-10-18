@@ -1,0 +1,36 @@
+; ここにキャラ情報を書いてください
+[Info]
+name = "Hol horse & Boingo"        ;キャラの名前
+displayname = "Hol horse & Boingo" ;表示されるキャラの名前
+versiondate = 12,25,2007    ;キャラの更新情報
+mugenversion = 04,14,2002   ;キャラが動くmugenのバージョン
+author = "y.y"         ;キャラの製作者名
+pal.defaults = 1,2,3,4,5,6      ;敵としてでるキャラのパレット
+
+; Files for the player
+[Files]
+cmd     = holb/holb.cmd   ;キャラのコマンド
+cns     = holb/holb.cns   ;キャラのプログラム
+st      = holb/holb.cns   ;キャラのプログラム
+st1      = holb/holb0.cns
+st2      = holb/holb2.cns
+stcommon = common1.cns 
+sprite  = holb.sff   ;キャラの絵
+anim    = hol.air   ;キャラの動き
+sound   = hol.snd   ;キャラの音
+pal1    = holb/holb01.act  ;キャラの色（最大１２個）
+pal2    = holb/holb02.act
+pal3    = holb/holb03.act
+pal4    = holb/holb04.act
+pal5    = holb/holb05.act
+pal6    = holb/holb06.act
+pal7    = holb/holb07.act
+pal8    = holb/holb08.act
+pal9    = holb/holb09.act
+pal10    = holb/holb10.act
+pal11    = holb/holb11.act
+pal12    = holb/holb12.act
+
+[Arcade]
+intro.storyboard =  holbOP.def
+ending.storyboard = holbED.def

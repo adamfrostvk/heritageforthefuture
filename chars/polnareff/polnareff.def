@@ -1,0 +1,43 @@
+
+[Info]
+Name         = "Polnareff"
+DisplayName  = "J.P.Polnareff"
+VersionDate  = 12,20,2008
+MugenVersion = 04,14,2002
+Author       = "Nimame"
+Pal.Defaults = 4,1,2,3,5
+
+
+
+[Files]
+Cmd      = polnareff.cmd
+Cns      = polnareff.cns
+St	 = pol_common.cns
+St2	 = polnareff.cns
+St3	 = chariots.cns
+St4	 = polnareff-2.cns
+St5	 = config.txt
+St6	 = dem.cns
+StCommon = common1.cns
+Sprite   = polnareff.sff
+Anim     = polnareff.air
+Sound    = polnareff.snd
+
+Pal1 = color/pol004.act;原作スタンドボタンカラー
+Pal2 = color/pol005.act;原作スタートボタンカラー
+Pal3 = color/pol006.act;オリジナルカラー1(By Gal129)
+Pal4 = color/pol1.act;原作弱ボタンカラー
+Pal5 = color/pol002.act;原作中ボタンカラー
+Pal6 = color/pol003.act;原作強ボタンカラー
+Pal7 = color/pol4.act
+Pal8 = color/pol5.act
+Pal9 = color/pol6.act
+Pal10 = color/pol007.act;オリジナルカラー2(By Gal129)
+Pal11 = color/pol2.act
+Pal12 = color/pol3.act
+
+;[Arcade]
+;Intro.Storyboard  = 
+;Ending.Storyboard = 
+
+

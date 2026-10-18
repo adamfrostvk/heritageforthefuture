@@ -1,0 +1,35 @@
+[Info]
+name = "shadow dio"		;邪悪の化身ディオ!!
+displayname = "Shadow DIO"	;邪悪の化身ディオ!!
+versiondate=01,16,2011	;Version date of character
+mugenversion=06,14,2003	;Version of M.U.G.E.N character works on
+author="Warusaki3"		;悪咲3号
+Pal.Defaults=1,2,3,4,5
+
+[Files]
+cmd=shadowdio.cmd
+cns=shadowdio.cns
+st=shadowdio.cns
+st1=shadowdio_system.cns
+st2=shadowdio_damage.cns
+st3=config.txt
+stcommon=common1.cns
+sprite=shadowdio.sff
+anim=shadowdio.air
+sound=shadowdio.snd
+pal1=act001.act
+pal2=act002.act
+pal3=act003.act
+pal4=act004.act
+pal5=act005.act
+pal6=act006.act
+pal7=act007.act
+pal8=act008.act
+pal9=act009.act
+pal10=act010.act
+pal11=act011.act
+pal12=act012.act
+
+;[Arcade]
+;intro.storyboard = opening.def
+;ending.storyboard = ending.def

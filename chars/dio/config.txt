@@ -1,0 +1,98 @@
+;---------------------------------------------------------------------------
+[Statedef 30000]
+type = S
+anim = 6900
+
+;===========================================================================
+;WINNERの表示設定（var(55)の数値を弄ってください）
+[State 30000, see "WINNER"]
+type = ParentVarSet
+trigger1 = 1
+var(55) = 0
+;0…WINNER表示あり/"WINNER" ON
+;1…WINNER表示なし/"WINNER" OFF
+;===========================================================================
+
+;===========================================================================
+;to be continuedの表示設定（var(56)の数値を弄ってください）
+[State 30000, see "to be continued"]
+type = ParentVarSet
+trigger1 = 1
+var(56) = 0
+;0…to be continued表示あり/"to be continued" ON
+;1…to be continued表示なし/"to be continued" OFF
+;===========================================================================
+;===========================================================================
+
+[State 30000, DestroySelf]
+type = DestroySelf
+trigger1 = time = 1
+
+
+;---------------------------------------------------------------------------
+[Statedef 30001]
+type = S
+anim = 6900
+
+;===========================================================================
+;===========================================================================
+;スタンドゲージの表示X座標補正（var(0)の数値を弄ってください）
+[State 30001, STAND Gauge X axis]
+type = ParentVarSet
+trigger1 = 1
+var(0) = 0
+;+...Foward
+;-...Back
+
+	;===========================================================================
+	;スタンドゲージの表示Y座標補正（var(1)の数値を弄ってください）
+	[State 30001, STAND Gauge Y axis]
+	type = ParentVarSet
+	trigger1 = 1
+	var(1) = 0
+	;+...Up
+	;-...Down
+	;===========================================================================
+	;===========================================================================
+
+[State 30002, STAND Gauge Y axis]
+type = ParentVarAdd
+triggerall = numpartner
+triggerall = root,ID > partner,ID
+trigger1 = partner,authorname="warusaki3" && partner,fvar(39) = 4
+trigger2 = partner,authorname="warusaki3" && partner,fvar(39) = 5
+trigger2 = partner,name!="shadow DIO"
+var(1) = -16
+
+[State 30001, DestroySelf]
+type = DestroySelf
+trigger1 = time = 1
+
+
+;---------------------------------------------------------------------------
+[Statedef 30002]
+type = S
+anim = 6900
+
+	;===========================================================================
+	;メッセージアイコンの表示Y座標補正（var(3)の数値を弄ってください）
+	[State 30002, Message Icon Y axis Y axis]
+	type = ParentVarSet
+	trigger1 = 1
+	var(3) = 0
+
+	;+...Up
+	;-...Down
+	;===========================================================================
+	;===========================================================================
+
+[State 30002, Message Icon Y axis Y axis]
+type = ParentVarAdd
+triggerall = numpartner
+triggerall = root,ID > partner,ID
+trigger1 = partner,authorname="warusaki3" && partner,fvar(39) = [4,6]
+var(3) = -16
+
+[State 30002, DestroySelf]
+type = DestroySelf
+trigger1 = time = 1

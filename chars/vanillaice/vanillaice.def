@@ -1,0 +1,35 @@
+[Info]
+name = "vanillaice"		;vanillaice
+displayname = "Vanilla Ice"	;vanillaice
+versiondate=09,08,2011	;Version date of character
+mugenversion=06,14,2003	;Version of M.U.G.E.N character works on
+author="Warusaki3"		;à´çÁ3çÜ
+pal.Defaults=1,2,3,4,5
+
+[Files]
+cmd=vanillaice.cmd
+cns=vanillaice.cns
+st=vanillaice.cns
+st1=vanillaice_system.cns
+st2=vanillaice_damage.cns
+st3=config.txt
+stcommon=common1.cns
+sprite=vanillaice.sff
+anim=vanillaice.air
+sound=vanillaice.snd
+pal1=act001.act
+pal2=act002.act
+pal3=act003.act
+pal4=act004.act
+pal5=act005.act
+pal6=act006.act
+pal7=act007.act
+pal8=act008.act
+pal9=act009.act
+pal10=act010.act
+pal11=act011.act
+pal12=act012.act
+
+;[Arcade]
+;intro.storyboard = opening.def
+;ending.storyboard = ending.def

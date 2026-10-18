@@ -1,0 +1,36 @@
+; ここにキャラ情報を書いてください
+[Info]
+name = "Kujo Jotaro (Part4)"        ;キャラの名前
+displayname = "Kujo Jotaro (Part4)" ;表示されるキャラの名前
+versiondate = 10,30,2007    ;キャラの更新情報
+mugenversion = 04,14,2002   ;キャラが動くmugenのバージョン
+author = "y.y"         ;キャラの製作者名
+pal.defaults = 1,2,3,4,5,6,7,8,9,10,11,12      ;敵としてでるキャラのパレット
+
+; Files for the player
+[Files]
+cmd     = jotaro.cmd     ;キャラのコマンド
+cns     = jotaro.cns     ;本体モード通常、必殺
+st      = jotaro.cns     ;本体モード通常、必殺
+st1      = jotaro2.cns   ;本体モードスパコン
+st2      = jotaro3.cns   ;スタンドモード通常、必殺
+st3      = star.cns      ;スタプラ基本行動
+st4      = jotaro4.cns   ;スタンドモードモードスパコン
+st5      = jotaro5.cns   ;デム
+st6      = jotaro00.cns  ;common、-2、-3
+stcommon = common1.cns 
+sprite  = 4thjotaro.sff   ;キャラの絵
+anim    = jotaro.air   ;キャラの動き
+sound   = jotaro.snd   ;キャラの音
+pal1    =  4thjotaro01.act
+pal2    =  4thjotaro02.act
+pal3    =  4thjotaro03.act
+pal4    =  4thjotaro04.act
+pal5    =  4thjotaro05.act
+pal6    =  4thjotaro06.act
+pal7    =  4thjotaro07.act
+pal8    =  4thjotaro08.act
+pal9    =  4thjotaro09.act
+pal10    =  4thjotaro10.act
+pal11    =  4thjotaro11.act
+pal12    =  4thjotaro12.act

@@ -1,0 +1,2057 @@
+[Statedef -2]
+
+;æs“ü—Í”F¯—pƒwƒ‹ƒp[–\‘––h~
+[state -2, ƒXƒe[ƒgƒŠƒZƒbƒg]
+type = changestate
+trigger1 = ishelper(99999)
+value = 99999
+ignorehitpause = 1
+
+;ƒXƒ^ƒ“ƒhƒwƒ‹ƒp[
+[state -2, helper]
+type = helper
+trigger1 = !numhelper(10000)
+helpertype = normal
+name = "ebony_devil"
+stateno = 10000
+id = 10000
+pos = 8, 0
+postype = p1
+ownpal = 1
+keyctrl = 1
+pausemovetime = 0
+supermovetime = 0
+size.ground.back = 15
+size.ground.front = 12
+
+;------------------------------------------------------
+;‹ó’†”Å—p(ƒ{ƒCƒX)
+[State 100, 1]
+type = Varset
+triggerall = statetype = A
+triggerall = command = "214aa" || command = "214b"
+triggerall = !var(9)
+trigger1 = ctrl
+trigger2 = stateno = 188 || stateno = 189 || stateno = 195 && time >= 20
+trigger3 = stateno = 600
+trigger4 = stateno = 610
+trigger5 = stateno = 620
+trigger6 = stateno = 910
+var(10) = 3100
+IgnoreHitPause = 1
+[State 100, 1]
+type = Varset
+triggerall = statetype = A
+triggerall = command = "Piranha1" || command = "Piranha2" || command = "Piranha3"
+triggerall = !var(9)
+trigger1 = ctrl
+trigger2 = stateno = 188 || stateno = 189 || stateno = 195 && time >= 20
+trigger3 = stateno = 600
+trigger4 = stateno = 610
+trigger5 = stateno = 620
+trigger6 = stateno = 910
+var(10) = 1000
+[State 100, 1]
+type = Varset
+triggerall = statetype = A
+triggerall = command = "Hopping1" || command = "Hopping2" || command = "Hopping3"
+triggerall = !var(9)
+triggerall = var(10) != 3100
+trigger1 = ctrl
+trigger2 = stateno = 188 || stateno = 189 || stateno = 195 && time >= 20
+trigger3 = stateno = 600
+trigger4 = stateno = 610
+trigger5 = stateno = 620
+trigger6 = stateno = 910
+var(10) = 1100
+[State 100, 1]
+type = Varset
+triggerall = statetype = A
+triggerall = command = "Propeller1" || command = "Propeller2" || command = "Propeller3"
+triggerall = !var(9)
+trigger1 = ctrl
+trigger2 = stateno = 188 || stateno = 189 || stateno = 195 && time >= 20
+trigger3 = stateno = 600
+trigger4 = stateno = 610
+trigger5 = stateno = 620
+trigger6 = stateno = 910
+var(10) = 1200
+
+[State 0, end]
+type = playsnd
+triggerall = numhelper(10000)
+triggerall = helper(10000),time = 2
+trigger1 = helper(10000),stateno = 1050
+trigger2 = helper(10000),stateno = 1150
+trigger3 = helper(10000),stateno = 1250
+trigger4 = helper(10000),stateno = 3050 && !var(0)
+trigger5 = helper(10000),stateno = 3150
+trigger6 = helper(10000),stateno = 3250
+trigger7 = helper(10000),stateno = 970
+value = 100,15
+channel = 0
+;------------------------------------------------------
+;ƒ^ƒ“ƒfƒ€Ä“ü—Í•s‰ÂŠÔ
+[state -2, var]
+type = varadd
+trigger1 = var(23)
+var(23) = -1
+ignorehitpause = 1
+
+;–³“GŠÔ
+[state -2, var]
+type = varadd
+trigger1 = var(11)
+var(11) = -1
+ignorehitpause = 1
+
+;‹ó’†ƒfƒ€
+[state -2, var]
+type = varadd
+trigger1 = var(15)
+var(15) = -1
+ignorehitpause = 1
+
+[State 0, end]
+type = nothitby
+trigger1 = var(11)
+value = SCA
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+triggerall = numhelper(10000)
+trigger1 = movetype = H
+trigger2 = helper(10000),movetype = H
+var(11) = 0
+ignorehitpause = 1
+
+;‘¦ƒLƒƒƒ“—p
+[state -2, var]
+type = varset
+triggerall = !var(54)
+trigger1 = stateno = 1000
+trigger2 = stateno = 1100
+trigger3 = stateno = 1200
+trigger4 = stateno = 3000
+trigger5 = stateno = 3100
+trigger6 = stateno = 3200
+trigger7 = stateno = 920
+trigger8 = var(10)
+var(54) = 1
+
+;pausetime—p
+[state -3, var]
+type = varadd
+trigger1 = var(8)
+var(8) = -1
+ignorehitpause = 1
+
+[State -2, CornerPush]
+type = Varset
+trigger1 = movereversed
+var(8) = 0
+
+;------------------------------------------------------
+;ƒXƒ^ƒ“ƒhÁ‹•s‰ÂŠÔ
+[state -2, var]
+type = varadd
+trigger1 = var(49)
+var(49) = -1
+
+;‰ñ‚è‚İÄ“ü—Í•s‰ÂŠÔ
+[state -3, var]
+type = varadd
+trigger1 = var(56)>0
+var(56) = -1
+[state -3, var]
+type = varset
+trigger1 = var(56)<0
+var(56) = 0
+
+;ƒXƒ^ƒ“ƒhƒK[ƒh‚È‚Ç–³“G
+[state -2, var]
+type = nothitby
+triggerall = numhelper(10000)
+trigger1 = var(0)
+trigger1 = (Facing*Helper(10000),Facing*Helper(10000),RootDist X*-1) = [-60,60]
+trigger1 = helper(10000),stateno = [120,159]
+trigger1 = helper(10000),facing = facing
+trigger2 = helper(10000),stateno = [10800,10810]
+value = SCA
+ignorehitpause = 1
+
+[state -2, var];xvel
+type = varset
+trigger1 = 1
+fvar(6) = gethitvar(xvel)
+ignorehitpause = 1
+
+[state -2, var];yvel
+type = varset
+trigger1 = 1
+fvar(7) = gethitvar(yvel)
+ignorehitpause = 1
+
+[state -2, var];yvel
+type = varset
+trigger1 = 1
+fvar(8) = gethitvar(hitshaketime)
+ignorehitpause = 1
+
+[state -2, var];yaccel
+type = varset
+triggerall = numhelper(10000)
+trigger1 = helper(10000),movetype = H && (helper(10000),stateno != [9400,9401]) && helper(10000),stateno != 10000
+fvar(10) = helper(10000),gethitvar(yaccel)
+ignorehitpause = 1
+
+;‹ó’†•œ‹A—U“±
+[State -2, PowerReset]
+type = VarAdd
+triggerall = var(26)&2**0
+trigger1 = !NumTarget
+trigger2 = P2MoveType != H
+trigger3 = movehit
+trigger4 = projhit = 1
+trigger5 = numtarget
+trigger5 = !target,gethitvar(fall)
+var(26) = -(2**0)
+ignorehitpause = 1
+
+[State -2, PowerReset]
+type = VarAdd
+triggerall = P2MoveType = H && P2stateType = A
+triggerall = !var(0)
+triggerall = !(var(26)&2**0)
+triggerall = movehit
+triggerall = (stateno = [200,799])
+trigger1 = !(stateno = 210)
+trigger1 = !(stateno = 220 && prevstateno = 100)
+trigger1 = !(stateno = 420)
+trigger1 = !(stateno = 425)
+trigger1 = !(stateno = 700)
+var(26) = 2**0
+ignorehitpause = 1
+
+[State 901, Throw]
+type = TargetState
+triggerall = Numtarget
+triggerall = var(26)&2**0
+trigger1 = target,stateno = 5050 && target,alive
+value = 890
+
+;“]“|—U“±
+[State -2, PowerReset]
+type = VarAdd
+triggerall = var(26)&2**1
+trigger1 = !NumTarget
+trigger2 = P2MoveType != H
+trigger3 = movehit
+trigger4 = projhit = 1
+var(26) = -(2**1)
+ignorehitpause = 1
+
+[State -2, PowerReset]
+type = VarAdd
+triggerall = !(var(26)&2**1)
+triggerall = movehit
+triggerall = numtarget
+triggerall = target,gethitvar(groundtype)=3
+trigger1 = stateno = 420
+trigger2 = stateno = 425
+var(26) = 2**1
+ignorehitpause = 1
+
+[State 901, Throw]
+type = TargetState
+triggerall = Numtarget
+triggerall = var(26)&2**1
+trigger1 = target,stateno = 5071
+value = 895
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = fvar(2) < 0
+fvar(2) = 0
+ignorehitpause = 1
+
+;ƒ‰ƒCƒtŒ¸­
+[state -2, var]
+type = lifeadd
+triggerall = numhelper(10000)
+triggerall = stateno = [5000,5210]
+triggerall = helper(10000),movetype != H
+trigger1 = var(0)
+value = -gethitvar(damage)
+kill = 1
+ignorehitpause = 1
+
+[State 901, Throw]
+type = ctrlset
+trigger1 = !alive
+value = 0
+ignorehitpause = 1
+
+;Œ¸­i–{‘Ìj
+[state -2, var]
+type = varadd
+triggerall = stateno = [5000,5210]
+trigger1 = var(0)
+trigger1 = fvar(2) > 0
+trigger1 = var(51)-life > 0
+fvar(2) = -2-ceil((var(51)-life)*.25)
+ignorehitpause = 1
+
+;Œ¸­iƒXƒ^ƒ“ƒhj
+[state -2, var]
+type = varadd
+triggerall = stateno = [15000,15210]
+trigger1 = var(0)
+trigger1 = fvar(2) > 0
+trigger1 = var(51)-life > 0
+fvar(2) = -2-ceil((var(51)-life)*.15)
+ignorehitpause = 1
+
+;í‚è
+[state -2, var]
+type = varadd
+triggerall = numhelper(10000)
+trigger1 = var(0)
+trigger1 = fvar(2) > 0
+trigger1 = (helper(10000),stateno = [120,155]) && helper(10000),time = 1
+fvar(2) = -var(48)
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(48)
+var(48) = 0
+ignorehitpause = 1
+
+;‰ñ•œ
+[state -2, var]
+type = varadd
+trigger1 = stateno != 3500
+;trigger1 = var(9) != 2
+trigger1 = fvar(2) = [1,87]
+trigger1 = !var(0)
+trigger1 = !(gametime%2)
+fvar(2) = 1
+ignorehitpause = 1
+
+;í‚è–³Œø
+[state -2, life]
+type = lifeadd
+triggerall = var(0)
+triggerall = var(51)-life > 0
+trigger1 = stateno = 120
+trigger2 = stateno = [130,132]
+trigger3 = stateno = 140
+trigger4 = stateno = [150,155]
+value = ceil((var(51)-life)*1.15)
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = alive
+var(51) = life
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;‹­§½ÀİÄŞOFF
+[state -2, var]
+type = varset
+triggerall = var(0)
+triggerall = movetype = H
+triggerall = stateno != [120,160]
+trigger1 = stateno != [5000,5210]
+trigger1 = stateno != [15000,15071]
+trigger2 = stateno = [4000,4100]
+trigger3 = !alive
+var(0) = 0
+
+;‹­§½ÀİÄŞOFF2
+[state -2, var]
+type = varset
+triggerall = var(0)
+trigger1 = fvar(2) = 0
+var(0) = 0
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;offƒ”ƒBƒWƒ‡ƒ“—p
+[state -2, var]
+type = varset
+triggerall = numhelper(10000)
+trigger1 = var(0)
+trigger2 = helper(10000),stateno = 1050
+trigger3 = helper(10000),stateno = 1150
+trigger4 = helper(10000),stateno = 1250
+trigger5 = helper(10000),stateno = 3050
+trigger6 = helper(10000),stateno = 3150
+trigger7 = helper(10000),stateno = 3250
+trigger8 = helper(10000),stateno = 3551
+var(12) = 1
+ignorehitpause = 1
+
+;offƒ”ƒBƒWƒ‡ƒ“—p2
+[state -2, var]
+type = varset
+triggerall = numhelper(10000)
+triggerall = var(12)
+trigger1 = helper(10000),anim = 9500
+trigger2 = helper(10000),anim = 9501 && helper(10000),animelemtime(7) = 0
+var(12) = 2
+ignorehitpause = 1
+
+[State 180]
+type = Helper
+trigger1 = var(12) = 2 && !numhelper(30910)
+name = "Effect2"
+helpertype = normal
+stateno = 30910
+id = 30910
+facing = ifelse(facing = 1,1,-1)
+pos = 0,-60
+postype = p1
+ownpal = 1
+persistent = 0
+
+;===========================================================================
+;---------------------------------------------------------------------------
+;•â³
+;---------------------------------------------------------------------------
+
+;Life•â³‘Šè”»•Ê ¦‘«‚µ‚Ä‚¢‚«‚Ü‚·
+[state -2, var]
+type = varset
+triggerall = numenemy
+triggerall = !var(45)
+trigger1 = enemy,authorname = "Nimame"
+trigger2 = enemy,authorname = "Izumo"
+trigger3 = (enemy,authorname = "warusaki3" && (p2name = "dio" || p2name = "final dio" || p2name = "vanillaice" || p2name = "Jotaro Kujo" || p2name = "blackpolnareff" || p2name = "shadow dio" || p2name = "Shadow dio"))
+var(45) = 1
+
+;ƒRƒ“ƒ{•â³OFF
+[state -2, var]
+type = varset
+trigger1 = !var(40)
+trigger2 = var(44) = 1
+trigger2 = time = 1
+var(44) = 0
+ignorehitpause = 1
+
+;ƒRƒ“ƒ{•â³n“®State(–{‘Ì‚Í•â³–³‚µH)
+[state -2, var]
+type = null;varset
+triggerall = var(44) != 2
+trigger1 = stateno = 200
+trigger2 = stateno = 210
+trigger3 = stateno = 215
+trigger4 = stateno = 220
+trigger5 = stateno = 400
+trigger6 = stateno = 410
+trigger7 = stateno = 420
+trigger8 = stateno = 425
+trigger6 = stateno = 600
+trigger7 = stateno = 610
+trigger8 = stateno = 625
+var(44) = 1
+ignorehitpause = 1
+
+ƒRƒ“ƒ{•â³ON
+[state -2, var]
+type = varset
+trigger1 = var(44) = 1
+trigger1 = movehit
+var(44) = 2
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;Hit”•â³
+[state -2, var]
+type = varset
+trigger1 = numenemy
+trigger1 = enemynear,movetype != H && enemynear,stateno != 5040
+var(40) = 0
+ignorehitpause = 1
+
+[state -2, var]
+type = varadd
+trigger1 = movehit = 1
+var(40) = 1
+;ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;Life•â³(©•ª)
+[state -2, var]
+type = varset
+trigger1 = var(45)
+trigger1 = roundstate = 2
+trigger1 = ceil(144*life/const(data.life))=[129,144]
+var(42) = 0
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(45)
+trigger1 = roundstate = 2
+trigger1 = ceil(144*life/const(data.life))=[113,128]
+var(42) = 1
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(45)
+trigger1 = roundstate = 2
+trigger1 = ceil(144*life/const(data.life))=[97,112]
+var(42) = 2
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(45)
+trigger1 = roundstate = 2
+trigger1 = ceil(144*life/const(data.life))=[81,96]
+var(42) = 3
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(45)
+trigger1 = roundstate = 2
+trigger1 = ceil(144*life/const(data.life))=[65,80]
+var(42) = 4
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(45)
+trigger1 = roundstate = 2
+trigger1 = ceil(144*life/const(data.life))=[49,64]
+var(42) = 5
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(45)
+trigger1 = roundstate = 2
+trigger1 = ceil(144*life/const(data.life))=[33,48]
+var(42) = 6
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(45)
+trigger1 = roundstate = 2
+trigger1 = ceil(144*life/const(data.life))=[17,32]
+var(42) = 7
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(45)
+trigger1 = roundstate = 2
+trigger1 = ceil(144*life/const(data.life))=[1,16]
+var(42) = 8
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(45)
+trigger1 = roundstate = 2
+trigger1 = ceil(144*life/const(data.life))=0
+var(42) = 9
+ignorehitpause = 1
+
+
+;---------------------------------------------------------------------------
+;Life•â³(‘Šè)
+[state -2, var]
+type = varset
+trigger1 = var(45)
+trigger1 = roundstate = 2
+trigger1 = ceil(144*enemy,life/enemy,const(data.life))=[143,144]
+var(43) = 0
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(45)
+trigger1 = roundstate = 2
+trigger1 = ceil(144*enemy,life/enemy,const(data.life))=[128,142]
+var(43) = 1
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(45)
+trigger1 = roundstate = 2
+trigger1 = ceil(144*enemy,life/enemy,const(data.life))=[112,127]
+var(43) = 2
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(45)
+trigger1 = roundstate = 2
+trigger1 = ceil(144*enemy,life/enemy,const(data.life))=[96,111]
+var(43) = 3
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(45)
+trigger1 = roundstate = 2
+trigger1 = ceil(144*enemy,life/enemy,const(data.life))=[80,95]
+var(43) = 4
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(45)
+trigger1 = roundstate = 2
+trigger1 = ceil(144*enemy,life/enemy,const(data.life))=[64,79]
+var(43) = 5
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(45)
+trigger1 = roundstate = 2
+trigger1 = ceil(144*enemy,life/enemy,const(data.life))=[48,63]
+var(43) = 8
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(45)
+trigger1 = roundstate = 2
+trigger1 = ceil(144*enemy,life/enemy,const(data.life))=[32,47]
+var(43) = 9
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(45)
+trigger1 = roundstate = 2
+trigger1 = ceil(144*enemy,life/enemy,const(data.life))=[16,31]
+var(43) = 12
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(45)
+trigger1 = roundstate = 2
+trigger1 = ceil(144*enemy,life/enemy,const(data.life))=[0,15]
+var(43) = 13
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = 1
+fvar(1) = (1+(.08*var(42)))*(1-(.04*var(43)))
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+[State -2]
+type = VarSet
+trigger1 = 1
+fvar(0) = fvar(1)*ifelse(!var(44),1,ifelse(1-(.1*ifelse(!var(40),0,var(40)-1))<.2,.2,1-(.1*ifelse(!var(40),0,var(40)-1))))
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = fvar(0) < 0
+fvar(0) = 0
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = fvar(0) < 0
+fvar(0) = 0
+ignorehitpause = 1
+;-----------------------------------------------------------------------------
+;KO
+[state -2, var]
+type = varadd
+trigger1 = roundstate = 3
+var(7) = 1
+ignorehitpause = 1
+
+;Ÿ—˜‰‰o(•W€)
+[state -2, explod]
+type = explod
+trigger1 = winko
+trigger1 = !numexplod(8200)
+anim = 8210
+id = 8200
+pos = 0,0
+postype = back
+bindtime = -1
+;scale = .84,1.08
+ontop = 1
+pausemovetime = 999999
+supermovetime = 999999
+ignorehitpause = 1
+
+[State 0, snd]
+type = playsnd
+;trigger1 = winko
+trigger1 = var(7) = 1
+value = 0,29
+ignorehitpause = 1
+
+;ƒp[ƒgƒi[ƒLƒƒƒ‰”»•Ê—p
+[state -2, var]
+type = varset
+triggerall = roundstate < 2
+triggerall = teammode = simul
+triggerall = numpartner
+triggerall = roundstate < 2
+triggerall = teammode = simul
+triggerall = numpartner
+trigger1 = partner,authorname = "Warusaki3"
+trigger1 = partner,name = "dio" || partner,name = "final dio" || partner,name = "vanillaice" || partner,name = "Jotaro Kujo"
+trigger2 = partner,authorname = "Izumo"
+trigger2 = partner,name = "Polnareff" || partner,name = "kakyoin" || partner,name = "avdul"
+trigger3 = partner,authorname = "y.y"
+trigger3 = partner,name = "Jotaro" || partner,name = "joseph"
+trigger4 = partner,authorname = "yoroko"
+trigger5 = partner,authorname = "‚ ‚Ü‚è‚à‚Ì"
+trigger6 = partner,authorname = "amarimono"
+trigger7 = partner,authorname = "Hh"
+trigger7 = partner,name = "alessi"
+trigger8 = partner,authorname = "Gal129"
+trigger8 = partner,name = "iggy"
+trigger9 = partner,authorname = "Shio"
+trigger9 = partner,name = "DIO BRANDO" || partner,name = "Devo"
+trigger10 = partner,authorname = "Nimame"
+trigger10 = partner,name="Polnareff"|| partner,name = "kakyoin" || partner,name = "kakyoin2" || partner,name = "vanillaice" || partner,name = "chaka" || partner,name = "devo" || partner,name = "Joseph" || partner,name = "Avdul" || partner,name = "Alessi"
+trigger10 = id > partner,id
+trigger11 = partner,authorname = "chiyuri"
+trigger12 = partner,name = "josuke"
+trigger13 = partner,authorname = "0011"
+trigger13 = partner,name = "pucci" || partner,name = "Steely Dan"
+var(41) = 1
+
+;ƒp[ƒgƒi[ƒLƒƒƒ‰”»•Ê2
+[state -2, var]
+type = varset
+triggerall = roundstate > 3
+triggerall = teammode = simul
+triggerall = numpartner
+triggerall = partner,alive
+triggerall = !fvar(11)
+trigger1 = partner,authorname = "Warusaki3"
+trigger1 = partner,name = "dio" || partner,name = "final dio" || partner,name = "vanillaice" || partner,name = "Jotaro Kujo" || partner,name = "shadow dio"
+trigger2 = partner,authorname = "Izumo"
+trigger2 = partner,name = "Polnareff" || partner,name = "kakyoin" || partner,name = "avdul"
+trigger3 = partner,authorname = "Gal129"
+trigger3 = partner,name = "iggy"
+trigger4 = partner,authorname = "rei"
+trigger4 = partner,name = "Petshop" || partner,name = "maraiah" || partner,name = "death13"
+trigger5 = partner,name = "ASB_JOSUKE" || partner,name = "emporio"
+trigger6 = partner,authorname = "0011"
+trigger6 = partner,name = "pucci" || partner,name = "Steely Dan" || partner,name = "1st DIO"
+trigger7 = partner,authorname = "Nimame"
+trigger7 = partner,name="Polnareff"|| partner,name = "kakyoin" || partner,name = "kakyoin2" || partner,name = "vanillaice" || partner,name = "chaka" || partner,name = "devo"
+trigger7 = id > partner,id
+trigger8 = partner,authorname = "Nimame"
+trigger8 = partner,name = "Joseph" || partner,name =  "Joseph Joestar" || partner,name = "Avdul" || partner,name = "Alessi" || partner,name = "khan"
+trigger8 = id > partner,id
+fvar(11) = 1
+
+;ƒp[ƒgƒi[ƒLƒƒƒ‰”»•Ê2
+[state -2, var]
+type = varset
+triggerall = roundstate > 3
+triggerall = teammode = simul
+triggerall = numpartner
+trigger1 = (partner,stateno = [180,189]) || (partner,stateno = [10180,10189])
+trigger1 = fvar(11) = 1
+fvar(11) = 2
+
+;ƒp[ƒgƒi[ƒLƒƒƒ‰”»•Ê2
+[state -2, var]
+type = varadd
+trigger1 = fvar(11) >= 2
+fvar(11) = 1
+
+;---------------------------------------------------------------------------
+;”s–k‰‰o(ŒŠ)
+[state -2, helper]
+type = helper
+triggerall = stateno != 5150
+triggerall = loseko
+triggerall = !numhelper(9200)
+triggerall = var(7) = 1
+trigger1 = enemynear,authorname="Izumo" && enemynear,name="Polnareff"
+trigger1 = (enemynear,stateno=[2000,2199])||(enemynear,stateno=[12000,12199])
+trigger2 = enemynear,authorname="warusaki3" && enemynear,name="dio"
+trigger2 = enemynear,stateno=3501 || enemynear,stateno=3552
+trigger3 = enemynear,authorname="warusaki3" && enemynear,name="shadow dio"
+trigger3 = enemynear,stateno=3001
+trigger4 = enemynear,authorname="warusaki3" && enemynear,name="blackpolnareff"
+trigger4 = enemynear,stateno = 3101
+trigger5 = enemynear,authorname="y.y" && (enemynear,name="Hol horse"|| enemynear,name="Hol horse & Boingo")
+trigger5 = enemynear,stateno = 3000 || enemynear,stateno = 3002 || enemynear,stateno = 3005
+trigger6 = enemynear,authorname="kikurage" && enemynear,name="Shadow Dio"
+trigger6 = enemynear,stateno = 4030
+trigger7 = enemynear,authorname="Nimame" && enemynear,name="Polnareff"
+trigger7 = (enemynear,stateno=[2000,2199])||(enemynear,stateno=[12000,12199])
+trigger8 = enemynear,authorname="otz-kai" && enemynear,name="miki sayaka"
+helpertype = normal
+name = "lose helper"
+stateno = 9201
+id = 9200
+pos = 0,0
+postype = p1
+ownpal = 1
+keyctrl = 0
+pausemovetime = 999999
+supermovetime = 999999
+ignorehitpause = 1
+
+;”s–k‰‰o(ŒŒ)
+[state -2, helper]
+type = helper
+triggerall = stateno != 5150
+triggerall = loseko
+triggerall = !numhelper(9200)
+triggerall = var(7) = 1
+trigger1 = enemynear,authorname="warusaki3" && (enemynear,name="dio"||enemynear,name="final dio")
+trigger1 = enemynear,stateno=3302 || enemynear,stateno=3352
+trigger2 = enemynear,authorname="warusaki3" && enemynear,name="shadow dio"
+trigger2 = enemynear,stateno=3501
+trigger3 = enemynear,authorname="kikurage" && enemynear,name="Shadow Dio"
+trigger3 = enemynear,stateno = 4615
+helpertype = normal
+name = "lose helper"
+stateno = 9202
+id = 9200
+pos = 0,0
+postype = p1
+ownpal = 1
+keyctrl = 0
+pausemovetime = 999999
+supermovetime = 999999
+ignorehitpause = 1
+
+;”s–k‰‰o(‰¡Ø’f)
+[state -2, helper]
+type = helper
+triggerall = stateno != 5150
+triggerall = loseko
+triggerall = !numhelper(9200)
+triggerall = var(7) = 1
+trigger1 = enemynear,authorname="warusaki3" && (enemynear,fvar(39)=[4,5]) && enemynear,fvar(38)=3
+trigger2 = enemynear,authorname="warusaki3" && enemynear,name="blackpolnareff" && enemynear,stateno = 3001
+trigger3 = enemynear,authorname="warusaki3" && enemynear,name="cvshaohmaru" && (enemynear,stateno = 3200 || enemynear,stateno = 3310)
+trigger4 = enemynear,authorname="warusaki3" && enemynear,name="cvshaohmaru_normal" && (enemynear,stateno = 3200 || enemynear,stateno = 3310)
+trigger5 = enemynear,authorname="warusaki3" && enemynear,name="cvshaohmaru_ex" && (enemynear,stateno = 3200 || enemynear,stateno = 3310)
+trigger6 = enemynear,authorname="warusaki3" && enemynear,name="cvslilith" && (enemynear,stateno = 3100 || enemynear,stateno = 3201 || enemynear,stateno = 3211)
+trigger7 = enemynear,authorname="warusaki3" && enemynear,name="cvshayato" && enemynear,stateno = 3000
+trigger8 = enemynear,authorname="mouser" && enemynear,name="hibiki takane" && (enemynear,stateno = 3001 || enemynear,stateno = 3110 || enemynear,stateno = 3120)
+trigger9 = enemynear,authorname="warusaki3" && enemynear,name="nakoruruss0" && enemynear,stateno = 871
+trigger10 = enemynear,authorname="mouser" && enemynear,name="hanzo" && (enemynear,stateno = 3001 || enemynear,stateno = 3012)
+trigger11 = enemynear,name="Tin's Kibagami" && enemynear,stateno = 3330
+trigger12 = enemynear,name="Tin's Shiki" && enemynear,stateno = 3300
+trigger13 = enemynear,authorname="Hh" && enemynear,name="CHOI BOUNGE" && enemynear,stateno = [3500,3501]
+trigger14 = enemynear,authorname="Hh" && enemynear,name="Malin" && enemynear,stateno = [3600,3601]
+trigger15 = enemynear,authorname="laiso_7" && enemynear,name="SHIKI" && enemynear,stateno = 4100
+trigger16 = enemynear,authorname="Nyankoro" && enemynear,name="zantetsu" && (enemynear,stateno = 3321 || enemynear,stateno = 3544)
+trigger17 = enemynear,authorname="M.M.R." && enemynear,name="Lilith" && (enemynear,stateno = 3040 || enemynear,stateno = 3140)
+trigger18 = enemynear,authorname="taruse" && enemynear,name="Yumeji Kurokouchi" && (enemynear,stateno = 4523 || enemynear,stateno = 13050)
+trigger19 = enemynear,authorname="tukemon" && enemynear,name="Rimururu" && enemynear,stateno = 4701
+trigger20 = enemynear,authorname="PriPri Man" && enemynear,name="Rimururu" && enemynear,stateno = 3501
+trigger21 = enemynear,authorname="PriPri Man" && enemynear,name="Mina" && enemynear,stateno = 3501
+trigger22 = enemynear,authorname="Capuchino" && enemynear,name="Haohmaru" && (enemynear,stateno = 3200 || enemynear,stateno = 4051)
+trigger23 = enemynear,authorname="Capuchino" && enemynear,name="Shizumaru" && enemynear,stateno = 4051
+trigger24 = enemynear,authorname="Roque" && enemynear,name="Rera" && enemynear,stateno = 3610
+trigger25 = enemynear,authorname="KGenjuro" && enemynear,name="Yagyu Jubei" && enemy,stateno = 6030
+trigger26 = enemynear,authorname="Nimame" && enemynear,name="chaka" && enemynear,stateno = 3000
+trigger27 = enemynear,authorname="bugya" && enemynear,name="Vergil" && (enemynear,stateno = [3200,3202])
+helpertype = normal
+name = "lose helper"
+stateno = 9203
+id = 9200
+pos = 0,0
+postype = p1
+ownpal = 1
+keyctrl = 0
+pausemovetime = 999999
+supermovetime = 999999
+ignorehitpause = 1
+
+;”s–k‰‰o(cØ’f)
+[state -2, helper]
+type = helper
+triggerall = stateno != 5150
+triggerall = loseko
+triggerall = !numhelper(9200)
+triggerall = var(7) = 1
+trigger1 = enemynear,authorname="warusaki3" && (enemynear,fvar(39)=[4,5]) && enemynear,fvar(38)=4
+trigger2 = enemynear,authorname="warusaki3" && enemynear,name="cvsgouki" && enemynear,stateno = 3400
+trigger3 = enemynear,authorname="warusaki3" && enemynear,name="cvsgouki_ex" && enemynear,stateno = 3400
+trigger4 = enemynear,authorname="warusaki3" && enemynear,name="cvsrugal" && enemynear,stateno = 3100
+trigger5 = enemynear,authorname="warusaki3" && enemynear,name="cvsrugal_normal" && enemynear,stateno = 3100
+trigger6 = enemynear,authorname="warusaki3" && enemynear,name="cvsrugal_ex" && enemynear,stateno = 3100
+trigger7 = enemynear,authorname="warusaki3" && enemynear,name="cvsg_rugal" && enemynear,stateno = 3100
+trigger8 = enemynear,authorname="warusaki3" && enemynear,name="cvsjill" && enemynear,stateno = 3202
+trigger9 = enemynear,authorname="warusaki3" && enemynear,name="cvshaohmaru" && (enemynear,stateno = 3000 || enemynear,stateno = 3102)
+trigger10 = enemynear,authorname="warusaki3" && enemynear,name="cvshaohmaru_normal" && (enemynear,stateno = 3000 || enemynear,stateno = 3102)
+trigger11 = enemynear,authorname="warusaki3" && enemynear,name="cvshaohmaru_ex" && (enemynear,stateno = 3000 || enemynear,stateno = 3102)
+trigger12 = enemynear,authorname="warusaki3" && enemynear,name="cvshayato" && (enemynear,stateno = 3011 || enemynear,stateno = 3200 || enemynear,stateno = 3301)
+trigger13 = enemynear,authorname="mouser" && enemynear,name="hibiki takane" && enemynear,stateno = 3201
+trigger14 = enemynear,authorname="bad darkness" && enemynear,name="khan" && (enemynear,stateno = 2003 || enemynear,stateno = 2102 || enemynear,stateno = 2200)
+trigger15 = enemynear,authorname="bad darkness" && enemynear,name="Adel" && (enemynear,stateno = 1402 || enemynear,stateno = 1403 || enemynear,stateno = 2200)
+trigger16 = enemynear,name="Tin's Kibagami" && (enemynear,stateno = 3010 || enemynear,stateno = 3400 || enemynear,stateno = 3410 || enemynear,stateno = 3511 || enemynear,stateno = 3600)
+trigger17 = enemynear,name="Tin's Shiki" && enemynear,stateno = 3030
+trigger18 = enemynear,authorname="laiso_7" && enemynear,name="SHIKI" && enemynear,stateno = [3000,3099]
+trigger19 = enemynear,authorname="Nyankoro" && enemynear,name="zantetsu" && (enemynear,stateno = 3000 || enemynear,stateno = 3010 || enemynear,stateno = 3105 || enemynear,stateno = 3300)
+trigger20 = enemynear,authorname="Nyankoro" && enemynear,name="zantetsu" && (enemynear,stateno = 3310 || enemynear,stateno = 3325 || enemynear,stateno = 3511 || enemynear,stateno = 3516 || enemynear,stateno = 3535)
+trigger21 = enemynear,authorname="adamskie" && enemynear,name="Laurence" && enemynear,stateno = 3000
+trigger22 = enemynear,authorname="AOAO" && enemynear,name="JOHNNY" && (enemynear,stateno = 2401 || enemynear,stateno = 3012)
+trigger23 = enemynear,authorname="MEKA" && enemynear,name="Chipp Zanuff" && (enemynear,stateno = 3860 || (enemynear,stateno = [3012,3016]) || enemynear,stateno = 3237 || enemynear,stateno = 3503)
+trigger24 = enemynear,authorname="MEKA" && enemynear,name="May" && enemynear,stateno = 3001
+trigger25 = enemynear,authorname="MEKA" && enemynear,name="Ky Kiske" && enemynear,stateno = 3500
+trigger26 = enemynear,authorname="Capuchino" && enemynear,name="Haohmaru" && enemynear,stateno = [3000,3030]
+trigger27 = enemynear,authorname="Capuchino" && enemynear,name="Shizumaru" && (enemynear,stateno = 3001 || enemynear,stateno = 3103)
+trigger28 = enemynear,authorname="KGenjuro" && enemynear,name="Tachibana Ukyo" && (enemynear,stateno = 4050 || enemynear,stateno = 4060 || enemynear,stateno = 4210 || enemynear,stateno = 4270 || enemynear,stateno = 6510)
+trigger29 = enemynear,authorname="yuto" && enemynear,name="zankuro" && enemynear,stateno = 4001
+trigger30 = enemynear,authorname="Phantom.of.the.Server" && enemynear,name="Morrigan Aensland" && enemynear,stateno = 3100
+trigger31 = enemynear,authorname="Nimame" && enemynear,name="chaka" && enemynear,stateno = 3101
+trigger32 = enemynear,authorname="Nimame" && enemynear,name="khan" && (enemynear,stateno = 3010 || enemynear,stateno = 3110)
+trigger33 = enemynear,authorname="Mikita" && enemynear,name="Murakumo" && (enemynear,stateno = [2100,2110])
+trigger34 = enemynear,authorname="HM" && enemynear,name="Murakumo" && enemynear,stateno = 2200
+trigger35 = enemynear,authorname="ohgaki" && enemynear,name="Shikyoh" && (enemynear,stateno = [500,504])
+helpertype = normal
+name = "lose helper"
+stateno = 9204
+id = 9200
+pos = 0,0
+postype = p1
+ownpal = 1
+keyctrl = 0
+pausemovetime = 999999
+supermovetime = 999999
+ignorehitpause = 1
+
+;”s–k‰‰o(•W€)
+[state -2, helper]
+type = helper
+triggerall = stateno != 5150
+triggerall = loseko
+triggerall = !numhelper(9200)
+triggerall = var(7) = 1
+trigger1 = enemynear,stateno = [2000,4999]
+trigger2 = enemynear,authorname="Izumo" && (enemynear,stateno=[12000,12110])
+trigger3 = enemynear,authorname="Nimame" && (enemynear,stateno=[12000,12110])
+helpertype = normal
+name = "lose helper"
+stateno = 9200
+id = 9200
+pos = 0,0
+postype = p1
+ownpal = 1
+keyctrl = 0
+pausemovetime = 999999
+supermovetime = 999999
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = roundstate = 4
+var(7) = 0
+ignorehitpause = 1
+;---------------------------------------------------------------------------
+;Ÿ—˜‰æ–Ê(‘O•û)
+[State -2, BG]
+type = Helper
+trigger1 = roundstate = 3
+trigger1 = alive
+trigger1 = !NumHelper(6000)
+name = "win screen"
+stateno = 6000
+id = 6000
+postype = front
+pos = 0,0
+ownpal = 1
+keyctrl = 0
+pausemovetime = 999999
+supermovetime = 999999
+ignorehitpause = 1
+
+;Ÿ—˜‰æ–Ê(Œã•û)
+[State -2, helper]
+type = helper
+trigger1 = roundstate = 3
+trigger1 = alive
+trigger1 = !NumHelper(6001)
+name = "win screen"
+stateno = 6000
+id = 6001
+postype = back
+pos = 0,0
+keyctrl = 0
+pausemovetime = 999999
+supermovetime = 999999
+ignorehitpause = 1
+
+;ƒƒbƒZ[ƒWƒAƒCƒRƒ“
+[state -2, helper]
+type = helper
+trigger1 = roundstate = 2
+trigger1 = !numhelper(7500)
+helpertype = normal
+name = "message helper"
+stateno = 7500
+id = 7500
+pos = 0,0
+postype = back
+ownpal = 1
+keyctrl = 0
+pausemovetime = 999999
+supermovetime = 999999
+
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+
+;‰ñ•œ•s‰Â
+[state -2, var]
+type = varset
+trigger1 = var(50) = 20
+fvar(2) = 1
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(50) = 20
+var(50) = 0
+ignorehitpause = 1
+
+[state -2, var]
+type = varadd
+trigger1 = !fvar(2)
+var(50) = 1
+ignorehitpause = 1
+
+;ƒXƒ^ƒ“ƒhoŒ»ƒK[•s
+[state -2, assert]
+type = assertspecial
+triggerall = !Ishelper
+trigger1 = var(9)
+trigger2 = var(0)
+flag = NoStandGuard
+flag2 = NoCrouchGuard
+flag3 = NoAirGuard
+ignorehitpause = 1
+;=====================================================================-
+;ƒR[ƒi[ƒvƒbƒVƒ…ˆ—iˆ«ç‚æ‚èj
+[State -2, CornerPush]
+type = VarSet
+trigger1 = !fvar(3)
+fvar(5) = 0
+
+[State -2, CornerPush]
+type = VarSet
+trigger1 = numtarget
+trigger1 = target,BackEdgeBodyDist <= 5 || target,FrontEdgeBodyDist <= 5
+fvar(5) = 1
+
+[State -2, CornerPush]
+type = VarSet
+trigger1 = fvar(3) = [0,.1]
+trigger2 = NumTarget
+trigger2 = target,statetype = A && target,stateno != [5070,5071]
+trigger2 = target,stateno != 895
+trigger3 = movetype = H
+fvar(3) = 0
+
+[State -2, CornerPush]
+type = PosAdd
+triggerall = fvar(3)
+triggerall = fvar(5)
+triggerall = !NumHelper(7000) && !NumHelper(8000)
+triggerall = NumHelper(10000)
+triggerall = !Helper(10000),NumHelper(7000) && !Helper(10000),NumHelper(8000)
+triggerall = StateType != A || (StateType = A && !var(0) && !var(8))
+trigger1 = !numtarget
+trigger2 = numtarget
+trigger2 = !target,gethitvar(hitshaketime)
+x = -fvar(3)
+
+[State -2, CornerPush]
+type = VarSet
+triggerall = fvar(3)
+triggerall = !NumHelper(7000) && !NumHelper(8000)
+triggerall = NumHelper(10000)
+triggerall = !Helper(10000),NumHelper(7000) && !Helper(10000),NumHelper(8000)
+trigger1 = !numtarget
+trigger2 = numtarget
+trigger2 = !target,gethitvar(hitshaketime)
+fvar(3) = fvar(3)*.75
+
+[State -2, CornerPush]
+type = VarSet
+trigger1 = fvar(4) = [0,.1]
+trigger2 = NumTarget
+trigger2 = target,statetype = A && target,stateno != [5070,5071]
+trigger3 = movetype = H
+fvar(4) = 0
+
+[State -2, CornerPush]
+type = PosAdd
+triggerall = !NumHelper(7000) && !NumHelper(8000)
+triggerall = NumHelper(10000)
+triggerall = !Helper(10000),NumHelper(7000) && !Helper(10000),NumHelper(8000)
+triggerall = StateType != A || (StateType = A && !var(0) && !var(9))
+trigger1 = fvar(4)
+x = -fvar(4)
+
+[State -2, CornerPush]
+type = VarSet
+triggerall = !NumHelper(7000) && !NumHelper(8000)
+triggerall = NumHelper(10000)
+triggerall = !Helper(10000),NumHelper(7000) && !Helper(10000),NumHelper(8000)
+trigger1 = fvar(4)
+fvar(4) = fvar(4)*.75
+
+[State -2, ƒNƒŠƒbƒvƒ{[ƒh]
+type     = DisplayToClipBoard
+trigger1 = 1
+text     = "stand=%d,hit=%d,hit=%d,power=%d,fvar(111)=%f"
+params   = var(0),var(8),var(40),power,fvar(12)
+IgnoreHitPause = 1
+
+[State -2, “Š‚°§ŒÀ]
+type=varadd
+trigger1= fvar(9) > 0
+fvar(9)= -1
+[State -2, Throws Disallowed]
+type=varset
+trigger1= (enemynear,stateno=[150,155])
+trigger2= (enemynear,movetype=H && enemynear,statetype!=A)
+trigger3= (enemynear,stateno=[5020,5040]) && !(enemynear,hitfall)
+trigger4= ((enemynear,stateno=0) || (enemynear,stateno=52)) && (enemynear,prevstateno=[5000,5040]) && ((enemynear,time<=0) || !(enemynear,ctrl))
+trigger5= (enemynear,stateno=0) && (enemynear,prevstateno=52) && ((enemynear,time<=0) || !(enemynear,ctrl))
+trigger6= (enemynear,stateno=40) && (enemynear,time>=1 || enemynear,prevstateno=0 || enemynear,prevstateno=52)
+fvar(9)= 1+(teamside=2)
+
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+;‘Î‰(‚¨‰Æ‚³‚ñ‚æ‚è”qØ)
+
+;ƒAƒOƒŠƒAƒXƒ‚[ƒOƒŠ‰¶Œb
+[State -2]
+type = PalFX
+triggerall = !ishelper
+trigger1 = roundstate = 2
+Trigger1 = numpartner = 1
+Trigger1 = partner,AuthorName = "ouchi" && partner,Name = "Agrias_Oaks"
+trigger1 = partner,var(25)%100 = 7
+Trigger1 = alive = 1
+trigger1 = partner,var(10) = 100
+time = 50
+add = 0,0,54
+mul = 256,256,256
+sinadd = 0,0,108,100
+[State -2]
+Type = LifeAdd
+triggerall = !ishelper
+trigger1 = roundstate = 2
+Trigger1 = numpartner = 1
+Trigger1 = partner,AuthorName = "ouchi" && partner,Name = "Agrias_Oaks"
+trigger1 = partner,var(25)%100 = 7
+trigger1 = partner,var(10) > 0
+Trigger1 = alive = 1
+Value = 1
+ignorehitpause = 1
+
+;‚Ì‚¼‚İ‚ñ‚ªƒp[ƒgƒi[‚Åƒ`[ƒ€í‚ÅƒEƒBƒbƒVƒ…ƒvƒ‰ƒCƒ„[‚Ì‰e‹¿‚ğó‚¯‚½‚¢ê‡
+[State -2]
+Type = LifeAdd
+triggerall = !ishelper
+Trigger1 = numpartner = 1
+Trigger1 = partner,AuthorName = "IF" && partner,Name = "Nozomi Nagamine"
+Trigger1 = partner,Var(44) = 1
+Trigger1 = alive = 1
+Value = ceil(lifemax*.9)
+
+;ƒjƒgƒƒƒLƒƒƒ‰u’§”­v‘Î‰ƒXƒe[ƒg
+[state ]
+Type=PowerAdd
+triggerall = !ishelper
+triggerall=numenemy&&alive
+trigger1=enemy,authorname="kayui uma"&&enemy,stateno=690&&((enemy,name="mora"&&enemy,time=40)||(enemy,name="ruili"&&enemy,time=23)||(enemy,name="saya"&&enemy,time=18)||(enemy,name="henri"&&enemy,time=60))
+trigger2=enemy,authorname="Juke Kisaragi"&&((enemy,stateno=195&&enemy,time=50&&(enemy,name="Ein"||enemy,name="Nitro Ignis"))||(enemy,name="Saber"&&(enemy,stateno=[195,196])&&enemy,time=45))
+trigger3=enemy,stateno=195&&((enemy,name="dragon"&&enemy,authorname="kayui uma"&&enemy,time=26)||(enemy,time=95&&enemy,name="Another Blood"&&(enemy,authorname="sakuraka"||enemy,authorname="AkagiK")))
+trigger4=(enemy,name="anna"&&enemy,authorname="kayui uma"&&enemy,stateno=690&&enemy,time=50)||(enemy,name="Kaigen Ishima"&&((enemy,stateno=195&&enemy,time=60)||(enemy,stateno=199&&enemy,time=20)))
+trigger5=enemy,name="Taoroh"&&enemy,authorname="Elecbyte"&&enemy,stateno=195&&enemy,time=23
+trigger6=enemy,authorname="YU-TOHARU"&&((enemy,name="AIHARA NATSUMI"&&enemy,stateno=197&&enemy,time=70)||(enemy,name="AL AZIF"&&enemy,stateno=195&&enemy,time=30))
+Value=-45
+ignorehitpause=1
+[state ]
+Type=PowerAdd
+triggerall = !ishelper
+triggerall=numenemy>=2&&alive
+trigger1=enemy(1),authorname="kayui uma"&&enemy(1),stateno=690&&((enemy(1),name="mora"&&enemy(1),time=40)||(enemy(1),name="ruili"&&enemy(1),time=23)||(enemy(1),name="saya"&&enemy(1),time=18)||(enemy(1),name="henri"&&enemy(1),time=60))
+trigger2=enemy(1),authorname="Juke Kisaragi"&&((enemy(1),stateno=195&&enemy(1),time=50&&(enemy(1),name="Ein"||enemy(1),name="Nitro Ignis"))||(enemy(1),name="Saber"&&(enemy(1),stateno=[195,196])&&enemy(1),time=45))
+trigger3=enemy(1),stateno=195&&((enemy(1),name="dragon"&&enemy(1),authorname="kayui uma"&&enemy(1),time=26)||(enemy(1),time=95&&enemy(1),name="Another Blood"&&(enemy(1),authorname="sakuraka"||enemy(1),authorname="AkagiK")))
+trigger4=(enemy(1),name="anna"&&enemy(1),authorname="kayui uma"&&enemy(1),stateno=690&&enemy(1),time=50)||(enemy(1),name="Kaigen Ishima"&&((enemy(1),stateno=195&&enemy(1),time=60)||(enemy(1),stateno=199&&enemy(1),time=20)))
+trigger5=enemy(1),name="Taoroh"&&enemy(1),authorname="Elecbyte"&&enemy(1),stateno=195&&enemy(1),time=23
+trigger6=enemy(1),authorname="YU-TOHARU"&&((enemy(1),name="AIHARA NATSUMI"&&enemy(1),stateno=197&&enemy(1),time=70)||(enemy(1),name="AL AZIF"&&enemy(1),stateno=195&&enemy(1),time=30))
+Value=-45
+ignorehitpause=1
+;ˆ¤Œ´“Ş“s”üu’§”­v‘Î‰ƒXƒe[ƒg
+[state ]
+Type=PowerAdd
+triggerall = !ishelper
+triggerall=alive
+trigger1=numenemy
+trigger1=enemy,name="AIHARA NATSUMI"&&enemy,authorname="YU-TOHARU"&&enemy,stateno=197&&enemy,time=70
+trigger2=numenemy>=2
+trigger2=enemy(1),name="AIHARA NATSUMI"&&enemy(1),authorname="YU-TOHARU"&&enemy(1),stateno=197&&enemy(1),time=70
+Value=-45
+ignorehitpause=1
+;ƒAƒ‹¥ƒAƒWƒtu’§”­v‘Î‰ƒXƒe[ƒg
+[state ]
+Type=PowerAdd
+triggerall = !ishelper
+triggerall=alive
+trigger1=numenemy
+trigger1=enemy,name="AL AZIF"&&enemy,authorname="YU-TOHARU"&&enemy,stateno=195&&enemy,time=30
+trigger2=numenemy>=2
+trigger2=enemy(1),name="AL AZIF"&&enemy(1),authorname="YU-TOHARU"&&enemy(1),stateno=195&&enemy(1),time=30
+Value=-45
+ignorehitpause=1
+
+;—ª’D/b‚ğÅ‚ª‚·/b‚ğ‹‡‚ß‚é@‘Šè—p
+[State -2]
+Type = LifeAdd
+triggerall = !ishelper
+TriggerAll = Enemy,AuthorName = "‡H" && Enemy,Name = "Akiha_Vermilion"
+Trigger1 = Enemy,Var(47) = 1
+Value = -7
+Absolute = 1
+Kill = 0
+[State -2]
+Type = LifeAdd
+triggerall = !ishelper
+TriggerAll = Enemy,AuthorName = "‡H" && Enemy,Name = "Akiha_Vermilion"
+Trigger1 = Enemy,Var(48) = 1 && Enemy,NumExplod(4005)
+Value = -7
+Absolute = 1
+Kill = 0
+[State -2]
+Type = PowerAdd
+triggerall = !ishelper
+TriggerAll = Enemy,AuthorName = "‡H" && Enemy,Name = "Akiha_Vermilion"
+Trigger1 = Enemy,Var(47) = 1
+Value = -26
+
+
+;ƒpƒEƒ_[ƒXƒmƒE@‘Šè—p
+[State -2]
+Type = LifeAdd
+triggerall = !ishelper
+TriggerAll = Enemy,AuthorName = "‡H" && Enemy,Name = "Len"
+Trigger1 = Enemy,Var(47) = 1 || Enemy,Var(48) = 1
+Value = -Enemy,Var(47)*4-Enemy,Var(48)*4
+Absolute = 1
+Kill = 0
+
+
+;‚¶‚å‚¤‚ë@‘Šè—p
+[State -2]
+Type = LifeAdd
+triggerall = !ishelper
+TriggerAll = Enemy,AuthorName = "‡H" && Enemy,Name = "Hisui"
+Trigger1 = Enemy,Var(47) = 1
+Value = -10
+Absolute = 1
+Kill = 0
+[State -2]
+Type = PowerAdd
+triggerall = !ishelper
+TriggerAll = Enemy,AuthorName = "‡H" && Enemy,Name = "Hisui"
+Trigger1 = Enemy,Var(47) = 1
+Value = -135
+
+
+;‚ª‚ñ‚Î‚è‚Ü‚µ‚½BEX@‘Šè—p
+[State -2]
+Type = LifeAdd
+triggerall = !ishelper
+TriggerAll = Enemy,AuthorName = "‡H" && Enemy,Name = "Hisui"
+Trigger1 = Enemy,Var(48) = 1
+Value = IfElse(GameTime%2=0,-3,-4)
+Absolute = 1
+Kill = 0
+
+
+;ƒuƒ‰ƒbƒNEƒNƒ‰ƒbƒN@‘Šè—p
+[State -2]
+Type = LifeAdd
+triggerall = !ishelper
+TriggerAll = Enemy,AuthorName = "‡H" && Enemy,Name = "Warachia"
+Trigger1 = Enemy,Var(47) = 1
+Value = -10
+Absolute = 1
+Kill = 0
+[State -2]
+Type = LifeAdd
+triggerall = !ishelper
+TriggerAll = Enemy,AuthorName = "‡H" && Enemy,Name = "Warachia"
+Trigger1 = Enemy,Var(47) = 2 || Enemy,Var(47) = 4
+Value = -15
+Absolute = 1
+Kill = 0
+[State -2]
+Type = LifeAdd
+triggerall = !ishelper
+TriggerAll = Enemy,AuthorName = "‡H" && Enemy,Name = "Warachia"
+Trigger1 = Enemy,Var(47) = 3
+Value = -30
+Absolute = 1
+Kill = 0
+[State -2]
+Type = PowerAdd
+triggerall = !ishelper
+TriggerAll = Enemy,AuthorName = "‡H" && Enemy,Name = "Warachia"
+Trigger1 = Enemy,Var(47) = 1
+Value = 6
+[State -2]
+Type = PowerAdd
+triggerall = !ishelper
+TriggerAll = Enemy,AuthorName = "‡H" && Enemy,Name = "Warachia"
+Trigger1 = Enemy,Var(47) = 2 || Enemy,Var(47) = 3 || Enemy,Var(47) = 4
+Value = 15
+
+;Œ»‘ãˆãŠw‚Ì‹]µÒ‚Å‚·B@‘Šè—p
+[State -2]
+Type = LifeAdd
+triggerall = !ishelper
+TriggerAll = Enemy,AuthorName = "‡H" && Enemy,Name = "Kohaku"
+Trigger1 = Enemy,Var(47) = 1
+Value = IfElse(GameTime%2=0,-3,-4)
+Absolute = 1
+Kill = 0
+
+
+
+;b‚ğÅ‚ª‚·(•H—t)@‘ŠèƒXƒe[ƒ^ƒX•Ï‰»
+[State -2]
+Type = LifeAdd
+triggerall = !ishelper
+TriggerAll = Enemy,AuthorName = "tukemon&HAL" && Enemy,Name = "Akiha"
+Trigger1 = Enemy,Var(56) = 1
+Value = -8
+Kill = 0
+[State -2]
+Type = PowerAdd
+triggerall = !ishelper
+TriggerAll = Enemy,AuthorName = "tukemon&HAL" && Enemy,Name = "Akiha"
+Trigger1 = Enemy,Var(51)%10 = 2
+Trigger1 = Enemy,Var(56) = 1
+Value = -33
+
+
+
+;¡’E°‚Ì‹V §Œä
+;U‚èŒü‚«—}§
+[State pos moving]
+type = AssertSpecial
+triggerall = !ishelper
+Triggerall = (Enemynear,Name = "Komachi Onoduka")*(Enemynear,AuthorName = "mikage_th")*(TeamMode = single)
+trigger1 = (enemynear,stateno = 820)*(enemynear,anim = 823)*(enemynear,animelem = 6,13)
+trigger2 = (enemynear,stateno = 821)*(enemynear,anim = 823)*(enemynear,animelem = 6,43)
+flag = noautoturn
+;ˆÚ“®
+[State pos moving]
+type = Posadd
+triggerall = !ishelper
+Triggerall = (Enemynear,Name = "Komachi Onoduka")*(Enemynear,AuthorName = "mikage_th")*(TeamMode = single)
+trigger1 = (enemynear,stateno = 820)*(enemynear,anim = 823)*(enemynear,animelem = 6,13)
+trigger2 = (enemynear,stateno = 821)*(enemynear,anim = 823)*(enemynear,animelem = 6,43)
+x = -ceil(enemynear,fVar(36))*facing*enemynear,facing
+y = -ceil(enemynear,fVar(37))*(statetype!=L)
+;statetype!=A+statetype!=L‚Ìê‡‹­§—‰ºstate‚Ö
+[State pos moving]
+type = Changestate
+triggerall = !ishelper
+Triggerall = (Enemynear,Name = "Komachi Onoduka")*(Enemynear,AuthorName = "mikage_th")*(TeamMode = single)
+Triggerall = (statetype != A)*(pos y!=0)*(statetype!=L)
+trigger1 = (enemynear,stateno = 820)*(enemynear,anim = 823)*(enemynear,animelem = 6,13)
+trigger2 = (enemynear,stateno = 821)*(enemynear,anim = 823)*(enemynear,animelem = 6,43)
+value = 50
+;U‚èŒü‚«—}§
+[State pos moving]
+type = AssertSpecial
+triggerall = !ishelper
+Triggerall = (Enemynear,Name = "Komachi Onoduka")*(Enemynear,AuthorName = "mikage_th105")*(TeamMode = single)
+trigger1 = (enemynear,stateno = 820)*(enemynear,anim = 823)*(enemynear,animelem = 6,13)
+trigger2 = (enemynear,stateno = 821)*(enemynear,anim = 823)*(enemynear,animelem = 6,43)
+flag = noautoturn
+;ˆÚ“®
+[State pos moving]
+type = Posadd
+triggerall = !ishelper
+Triggerall = (Enemynear,Name = "Komachi Onoduka")*(Enemynear,AuthorName = "mikage_th105")*(TeamMode = single)
+trigger1 = (enemynear,stateno = 820)*(enemynear,anim = 823)*(enemynear,animelem = 6,13)
+trigger2 = (enemynear,stateno = 821)*(enemynear,anim = 823)*(enemynear,animelem = 6,43)
+x = -ceil(enemynear,fVar(24))*facing*enemynear,facing
+y = -ceil(enemynear,fVar(25))*(statetype!=L)
+;statetype!=A+statetype!=L‚Ìê‡‹­§—‰ºstate‚Ö
+[State pos moving]
+type = Changestate
+triggerall = !ishelper
+Triggerall = (Enemynear,Name = "Komachi Onoduka")*(Enemynear,AuthorName = "mikage_th105")*(TeamMode = single)
+Triggerall = (statetype != A)*(pos y!=0)*(statetype!=L)
+trigger1 = (enemynear,stateno = 820)*(enemynear,anim = 823)*(enemynear,animelem = 6,13)
+trigger2 = (enemynear,stateno = 821)*(enemynear,anim = 823)*(enemynear,animelem = 6,43)
+value = 50
+
+
+
+;¡“Å‰Œ–‹uŠ¢zD•¨‚Ì‹Êv §Œä
+[State lifeadd]
+type = lifeadd
+triggerall = !ishelper
+Trigger1 = numEnemy = 1
+Trigger1 = Pos y > -240
+Trigger1 = (Enemy(0),Name = "Reisen Udongein Inaba")*(Enemy(0),AuthorName = "mikage_th105")*(Enemy(0),fvar(21))
+value = -floor(Enemy(0),fvar(21))*2
+ignorehitpause = 1
+absolute = 1
+kill = 0
+[State lifeadd]
+type = lifeadd
+triggerall = !ishelper
+Triggerall = numEnemy = 2
+Triggerall = Pos y > -240
+Trigger1 = (Enemy(0),Name = "Reisen Udongein Inaba")*(Enemy(0),AuthorName = "mikage_th105")*(Enemy(0),fvar(21))
+Trigger2 = (Enemy(1),Name = "Reisen Udongein Inaba")*(Enemy(1),AuthorName = "mikage_th105")*(Enemy(1),fvar(21))
+value = -floor(Enemy(0),fvar(21))*2-floor(Enemy(1),fvar(21))*2
+ignorehitpause = 1
+absolute = 1
+kill = 0
+[State lifeadd]
+type = lifeadd
+triggerall = !ishelper
+Trigger1 = numEnemy = 1
+Trigger1 = Pos y > -240
+Trigger1 = (Enemy(0),Name = "Reisen Udongein Inaba")*(Enemy(0),AuthorName = "mikage_th")*(Enemy(0),fvar(35))
+value = -floor(Enemy(0),fvar(35))*2
+ignorehitpause = 1
+absolute = 1
+kill = 0
+[State lifeadd]
+type = lifeadd
+triggerall = !ishelper
+Triggerall = numEnemy = 2
+Triggerall = Pos y > -240
+Trigger1 = (Enemy(0),Name = "Reisen Udongein Inaba")*(Enemy(0),AuthorName = "mikage_th")*(Enemy(0),fvar(35))
+Trigger2 = (Enemy(1),Name = "Reisen Udongein Inaba")*(Enemy(1),AuthorName = "mikage_th")*(Enemy(1),fvar(35))
+value = -floor(Enemy(0),fvar(35))*2-floor(Enemy(1),fvar(35))*2
+ignorehitpause = 1
+absolute = 1
+kill = 0
+
+
+;¡“y’…_‚ÌâM‚è & ƒ~ƒVƒƒƒOƒW‚³‚Ü‚ÌâM‚è §Œä
+;“y’…_‚ÌâM‚è
+[State lifeadd]
+type = lifeadd
+triggerall = !ishelper
+Trigger1 = numEnemy
+Trigger1 = (Enemynear,Name = "Suwako Moriya")*(Enemynear,AuthorName = "mikage_th")*(TeamMode = single)
+Trigger1 = floor((Enemynear,Var(42)%100)*0.1) = [0,1]
+Trigger1 = (floor(Enemynear,fvar(38)))%1000 > 0
+Trigger1 = floor(Enemynear,fvar(38)*0.001) = 2
+value = floor(Enemynear,fvar(36)*(LifeMax/10000.0))
+ignorehitpause = 1
+absolute = 1
+kill = 0
+[State ƒ~ƒVƒƒƒOƒW‚³‚Ü‚ÌâM‚è]
+type = lifeadd
+triggerall = !ishelper
+Triggerall = numEnemy
+Triggerall = (Enemynear,Name = "Suwako Moriya")*(Enemynear,AuthorName = "mikage_th")*(TeamMode = single)
+Triggerall = Enemynear,palno < 7
+trigger1 = floor(Enemynear,fvar(35)) = 1
+Trigger1 = movetype = H
+Trigger1 = stateno != [150,155]
+trigger2 = floor(Enemynear,fvar(35)) = 2
+Trigger2 = movetype = H
+Trigger2 = stateno = [150,155]
+value = floor(Enemynear,fvar(33))
+ignorehitpause = 1
+absolute = 1
+kill = 0
+
+
+; Curse Damage for Misuzu Kamio
+[State -2, LifeAdd]
+type = LifeAdd
+triggerall = !ishelper
+triggerall = (Enemy,TeamMode = Simul) = 0
+triggerall = (TeamMode = Simul) = 0
+triggerall = NumEnemy
+triggerall = Enemy,AuthorName = "586"
+triggerall = Enemy,Name = "Misuzu Kamio"
+triggerall = Enemy,fvar(11) > 0
+trigger1 = Enemy,var(13) = 1
+trigger1 = GameTime % 13 = 0
+trigger2 = Enemy,var(13) = 2
+trigger2 = GameTime % 11 = 0
+trigger3 = Enemy,var(13) = 3
+trigger3 = GameTime % 8 = 0
+trigger4 = Enemy,var(13) = 4
+trigger4 = GameTime % 6 = 0
+trigger5 = Enemy,var(13) = 5
+trigger5 = GameTime % 3 = 0
+value = -1
+kill = 0
+ignorehitpause = 1
+[State -2, PalFX]
+type = PalFX
+triggerall = !ishelper
+triggerall = (Enemy,TeamMode = Simul) = 0
+triggerall = (TeamMode = Simul) = 0
+triggerall = NumEnemy
+triggerall = Enemy,AuthorName = "586"
+triggerall = Enemy,Name = "Misuzu Kamio"
+trigger1 = Enemy,fvar(11) > 0
+add = -50,150,150
+time = 1
+ignorehitpause = 1
+
+
+;õ–½uÙõ‘‚Ö‚Ì–ñ‘©èŒ`v
+[State -2, LifeAdd]
+Type       = LifeAdd
+triggerall = !ishelper
+TriggerAll = NumEnemy           >= 1
+TriggerAll = Enemy,AuthorName    = "Souki" && Enemy,Name   = "Yuyuko Saigyouji"
+Trigger1   = Enemy,Var(3)        = 1       || Enemy,Var(3) = 2
+Trigger1   = GameTime%6          = 0
+Value      = IfElse(Enemy,Var(3) = 1, -2, -3)
+Kill       = 0
+
+;===========================================================================
+[Statedef -3]
+
+;ƒXƒ^ƒ“ƒhƒQ[ƒW
+[State -3]
+type = Helper
+trigger1 = !NumHelper(20032)
+trigger1 = roundstate = 2
+stateno = 20032
+id = 20032
+pos = 160,255
+postype = Back
+pausemovetime = 9999999999
+sprpriority = -10
+ownpal = 1
+
+;ƒQ[ƒW—Ê‰Šú‰»
+[State -3]
+type = Varset
+;trigger1 = fvar(2) != 88
+trigger1 = roundstate = 0 || roundstate = 1
+fv = 2
+value = 88
+
+;Å‘å’lŒÅ’è
+[State -3, 0]
+type = VarSet
+trigger1 = fvar(2) > 88
+fv = 2
+value = 88
+
+;Å¬’lŒÅ’è
+[State -3, 0]
+type = VarSet
+trigger1 = fvar(2) < 0
+fv = 2
+value = 0
+
+;‚Ì‚¯‚¼‚èoff—p
+[State -3, 0]
+type = VarSet
+trigger1 = (stateno = [5000,5070]) ||  ((stateno = [15000,15071]) && !var(0))
+var(57) = 1
+ignorehitpause = 1
+;‚Ì‚¯‚¼‚èoff—p2
+[State -3, 0]
+type = VarSet
+trigger1 = movetype != H
+var(57) = 0
+ignorehitpause = 1
+;=====================================================================
+;ƒXƒ^ƒ“ƒhƒNƒ‰ƒbƒVƒ…
+[state -3, var]
+type = varadd
+trigger1 = var(52)
+var(52) = -1
+ignorehitpause = 1
+
+[state -3, var]
+type = varadd
+trigger1 = !var(52) && var(53)
+var(53) = -1
+ignorehitpause = 1
+
+[state -3, var]
+type = varadd
+triggerall = numhelper(10000)
+trigger1 = helper(10000),stateno = 0
+trigger1 = roundstate >= 3
+var(13) = 1
+ignorehitpause = 1
+
+[State -3, end]
+type = changestate
+triggerall = var(0) && alive
+triggerall = stateno != [180,185]
+triggerall = stateno != [170,171]
+triggerall = var(13) = 100
+trigger1 = !partner,alive
+value = ifelse(win,184,171)
+
+[State -3, end]
+type = changestate
+triggerall = numhelper(10000)
+triggerall = numpartner
+triggerall = var(0)
+triggerall = win
+triggerall = roundstate >= 3
+triggerall = stateno != 900
+trigger1 = partner,alive
+trigger1 = helper(10000),stateno = 0
+value = 900
+
+[State -3, end]
+type = null;changestate
+triggerall = numhelper(10000)
+triggerall = helper(10000),stateno = [9400,9401]
+triggerall = stateno != 4000
+triggerall = alive
+triggerall = helper(10000),stateno != [120,160]
+triggerall = stateno = [15000,15070]
+trigger1 = movetype = H
+value = 4000
+
+[State -3, end]
+type = changestate
+triggerall = numhelper(10000)
+triggerall = helper(10000),stateno = [9400,9401]
+triggerall = !fvar(2)
+;triggerall = !var(50)
+triggerall = stateno != 4000
+triggerall = alive
+trigger1 = var(16) = 2
+value = 4000
+
+[State -3, end]
+type = changestate
+triggerall = numhelper(10000)
+triggerall = helper(10000),stateno = [9400,9401]
+triggerall = !fvar(2)
+;triggerall = !var(50)
+triggerall = stateno != 4100
+triggerall = alive
+trigger1 = var(16) = 1
+value = 4100
+
+;---------------------------------------------------------------
+;ƒXƒ^ƒ“ƒh”íƒ_ƒ
+[state -3, end]
+type = changestate
+triggerall = numhelper(10000)
+triggerall = !IsHelper
+trigger1 = !var(0)
+trigger1 = stateno != [15000,15999]
+trigger1 = numhelper(10000)
+trigger1 = helper(10000),stateno = 9600
+trigger1 = !helper(10000),time
+trigger1 = statetype = S
+trigger2 = var(0)
+trigger2 = numhelper(10000)
+trigger2 = helper(10000),stateno = [5000,5999]
+trigger2 = !helper(10000),time
+trigger2 = statetype = S
+value = 15000
+ctrl = 0
+[state -3, end]
+type = changestate
+triggerall = numhelper(10000)
+triggerall = !IsHelper
+trigger1 = !var(0)
+trigger1 = stateno != [15000,15999]
+trigger1 = numhelper(10000)
+trigger1 = helper(10000),stateno = 9600
+trigger1 = !helper(10000),time
+trigger1 = statetype = C
+trigger2 = var(0)
+trigger2 = numhelper(10000)
+trigger2 = helper(10000),stateno = [5000,5999]
+trigger2 = !helper(10000),time
+trigger2 = statetype = C
+value = 15010
+ctrl = 0
+[state -3, end]
+type = changestate
+triggerall = numhelper(10000)
+triggerall = !IsHelper
+trigger1 = !var(0)
+trigger1 = stateno != [15000,15999]
+trigger1 = numhelper(10000)
+trigger1 = helper(10000),stateno = 9600
+trigger1 = !helper(10000),time
+trigger1 = statetype = A
+trigger2 = var(0)
+trigger2 = numhelper(10000)
+trigger2 = helper(10000),stateno = [5000,5999]
+trigger2 = !helper(10000),time
+trigger2 = statetype = A
+value = 15020
+ctrl = 0
+
+---------------------------------------------------------------
+[State -3, GetHurt Sound]
+type = PlaySnd
+triggerall = Random < 500
+triggerall = Time = 1
+triggerall = Alive = 1
+trigger1 = StateNo = 5000 || StateNo = 5010 || StateNo = 5020 || StateNo = 5070 || StateNo = 5100 || StateNo = 15000 || StateNo = 15010 || StateNo = 15020 || StateNo = 15070 || StateNo = 15100
+value = 5000, ifelse(StateNo = 5100 || StateNo = 15100 || GetHitVar(animtype) = 2, 2, ifelse(GetHitVar(animtype) = 1, 1, 0))
+channel = 10
+
+;---------------------------------------------------------------------------
+;ƒK[ƒhƒGƒ{ƒj[ƒfƒrƒ‹
+[state -3, remove]
+type = removeexplod
+trigger1 = var(0)
+trigger2 = anim != 120
+trigger3 = stateno = [710,711] 
+id = 120
+[state -3, remove]
+type = removeexplod
+trigger1 = var(0)
+trigger2 = anim != 121
+trigger3 = stateno = [710,711] 
+id = 121
+[state -3, remove]
+type = removeexplod
+trigger1 = var(0)
+trigger2 = anim != 122
+trigger3 = stateno = [710,711] 
+id = 122
+
+[state -3, remove]
+type = removeexplod
+trigger1 = var(0)
+trigger2 = anim != 130
+trigger3 = stateno = [710,711]
+id = 130
+[state -3, remove]
+type = removeexplod
+trigger1 = var(0)
+trigger2 = anim != 131
+trigger3 = stateno = [710,711]
+id = 131
+[state -3, remove]
+type = removeexplod
+trigger1 = var(0)
+trigger2 = anim != 132
+trigger3 = stateno = [710,711]
+id = 132
+
+[state -3, remove]
+type = removeexplod
+trigger1 = var(0)
+trigger2 = anim != 140
+trigger3 = stateno = [710,711]
+id = 140
+[state -3, remove]
+type = removeexplod
+trigger1 = var(0)
+trigger2 = anim != 141
+trigger3 = stateno = [710,711]
+id = 141
+[state -3, remove]
+type = removeexplod
+trigger1 = var(0)
+trigger2 = anim != 142
+trigger3 = stateno = [710,711]
+id = 142
+
+[state -3, remove]
+type = removeexplod
+trigger1 = var(0)
+trigger2 = anim != 150
+trigger3 = stateno = [710,711]
+id = 150
+[state -3, remove]
+type = removeexplod
+trigger1 = var(0)
+trigger2 = anim != 151
+trigger3 = stateno = [710,711]
+id = 151
+[state -3, remove]
+type = removeexplod
+trigger1 = var(0)
+trigger2 = anim != 152
+trigger3 = stateno = [710,711]
+trigger4 = animelemtime(2) >= 0
+id = 152
+
+[state -3, explod];ƒK[ƒhŠJn
+type = explod
+triggerall = !var(0)
+triggerall = !numexplod(120)
+triggerall = !numexplod(6020)
+trigger1 = anim = [120,122]
+anim = anim+5
+id = anim
+postype = p1
+bindtime = -1
+removetime = -1
+pos = 0,0
+removeongethit = 1
+sprpriority = 1
+scale = const(size.xscale),const(size.yscale)
+pausemovetime = 0
+supermovetime = 0
+
+[state -3, explod];ƒK[ƒh’†
+type = explod
+triggerall = !var(0)
+triggerall = !numexplod(130)
+triggerall = !numexplod(131)
+triggerall = !numexplod(132)
+triggerall = !numexplod(6020)
+trigger1 = anim = [130,132]
+anim = anim+5
+id = anim
+postype = p1
+bindtime = -1
+removetime = -1
+pos = 0,0
+removeongethit = 1
+sprpriority = 1
+scale = const(size.xscale),const(size.yscale)
+pausemovetime = 0
+supermovetime = 0
+
+[state -3, explod];ƒK[ƒhI—¹
+type = explod
+triggerall = !var(0)
+triggerall = !numexplod(140)
+triggerall = !numexplod(141)
+triggerall = !numexplod(142)
+triggerall = !numexplod(6020)
+trigger1 = (anim = [140,142]) && time = 1
+anim = anim+5
+id = anim
+postype = p1
+bindtime = -1
+pos = 0,0
+removeongethit = 1
+sprpriority = 1
+scale = const(size.xscale),const(size.yscale)
+pausemovetime = 0
+supermovetime = 0
+
+[state -3, explod1];ƒK[ƒhd’¼iŒõj
+type = explod
+triggerall = !var(0)
+triggerall = !numexplod(158)
+triggerall = !numexplod(159)
+triggerall = !numexplod(160)
+triggerall = !numexplod(6020)
+trigger1 = (anim = [150,152]) && time = 1
+trigger1 = stateno = 150 || stateno = 152 || stateno = 154
+anim = anim+8
+id = anim+8
+postype = p1
+bindtime = -1
+removetime = -2
+pos = 0,0
+removeongethit = 1
+sprpriority = 2
+scale = const(size.xscale),const(size.yscale)
+pausemovetime = 999999
+supermovetime = 999999
+
+[state -3, explod];ƒK[ƒhd’¼
+type = explod
+triggerall = !var(0)
+triggerall = !numexplod(150)
+triggerall = !numexplod(151)
+triggerall = !numexplod(152)
+triggerall = !numexplod(6020)
+trigger1 = (anim = [150,152]) && time = 1
+anim = anim+5
+id = anim
+postype = p1
+bindtime = -1
+removetime = -1
+pos = 0,0
+removeongethit = 1
+sprpriority = 1
+scale = const(size.xscale),const(size.yscale)
+pausemovetime = 999999
+supermovetime = 999999
+
+;=========================================================================
+
+;æs“ü—Í”F¯—pƒwƒ‹ƒp[
+[state -3, æs“ü—Í”F¯—pƒwƒ‹ƒp[]
+type = helper
+trigger1 = !numhelper(99999)
+trigger1 = !ishelper
+helpertype = normal
+name = "commandhelper"
+stateno = 99999
+ID = 99999
+postype = p1
+pos = 0,9999
+keyctrl = 1
+pausemovetime = 2147483647
+supermovetime = 2147483647
+
+;ƒWƒƒƒ“ƒL[ˆÚs
+[State 0, end]
+type = changestate
+triggerall = numhelper(10000)
+triggerall = movetype != H
+triggerall = helper(10000),stateno = 13000
+triggerall = stateno != 3000
+triggerall = stateno != 3020
+trigger1 = var(0)
+value = 3000
+
+;=========================================================================
+;‘¦ƒLƒƒƒ“—piƒWƒƒƒ“ƒL[ƒJ[ƒjƒoƒ‹j
+[State 0, end]
+type = changestate
+triggerall = numhelper(10000)
+triggerall = helper(10000),stateno = 3050
+triggerall = !var(54)
+trigger1 = stateno = 200 && !var(8)
+trigger2 = stateno = 210 && !var(8)
+trigger3 = stateno = 215 && !var(8)
+trigger4 = stateno = 220 && !var(8)
+trigger5 = stateno = 400 && !var(8)
+trigger6 = stateno = 410 && !var(8)
+trigger7 = stateno = 420 && !var(8)
+trigger8 = stateno = 425 && !var(8)
+value = 3000
+
+;‘¦ƒLƒƒƒ“—piƒoƒŒƒ‹ƒ[ƒ‹ƒNƒ‰ƒbƒVƒƒ[j
+[State 0, end]
+type = changestate
+triggerall = numhelper(10000)
+triggerall = helper(10000),stateno = 3150
+triggerall = !var(54)
+trigger1 = stateno = 200 && !var(8)
+trigger2 = stateno = 210 && !var(8)
+trigger3 = stateno = 215 && !var(8)
+trigger4 = stateno = 220 && !var(8)
+trigger5 = stateno = 400 && !var(8)
+trigger6 = stateno = 410 && !var(8)
+trigger7 = stateno = 420 && !var(8)
+trigger8 = stateno = 425 && !var(8)
+value = 3100
+
+;‘¦ƒLƒƒƒ“—piƒŠƒZƒ“ƒgƒƒ“ƒgj
+[State 0, end]
+type = changestate
+triggerall = numhelper(10000)
+triggerall = helper(10000),stateno = 3250
+triggerall = !var(54)
+trigger1 = stateno = 200 && !var(8)
+trigger2 = stateno = 210 && !var(8)
+trigger3 = stateno = 215 && !var(8)
+trigger4 = stateno = 220 && !var(8)
+trigger5 = stateno = 400 && !var(8)
+trigger6 = stateno = 410 && !var(8)
+trigger7 = stateno = 420 && !var(8)
+trigger8 = stateno = 425 && !var(8)
+value = 3200
+
+;‘¦ƒLƒƒƒ“—piƒsƒ‰ƒjƒAƒ_ƒCƒuj
+[State 0, end]
+type = changestate
+triggerall = numhelper(10000)
+triggerall = helper(10000),stateno = 1050
+triggerall = !var(54)
+trigger1 = stateno = 200 && !var(8)
+trigger2 = stateno = 210 && !var(8)
+trigger3 = stateno = 215 && !var(8)
+trigger4 = stateno = 220 && !var(8)
+trigger5 = stateno = 400 && !var(8)
+trigger6 = stateno = 410 && !var(8)
+trigger7 = stateno = 420 && !var(8)
+trigger8 = stateno = 425 && !var(8)
+value = 1000
+
+;‘¦ƒLƒƒƒ“—piƒzƒbƒsƒ“ƒOƒnƒ“ƒ^[j
+[State 0, end]
+type = changestate
+triggerall = numhelper(10000)
+triggerall = helper(10000),stateno = 1150
+triggerall = !var(54)
+trigger1 = stateno = 200 && !var(8)
+trigger2 = stateno = 210 && !var(8)
+trigger3 = stateno = 215 && !var(8)
+trigger4 = stateno = 220 && !var(8)
+trigger5 = stateno = 400 && !var(8)
+trigger6 = stateno = 410 && !var(8)
+trigger7 = stateno = 420 && !var(8)
+trigger8 = stateno = 425 && !var(8)
+value = 1100
+
+;‘¦ƒLƒƒƒ“—piƒvƒƒyƒ‰ƒJƒbƒ^[j
+[State 0, end]
+type = changestate
+triggerall = numhelper(10000)
+triggerall = helper(10000),stateno = 1250
+triggerall = !var(54)
+trigger1 = stateno = 200 && !var(8)
+trigger2 = stateno = 210 && !var(8)
+trigger3 = stateno = 215 && !var(8)
+trigger4 = stateno = 220 && !var(8)
+trigger5 = stateno = 400 && !var(8)
+trigger6 = stateno = 410 && !var(8)
+trigger7 = stateno = 420 && !var(8)
+trigger8 = stateno = 425 && !var(8)
+value = 1200
+
+;‘¦ƒLƒƒƒ“—piƒvƒƒyƒ‰ƒJƒbƒ^[j
+[State 0, end]
+type = changestate
+triggerall = numhelper(10000)
+triggerall = helper(10000),stateno = 970
+triggerall = !var(54)
+trigger1 = stateno = 200 && !var(8)
+trigger2 = stateno = 210 && !var(8)
+trigger3 = stateno = 215 && !var(8)
+trigger4 = stateno = 220 && !var(8)
+trigger5 = stateno = 400 && !var(8)
+trigger6 = stateno = 410 && !var(8)
+trigger7 = stateno = 420 && !var(8)
+trigger8 = stateno = 425 && !var(8)
+value = 920
+
+;“ÁêƒLƒƒƒ“ƒZƒ‹ƒoƒŒƒ‹
+[State 0, end]
+type = changestate
+triggerall = numhelper(10000)
+triggerall = helper(10000),stateno = 3180
+trigger1 = var(0)
+value = 3130

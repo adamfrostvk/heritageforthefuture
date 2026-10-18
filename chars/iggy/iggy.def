@@ -1,0 +1,37 @@
+[Info]
+name="Iggy" ;キャラ名
+displayname="Iggy" ;画面に表示されるキャラ名
+versiondate=03,11,2012 ;バージョン
+mugenversion=04,14,2001 ;対応しているMUGENのバージョン
+author="Gal129" ;製作者名
+pal.defaults=4,5,6 ;デフォルトカラー
+
+[Files]
+sprite = iggy.sff ;画像
+sound = iggy.snd ;音声
+anim = iggy.air ;アニメ、判定
+cmd = iggy.cmd ;コマンド
+cns = iggy.cns ;メイン記述
+st = iggy.cns ;メイン記述
+st2 = the_fool.cns ;スタンドモード時（本体アニメ管理・スタンド）
+st3 = jojo_system.cns ;システム系
+st4 = tandem.cns ;スタンド（タンデム中）
+st5 = option.cns ;コンフィグ
+stcommon=iggy_common1.cns ;コモンステート
+
+pal1 = iggy01.act  ;スタンドボタンカラー(Stand)
+pal2 = iggy05.act  ;スタートボタンカラー(Start)
+pal3 = iggy06.act  ;オリジナルカラー1(Orig1)
+pal4 = iggy04.act  ;弱ボタンカラー(Light)
+pal5 = iggy02.act  ;中ボタンカラー(Medium)
+pal6 = iggy03.act  ;強ボタンカラー(High)
+pal7 = iggy10.act  ;オリジナルカラー5(Orig5)
+pal8 = iggy11.act  ;オリジナルカラー6(Orig6)
+pal9 = iggy12.act  ;オリジナルカラー7(Orig7)
+pal10 = iggy07.act ;オリジナルカラー2(Orig2)
+pal11 = iggy08.act ;オリジナルカラー3(Orig3)
+pal12 = iggy09.act ;オリジナルカラー4(Orig4)
+
+;[Arcade]
+;intro.storyboard=iggy_intro.def ;オープニング
+;ending.storyboard=iggy_end.def ;エンディング

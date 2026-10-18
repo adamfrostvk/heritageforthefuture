@@ -1,0 +1,36 @@
+[Info]
+Name         = "Chaka"  ;キャラクターの名前（必要な項目なので省略不可）
+DisplayName  = "Chaka"  ;M.U.G.E.Nで実際に表示される名前（省略可能）
+VersionDate  = 04,14,2002     ;キャラクターの最終更新日（変えなくてもＯＫ）
+MugenVersion = 04,14,2002     ;キャラクターが動作出来るM.U.G.E.Nの改訂版
+Author       = "Nimame"     ;キャラクターの作成者（必要な項目なので省略不可）
+Pal.Defaults = 4,1,2,3,5
+;-----------------------------------------------------------------------------
+
+[Files]
+Cmd     = chaka.cmd
+Cns     = chaka.cns
+St      = chaka.cns
+St1      = -2,-3.cns
+St2      = config.txt
+St3      = Anubis.cns
+St4      = dem.cns
+St5	 = chaka.common.cns
+StCommon = common1.cns
+Sprite  = chaka.sff
+Anim    = chaka.air
+Sound   = chaka.snd
+
+Pal1 = act/chaka2.act
+Pal2 = act/chaka3.act
+Pal3 = act/chaka4.act
+Pal4 = act/chaka1.act
+Pal5 = act/chaka5.act
+Pal6 = act/chaka6.act
+
+Pal7 = act/chaka2.act
+Pal8 = act/chaka3.act
+Pal9 = act/chaka5.act
+Pal10 = act/chaka1.act
+Pal11 = act/chaka6.act
+Pal12 = act/chaka4.act;全部覚えたモード

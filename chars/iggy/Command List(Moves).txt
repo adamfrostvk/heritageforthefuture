@@ -1,0 +1,44 @@
+
+Command is Calculator,Right Side
+
+Button Disposition
+x = Light
+y = Medium
+z = High
+a = Stand
+b = L+M+H
+c = Taunt
+s = Taunt
+
+
+---Basic Moves---
+ ==Normal Mode==
+				6+M
+Stand Apear Attack	236+S
+
+ ==Stand Mode==
+				6+H
+				(In Air)2+H
+Air Floot			(In Air)8
+Sand Ball			(While Air Flooting)L or M or H
+Air Dash			(in air)44 or 66
+
+
+---Special Moves---
+Sand Crush		4 charge 6+L or M or H
+Sand Attack		2 charge 8+L or M or H
+Sand Clutch		63214+L or M or H
+Sand Magic		623 or 421+L or M or H
+
+
+---Hyper Moves---
+Big Sand Wave	236+LMH
+Sand Storm		LL6MH
+
+
+---Stand Combo(Stand Rush)---
+Stand Light>Stand Light>Stand Light
+Stand Light>Stand Medium>Stand High
+Crouch Light>Crouch Light>Crouch Light
+Crouch Light>Crouch Medium>Crouch High
+

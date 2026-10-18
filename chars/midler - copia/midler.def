@@ -1,0 +1,28 @@
+[Info]
+name = "MIDLER"
+displayname = "Midler"
+author = "montana"
+pal.defaults = 1,2,3
+;---------------------------------------------------------------------------
+[Files]
+cmd      = midler.cmd    ;キャラのコマンド
+cns      = midler1.cns   ;キャラのプログラム
+st       = midler1.cns   ;キャラのプログラム
+st1      = midler2.cns   ;通常技
+st2      = helper.cns    ;ゲージ関連
+st3      = -2.cns
+st4      = stand.cns
+st5      = midler3.cns   ;通常技
+st6      = dem.cns       ;タンデム
+stcommon = common1.cns 
+
+sprite   = midler.sff      ;キャラの絵
+anim     = midler.air      ;キャラの動き
+sound    = midler.snd    ;キャラの音
+pal1     = 1.act
+pal2     = 2.act
+pal3     = 3.act
+;---------------------------------------------------------------------------
+[Arcade]
+;intro.storyboard  = ac/jojoed.def
+;ending.storyboard = ac/jojoed.def

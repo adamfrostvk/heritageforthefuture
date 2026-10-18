@@ -1,0 +1,41 @@
+;ホルホース＆ボインゴＯＰ by.時間の国けい
+
+[SceneDef]
+spr = holOP&ED.sff
+startscene = 0
+
+;------------------------------------
+[Scene 0]
+fadein.time = 60
+fadein.col = 0,0,0
+fadeout.time = 60
+fadeout.col = 0,0,0
+clearcolor = 0,0,0
+layerall.pos = 0,0
+layer0.anim =  0
+layer0.offset = 0,0
+layer0.starttime = 620
+layer1.anim =  1
+layer1.offset = 0,0
+layer1.starttime = 0
+bgm = chars/hol2/holbop.mp3
+bgm.loop = 0
+end.time = 2800
+
+;------------------------------------
+;ＢＧ
+[Begin Action 0]
+2,1, 0,0, 1820
+2,9, 0,0, -1
+
+;------------------------------------
+;テロップ
+[Begin Action 1]
+2,0, 0,0, 620
+2,9, 0,0, 50
+2,2, 0,0, 450
+2,3, 0,0, 450
+2,4, 0,0, 450
+2,5, 0,0, 420
+2,6, 0,0, -1
+

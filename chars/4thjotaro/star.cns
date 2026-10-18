@@ -1,0 +1,1039 @@
+
+;---------------------------------------------------------------------------
+; スタンドモード
+[Statedef 2500]
+type    = S
+movetype= I
+physics = S
+ctrl = 1
+velset = 0,0
+anim = 2500
+sprpriority = 2
+
+[State 400, 4]
+type = changestate
+trigger1 = p2dist x < 0
+value = 0
+
+[state 3000]
+type = playsnd
+trigger1 = time = 0
+value = 3,5
+
+[state 3000]
+type = playsnd
+trigger1 = time = 0
+value = 6,4
+
+[state 3003]
+type = helper
+trigger1 = numhelper(10000) = 0
+trigger1 = time = 0
+name = "star platinum"
+helpertype = normal
+stateno = 10000
+id = 10000
+pos = 0,0
+postype = p1
+ownpal = 1
+keyctrl = 0
+pausemovetime = var(14) * 9999999999999
+
+[State 191, Wood 1]
+type = Explod
+trigger1 = time = 0
+anim = 875
+id = 875
+postype = p1
+pos = 0,0
+removeongethit = 1
+sprpriority = 3
+pausemovetime = var(14) * 9999999999999
+
+[State 230, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; スタンドモード（イントロ時）
+[Statedef 2502]
+type    = S
+movetype= I
+physics = S
+velset = 0,0
+anim = 2500
+sprpriority = 2
+
+[state 3000]
+type = playsnd
+trigger1 = time = 0
+value = 3,5
+
+[state 3000]
+type = playsnd
+trigger1 = time = 0
+value = 6,4
+
+[state 3003]
+type = helper
+trigger1 = numhelper(10000) = 0
+trigger1 = time = 0
+name = "star platinum"
+helpertype = normal
+stateno = 10000
+id = 10000
+pos = 0,0
+postype = p1
+ownpal = 1
+keyctrl = 0
+pausemovetime = var(14) * 9999999999999
+
+[State 191, Wood 1]
+type = Explod
+trigger1 = time = 0
+anim = 875
+id = 875
+postype = p1
+pos = 0,0
+removeongethit = 1
+sprpriority = 3
+pausemovetime = var(14) * 9999999999999
+
+[State 230, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+
+;---------------------------------------------------------------------------
+; スタンドモード解除
+[Statedef 2501]
+type    = S
+movetype= I
+physics = S
+ctrl = 1
+velset = 0,0
+sprpriority = 2
+
+[State 400, 4]
+type = changestate
+trigger1 = p2dist x < 0
+value = 0
+
+[State 1000, 7]
+type = changeanim
+trigger1 = Time = 0
+value = 0
+elem = var(22)
+
+[State 230, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; スタンドモード解除（イントロ時）
+[Statedef 2503]
+type    = S
+movetype= I
+physics = S
+velset = 0,0
+sprpriority = 2
+
+[State 1000, 7]
+type = changeanim
+trigger1 = Time = 0
+value = 0
+elem = var(22)
+
+[State 230, 3]
+type = ChangeState
+trigger1 = Time = 1
+value = 0
+
+;---------------------------------------------------------------------------
+; しゃがみスタンドモード
+[Statedef 2505]
+type    = C
+movetype= I
+physics = C
+ctrl = 1
+velset = 0,0
+anim = 2505
+sprpriority = 2
+
+[State 400, 4]
+type = changestate
+trigger1 = p2dist x < 0
+value = 11
+
+[state 3000]
+type = playsnd
+trigger1 = time = 0
+value = 3,5
+
+[state 3000]
+type = playsnd
+trigger1 = time = 0
+value = 6,4
+
+[state 3003]
+type = helper
+trigger1 = numhelper(10000) = 0
+trigger1 = time = 0
+name = "star platinum"
+helpertype = normal
+stateno = 10000
+id = 10000
+pos = 0,0
+postype = p1
+ownpal = 1
+keyctrl = 0
+pausemovetime = var(14) * 9999999999999
+
+[State 191, Wood 1]
+type = Explod
+trigger1 = time = 0
+anim = 875
+id = 875
+postype = p1
+pos = 0,0
+removeongethit = 1
+sprpriority = 3
+pausemovetime = var(14) * 9999999999999
+
+[State 230, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; しゃがみスタンドモード解除
+[Statedef 2506]
+type    = C
+movetype= I
+physics = C
+ctrl = 1
+velset = 0,0
+anim = 11
+sprpriority = 2
+
+[State 1000, 7]
+type = null
+trigger1 = AnimTime = 0
+value = 0
+
+[State 230, 3]
+type = ChangeState
+trigger1 = animTime = 0
+value = 11
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; 空中スタンドモード
+[Statedef 2510]
+type    = A
+movetype= I
+physics = A
+ctrl = 1
+anim = 2510
+sprpriority = 2
+
+[state 3000]
+type = assertspecial
+trigger1 = 1
+flag = noairguard
+
+[state 3000]
+type = playsnd
+trigger1 = time = 0
+value = 3,5
+
+[state 3000]
+type = playsnd
+trigger1 = time = 0
+value = 6,4
+
+[state 3003]
+type = helper
+trigger1 = numhelper(10000) = 0
+trigger1 = time = 0
+name = "star platinum"
+helpertype = normal
+stateno = 10000
+id = 10000
+pos = 0,0
+postype = p1
+ownpal = 1
+keyctrl = 0
+pausemovetime = var(14) * 9999999999999
+
+[State 191, Wood 1]
+type = Explod
+trigger1 = time = 0
+anim = 874
+id = 874
+postype = p1
+pos = 0,0
+removeongethit = 1
+sprpriority = 3
+pausemovetime = var(14) * 9999999999999
+
+;---------------------------------------------------------------------------
+; 空中スタンドモード解除
+[Statedef 2511]
+type    = A
+movetype= I
+physics = A
+ctrl = 1
+sprpriority = 2
+
+[State 1000, 7]
+type = changeanim
+trigger1 = Time = 0
+value = 41
+elem = var(22)
+
+;------------------------------------------------------------
+;stand
+
+[Statedef 10000]
+type    = A
+movetype= I
+physics = N
+;velset = 0,0
+sprpriority = 0
+ctrl = 0
+
+[State 191, 2] 
+type = velset
+trigger1 = 1
+x = parent,vel x
+y = parent,vel y
+
+[State 230, 2]
+type = statetypeset
+trigger1 = parent,statetype = S
+statetype = S
+ignorehitpause = 1
+
+[State 230, 2]
+type = statetypeset
+trigger1 = parent,statetype = C
+statetype = C
+ignorehitpause = 1
+
+[State 230, 2]
+type = statetypeset
+trigger1 = parent,statetype = A
+statetype = A
+ignorehitpause = 1
+
+[State 191, 2] 
+type = parentvarset
+trigger1 = 1
+v = 4
+value = 1
+
+[State 191, 2]
+type = changestate
+trigger1 = parent,var(4) = 0
+value = 10001
+
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 191, 2] 
+type = turn
+trigger1 = facing != parent,facing
+
+[State 1065, 3]
+type = bindtoparent
+trigger1 = 1
+pos = 0,0
+time = 1
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,stateno = 2500 || parent,stateno = 2502
+trigger1 = anim != 12500
+value = 12500
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,stateno = 2505 || parent,stateno = 11
+trigger1 = anim != 10010
+value = 10010
+elem = 2
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,stateno = 2510
+trigger1 = anim != 10041
+value = 10041
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,anim = 2000 || parent,anim = 2002 || parent,stateno = 195
+trigger1 = anim != 10001
+value = 10001
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,anim = 2005
+trigger1 = anim != 10005
+value = 10005
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,anim = 2006
+trigger1 = anim != 10006
+value = 10006
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,stateno = 10
+trigger1 = anim != 10010
+value = 10010
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,stateno = 12
+trigger1 = anim != 10012
+value = 10012
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,anim = 2020
+trigger1 = anim != 10020
+value = 10020
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,anim = 2021
+trigger1 = anim != 10021
+value = 10021
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,stateno = 40 || parent,stateno = 52 || parent,stateno = 5220 || parent,stateno = 45
+trigger1 = anim != 10040
+value = 10040
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,stateno = 50 || parent,anim = 7040
+trigger1 = anim != 10041
+value = 10041
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,anim = 2100 || parent,anim = 100
+trigger1 = anim != 10100
+value = 10100
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,anim = 2101 || parent,anim = 101
+trigger1 = anim != 10101
+value = 10101
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,stateno = 105
+trigger1 = anim != 10105
+value = 10105
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,anim = 2120 || parent,anim = 2121 || parent,anim = 2130 || parent,anim = 2131
+trigger1 = anim != 10120
+value = 10120
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,stateno = 150
+trigger1 = anim != 10150
+value = 10150
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,stateno = 152
+trigger1 = anim != 10152
+value = 10152
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,stateno = 154
+trigger1 = anim != 10154
+value = 10154
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,stateno = 155
+trigger1 = anim != 10155
+value = 10155
+
+[State 1065, 3]
+type = sprpriority
+trigger1 = anim = [10120,10155]
+trigger2 = anim = 801
+value = 3
+
+[State 1065, 3]
+type = sprpriority
+trigger1 = anim != [10120,10155]
+trigger1 = anim != 801
+value = 0
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,stateno = 5000
+trigger1 = anim != 15000
+value = 15000
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,stateno = 5001 || parent,stateno = 5011
+trigger1 = anim != 15005
+value = 15005
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,stateno = 5010
+trigger1 = anim != 15020
+value = 15020
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,anim = 5030 || parent,stateno = 5020 || parent,stateno = 5070
+trigger1 = anim != 15030
+value = 15030
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,stateno = 5035 || parent,anim = 7070 && parent,animelemtime(2) = 4
+trigger1 = anim != 15035
+value = 15035
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,stateno = 5040
+trigger1 = anim != 10041
+value = 10041
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,anim = 7051
+trigger1 = anim != 15051
+value = 15051
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,anim = 5061
+trigger1 = anim != 15061
+value = 15061
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,stateno = 2800 && parent,animelem = 1
+trigger1 = anim != 10000
+value = 10000
+
+[State 230, 3]
+type = changeanim
+trigger1 = parent,stateno = 2800 && parent,animelem = 4
+trigger1 = anim != 801
+value = 801
+
+[State 230, 3]
+type = changeanim
+trigger1 = parent,stateno = 2800 && parent,animtime != 0
+trigger1 = anim = 801 && animtime = 0
+value = 801
+elem = 9
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,anim = 181
+trigger1 = anim != 10181
+value = 10181
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,anim = 182
+trigger1 = anim != 9999
+value = 9999
+
+[State 1065, 3]
+type = changeanim
+trigger1 = parent,anim = 183
+trigger1 = anim != 10184
+value = 10184
+
+[State 1065, 3]
+type = assertspecial
+trigger1 = anim = 10184
+trigger1 = time %2 = 0
+flag = invisible
+
+;---------------------------------------------------------------------------
+;ワールドs
+[State 10001,0]
+type = ChangeState
+value = 13060
+trigger1 = parent,stateno = 3060
+
+;---------------------------------------------------------------------------
+;プッツンs
+[State 10001,0]
+type = ChangeState
+value = 13040
+trigger1 = parent,stateno = 3040
+
+;---------------------------------------------------------------------------
+;スタブレs
+[State 10001,0]
+type = ChangeState
+value = 13030
+trigger1 = parent,stateno = 3030
+
+;---------------------------------------------------------------------------
+;プッツンs
+[State 10001,0]
+type = ChangeState
+value = 13020
+trigger1 = parent,stateno = 3020
+
+;---------------------------------------------------------------------------
+;ガーキャンs
+[State 10001,0]
+type = ChangeState
+value = 18100
+trigger1 = parent,stateno = 1810
+
+;---------------------------------------------------------------------------
+;マッハs派生（強）
+[State 10001,0]
+type = ChangeState
+value = 11120
+trigger1 = parent,stateno = 1220
+
+;---------------------------------------------------------------------------
+;マッハs派生（中）
+[State 10001,0]
+type = ChangeState
+value = 11110
+trigger1 = parent,stateno = 1210
+
+;---------------------------------------------------------------------------
+;マッハs派生（弱）
+[State 10001,0]
+type = ChangeState
+value = 11100
+trigger1 = parent,stateno = 1200
+
+;---------------------------------------------------------------------------
+;マッハ強s
+[State 10001,0]
+type = ChangeState
+value = 11090
+trigger1 = parent,stateno = 1190
+
+;---------------------------------------------------------------------------
+;マッハ中s
+[State 10001,0]
+type = ChangeState
+value = 11080
+trigger1 = parent,stateno = 1180
+
+;---------------------------------------------------------------------------
+;マッハ弱s
+[State 10001,0]
+type = ChangeState
+value = 11070
+trigger1 = parent,stateno = 1170
+
+;---------------------------------------------------------------------------
+;フィンガーs
+[State 10001,0]
+type = ChangeState
+value = 11060
+trigger1 = parent,stateno = 1160
+
+;---------------------------------------------------------------------------
+;空中オラオラ強s
+[State 10001,0]
+type = ChangeState
+value = 11050
+trigger1 = parent,stateno = 1150
+
+;---------------------------------------------------------------------------
+;オラオラ強s
+[State 10001,0]
+type = ChangeState
+value = 11020
+trigger1 = parent,stateno = 1120
+
+;---------------------------------------------------------------------------
+;空中オラオラ中s
+[State 10001,0]
+type = ChangeState
+value = 11040
+trigger1 = parent,stateno = 1140
+
+;---------------------------------------------------------------------------
+;オラオラ中s
+[State 10001,0]
+type = ChangeState
+value = 11010
+trigger1 = parent,stateno = 1110
+
+;---------------------------------------------------------------------------
+;空中オラオラ弱s
+[State 10001,0]
+type = ChangeState
+value = 11030
+trigger1 = parent,stateno = 1130
+
+;---------------------------------------------------------------------------
+;オラオラ弱s
+[State 10001,0]
+type = ChangeState
+value = 11000
+trigger1 = parent,stateno = 1100
+
+;---------------------------------------------------------------------------
+;ベアリング弾s
+[State 10001,0]
+type = ChangeState
+value = 16131
+trigger1 = parent,stateno = 1613
+
+;---------------------------------------------------------------------------
+;立ち弱s3段目
+[State 10001,0]
+type = ChangeState
+value = 10230
+trigger1 = parent,stateno = 2230
+
+;---------------------------------------------------------------------------
+;ダッシュ立ち弱s
+[State 10001,0]
+type = ChangeState
+value = 10201
+trigger1 = parent,stateno = 2201
+
+;---------------------------------------------------------------------------
+;立ち弱s
+[State 10001,0]
+type = ChangeState
+value = 10200
+trigger1 = parent,stateno = 2200
+
+;---------------------------------------------------------------------------
+;6中s
+[State 10001,0]
+type = ChangeState
+value = 10240
+trigger1 = parent,stateno = 2240
+
+;---------------------------------------------------------------------------
+;立ち中s2
+[State 10001,0]
+type = ChangeState
+value = 10260
+trigger1 = parent,stateno = 2260
+
+;---------------------------------------------------------------------------
+;ダッシュ立ち中s
+[State 10001,0]
+type = ChangeState
+value = 10211
+trigger1 = parent,stateno = 2211
+
+;---------------------------------------------------------------------------
+;立ち中s
+[State 10001,0]
+type = ChangeState
+value = 10210
+trigger1 = parent,stateno = 2210
+
+;---------------------------------------------------------------------------
+;立ち強足払い2s
+[State 10001,0]
+type = ChangeState
+value = 10251
+trigger1 = parent,stateno = 2251
+
+;---------------------------------------------------------------------------
+;立ち強足払いs
+[State 10001,0]
+type = ChangeState
+value = 10250
+trigger1 = parent,stateno = 2250
+
+;---------------------------------------------------------------------------
+;ダッシュ立ち強s
+[State 10001,0]
+type = ChangeState
+value = 10221
+trigger1 = parent,stateno = 2221
+
+;---------------------------------------------------------------------------
+;近立ち強s
+[State 10001,0]
+type = ChangeState
+value = 10225
+trigger1 = parent,stateno = 2225
+
+;---------------------------------------------------------------------------
+;立ち強s
+[State 10001,0]
+type = ChangeState
+value = 10220
+trigger1 = parent,stateno = 2220
+
+;---------------------------------------------------------------------------
+;しゃがみ弱s2
+[State 10001,0]
+type = ChangeState
+value = 10450
+trigger1 = parent,stateno = 2450
+
+;---------------------------------------------------------------------------
+;ダッシュしゃがみ弱s
+[State 10001,0]
+type = ChangeState
+value = 10401
+trigger1 = parent,stateno = 2401
+
+;---------------------------------------------------------------------------
+;しゃがみ弱s
+[State 10001,0]
+type = ChangeState
+value = 10400
+trigger1 = parent,stateno = 2400
+
+;---------------------------------------------------------------------------
+;しゃがみ中s2
+[State 10001,0]
+type = ChangeState
+value = 10430
+trigger1 = parent,stateno = 2430
+
+;---------------------------------------------------------------------------
+;ダッシュしゃがみ中s
+[State 10001,0]
+type = ChangeState
+value = 10411
+trigger1 = parent,stateno = 2411
+
+;---------------------------------------------------------------------------
+;しゃがみ中s
+[State 10001,0]
+type = ChangeState
+value = 10410
+trigger1 = parent,stateno = 2410
+
+;---------------------------------------------------------------------------
+;ダッシュしゃがみ強s
+[State 10001,0]
+type = ChangeState
+value = 10421
+trigger1 = parent,stateno = 2421
+
+;---------------------------------------------------------------------------
+;しゃがみ強s
+[State 10001,0]
+type = ChangeState
+value = 10440
+trigger1 = parent,stateno = 2440
+
+;---------------------------------------------------------------------------
+;しゃがみ強s
+[State 10001,0]
+type = ChangeState
+value = 10420
+trigger1 = parent,stateno = 2420
+
+;---------------------------------------------------------------------------
+;空中弱s
+[State 10001,0]
+type = ChangeState
+value = 10600
+trigger1 = parent,stateno = 2600
+
+;---------------------------------------------------------------------------
+;空中中s
+[State 10001,0]
+type = ChangeState
+value = 10610
+trigger1 = parent,stateno = 2610
+
+;---------------------------------------------------------------------------
+;空中強s
+[State 10001,0]
+type = ChangeState
+value = 10620
+trigger1 = parent,stateno = 2620
+
+;---------------------------------------------------------------------------
+;クラッシュ（食らい）
+[State 10001,0]
+type = ChangeState
+value = 5997
+trigger1 = parent,stateno = [6000,6070]
+trigger1 = parent,stateno != 6001
+
+;---------------------------------------------------------------------------
+;クラッシュ（ガード）
+[State 10001,0]
+type = ChangeState
+value = 16012
+trigger1 = parent,stateno = 6001
+
+[State 10001,0]
+type = removeexplod
+trigger1 = 1
+id = 11121
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[State -2,***]
+type = DisplayToClipboard
+trigger1 = 1
+text = "vel x = %f,vel y = %f,parent,var(4) = %d"
+params = vel x,vel y,parent,var(4)
+ignorehitpause = 1
+
+
+
+[State 0, 1]
+type = changestate
+trigger1 = parent,var(4) = 0
+value = 10001
+
+[State 0, 1]
+type = null;changestate
+triggerall = parent,var(4)
+trigger1 = parent,stateno != [0,159]
+trigger1 = parent,stateno != [5000,5210]
+trigger1 = parent,movetype = H
+trigger2 = !parent,alive && parent,hitshakeover
+value = 10001
+
+[State 1052, 5]
+type = changestate
+trigger1 = parent,stateno = 2501 || parent,stateno = 2503
+trigger2 = parent,animelem =  1
+trigger2 = parent,stateno = 2506
+trigger3 = parent,stateno = 2511
+trigger4 = parent,alive =  0
+trigger4 = stateno != 10001
+trigger5 = parent,movetype = H
+trigger5 = Enemy,HitDefAttr = SCA, NT, ST, HT
+trigger5 = parent,stateno != 120 && parent,stateno != 130
+trigger5 = parent,stateno != 131 && parent,stateno != 132
+trigger5 = parent,stateno != 140 && parent,stateno != 150
+trigger5 = parent,stateno != 151 && parent,stateno != 152
+trigger5 = parent,stateno != 153 && parent,stateno != 154
+trigger5 = parent,stateno != 155
+trigger6 = !SelfAnimExist(Parent,Anim)
+trigger7 = parent,movetype = H
+trigger7 = parent,stateno != 5000 && parent,stateno != 5001
+trigger7 = parent,stateno != 5010 && parent,stateno != 5011
+trigger7 = parent,stateno != 5020 && parent,stateno != 5030
+trigger7 = parent,stateno != 5035 && parent,stateno != 5040
+trigger7 = parent,stateno != 5050 && parent,stateno != 5070
+trigger7 = parent,stateno != 5071 && parent,stateno != 5080
+trigger7 = parent,stateno != 5081 && parent,stateno != 5100
+trigger7 = parent,stateno != 5101 && parent,stateno != 5110
+trigger7 = parent,stateno != 5120 && parent,stateno != 5150
+trigger7 = parent,stateno != 120 && parent,stateno != 130
+trigger7 = parent,stateno != 131 && parent,stateno != 132
+trigger7 = parent,stateno != 140 && parent,stateno != 150
+trigger7 = parent,stateno != 151 && parent,stateno != 152
+trigger7 = parent,stateno != 153 && parent,stateno != 154
+trigger7 = parent,stateno != 155 && parent,stateno != 5200
+trigger7 = parent,stateno != 5201
+trigger8 = parent,lose =  1 || parent,drawgame = 1
+trigger9 = parent,stateno = 3032
+;trigger9 = (parent,stateno != [700,1999]) && parent,stateno != 2300 && parent,fvar(27) <= 0
+;trigger10 = parent,stateno = 3500
+trigger10 = parent,stateno = 4000
+value = 10001
+
+;------------------
+;stand
+
+[Statedef 10001]
+type    = A
+movetype= I
+physics = N
+velset = 0,0
+sprpriority = 3
+anim = 9999
+
+[State 191, 2] 
+type = parentvarset
+trigger1 = Time = 0
+v = 0
+value = 0
+
+[State 191, 2] 
+type = parentvarset
+trigger1 = Time = 0
+v = 4
+value = 0
+
+[State 230, 2]
+type = removeexplod
+trigger1 = time = 0
+id = 3014
+ignorehitpause = 1
+
+[State 230, 2]
+type = removeexplod
+trigger1 = time = 0
+id = 3015
+ignorehitpause = 1
+
+[State 230, 2]
+type = removeexplod
+trigger1 = time = 0
+id = 3016
+ignorehitpause = 1
+
+[State 230, 2]
+type = removeexplod
+trigger1 = time = 0
+id = 3017
+ignorehitpause = 1
+
+[State 191, 2] 
+type = destroyself
+trigger1 = Time = 1

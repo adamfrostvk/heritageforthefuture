@@ -1,0 +1,35 @@
+[Info]
+Name         = "Khan"
+DisplayName  = "Khan"
+VersionDate  = 08, 21, 21
+MugenVersion = 1.0
+Author       = "Nimame"   ;edited by JtheSaltyy
+Pal.Defaults = 1, 2
+;-----------------------------------------------------------------------------
+
+[Files]
+Cmd     	= khan.cmd
+Cns     	= khan.cns
+St      	= khan.cns
+St1      	= -2,-3.cns
+St2      	= config.txt
+St3	= khan.common.cns
+StCommon 	= common1.cns
+Sprite  	= khan.sff
+Anim    	= khan.air
+Sound   	= khan.snd
+
+Pal1 	= act/khan1.act
+Pal2 	= act/khan2.act
+Pal3 	= act/khan3.act
+Pal4 	= act/khan4.act
+Pal5 	= act/khan5.act
+Pal6 	= act/khan6.act
+
+[Palette Keymap] 
+x 	= 1
+y 	= 2
+z 	= 3
+a 	= 4
+b 	= 5
+c 	= 6

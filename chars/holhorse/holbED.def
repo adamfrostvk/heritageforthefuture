@@ -1,0 +1,48 @@
+;ホルホース＆ボインゴＥＤ by.時間の国けい
+
+[SceneDef]
+spr = holOP&ED.sff
+startscene = 0
+
+;------------------------------------
+[Scene 0]
+fadein.time = 60
+fadein.col = 0,0,0
+fadeout.time = 60
+fadeout.col =  0,0,0
+clearcolor = 0,0,0
+layerall.pos = 0,0
+layer0.anim =  0
+layer0.offset = 0,0
+layer0.starttime = 0
+layer1.anim =  1
+layer1.offset = 0,0
+layer1.starttime = 0
+bgm = chars/hol2/holbed.mp3
+bgm.loop = 0
+end.time = 3500
+
+;------------------------------------
+;テロップ
+[Begin Action 1]
+1,9, 0,0, 50
+3,1, 0,0, 400
+3,2, 0,0, 400
+3,3, 0,0, 320
+3,4, 0,0, 320
+3,5, 0,0, 410
+1,9, 0,0, 100
+3,6, 0,0, 420
+1,9, 0,0, 100
+3,7, 0,0, 460
+3,8, 0,0, -1
+
+;ＢＧ
+[Begin Action 0]
+3,0, 0,0, 1900
+1,9, 0,0, 50
+3,9, 0,0, 470
+1,9, 0,0, 50
+3,10, 0,0, -1
+
+

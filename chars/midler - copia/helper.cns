@@ -1,0 +1,1446 @@
+;---------------------------------------------------------------------------
+;スタンドゲージ
+;---------------------------------------------------------------------------
+[Statedef 40000]
+type = A
+movetype= I
+physics = N
+velset = 0,0
+anim = 99999
+;======================================================================
+;======================================================================
+ゲージ表示関係
+;---------------------------------------------------------------------------
+[State -3ゲージ枠]
+type = explod
+trigger1 = numexplod(20200) = 0
+bindtime = -1
+anim = 20200
+id = 20200
+sprpriority = 99999999
+pos = 50,40
+postype = back
+ownpal = 1
+supermovetime = -1
+pausemovetime = -1
+ontop = 1
+
+[State -3ゲージ]
+type = explod
+trigger1 = numexplod(20201) = 0
+bindtime = -1
+anim = 20201
+id = 20201
+sprpriority = 999999999
+pos = 50,40
+postype = back
+ownpal = 1
+supermovetime = -1
+pausemovetime = -1
+ontop = 1
+
+[State -3ゲージXマーク]
+type = explod
+triggerall = numexplod(20202) = 0
+trigger1 = parent,Fvar(1) = 0
+trigger2 = parent,stateno = 700||parent,stateno = 701
+bindtime = -1
+anim = 20202
+id = 20202
+sprpriority = 999999999
+pos = 55,38
+removetime = 40
+postype = back
+ownpal = 1
+supermovetime = -1
+pausemovetime = -1
+ontop = 1
+
+[State -3ゲージSTAND]
+type = explod
+triggerall = TeamSide = 1
+triggerall = numexplod(20203) = 0
+trigger1 = parent,var(10) = 1
+bindtime = -1
+anim = 20203
+id = 20203
+sprpriority = 999999999
+pos = 50,40
+removetime = -1
+postype = back
+ownpal = 1
+supermovetime = -1
+pausemovetime = -1
+ontop = 1
+
+[State -3ゲージSTAND]
+type = explod
+triggerall = TeamSide = 2
+triggerall = numexplod(20203) = 0
+trigger1 = parent,var(10) = 1
+bindtime = -1
+anim = 20203
+id = 20203
+sprpriority = 999999999
+pos = 175,40
+removetime = -1
+postype = back
+ownpal = 1
+supermovetime = -1
+pausemovetime = -1
+facing = -1
+ontop = 1
+
+[State 700,***]
+type = RemoveExplod
+triggerall = numExplod(20203) = 1
+trigger1 = parent,var(10) = 0
+id = 20203
+;======================================================================
+;======================================================================
+[State -3ゲージの伸びの計算MAX91]
+type = Modifyexplod
+trigger1 = parent,fvar(1) = [0,91]
+id = 20201
+scale =  parent,fvar(1)*1/100.0,1.0
+ignorehitpause = 1
+
+[State -2, スタンドゲージ回復]
+type = parentVarAdd
+triggerall = parent,fvar(1) < 91
+triggerall = parent,var(10) = 0
+triggerall = RoundState = 2
+trigger1 = GameTime%3
+fvar(1) = 1
+ignorehitpause = 1
+
+[State -2, スタンドゲージ回復]
+type = parentVarset
+triggerall = parent,fvar(1) < 0
+trigger1 = 1
+fvar(1) = 0
+ignorehitpause = 1
+
+[State -2, スタンドゲージ91を越えたときに91戻す]
+type = parentVarset
+triggerall = parent,fvar(1) > 91
+triggerall = RoundState = 2
+trigger1 = 1
+fvar(1) = 91
+ignorehitpause = 1
+;-------------------------------------------------------------------
+; 負け判定
+[Statedef 41000]
+type    = S
+physics = S
+velset = 0,0
+anim = 99999
+ctrl = 0
+
+;負け判定
+[State -3, make]
+type = null;parentVaradd
+trigger1 = Lose&&time = 1
+var(10) = 0
+ignorehitpause = 1
+;---------------------------------------------------------------------------
+;ガード
+;---------------------------------------------------------------------------
+[Statedef 10130]
+type = S
+movetype= I
+physics = N
+velset = 0,0
+anim = 99999
+sprpriority = 1
+facing = ifelse(root,facing = 0, 0, -1)
+
+[State 1065, 3]
+type = bindtoparent
+trigger1 = 1
+pos = 5,0
+time = 1
+
+[State 1065, ガード]
+type = changeanim
+trigger1 = parent,stateno != [130,155]
+trigger1 = anim != 99999
+value = 99999
+;--------------------|立ちガード|----------------------------------------------
+[State 1065, ガード立ち]
+type = changeanim
+trigger1 = parent,stateno = 130
+trigger1 = anim != 10161
+value = 10161
+
+[State 1065, ガード立ち]
+type = changeanim
+triggerall = parent,statetype != C||parent,statetype != A
+trigger1 = parent,statetype = S
+trigger1 = parent,stateno = 140
+trigger1 = anim != 10162
+value = 10162
+
+[State 1065, ガード立ち]
+type = changeanim
+trigger1 = parent,stateno = 150||parent,stateno = 151
+trigger1 = anim != 10160
+value = 10160
+;--------------------|しゃがみガード|-------------------------------------------
+[State 1065, ガードしゃがみ]
+type = changeanim
+trigger1 = parent,stateno = 131
+trigger1 = anim != 10164
+value = 10164
+
+[State 1065, ガードしゃがみ]
+type = changeanim
+trigger1 = parent,statetype != S||parent,statetype != A
+trigger1 = parent,statetype = C
+trigger1 = parent,stateno = 140
+trigger1 = anim != 10165
+value = 10165
+
+[State 1065, ガードしゃがみ]
+type = changeanim
+trigger1 = parent,stateno = 153||parent,stateno = 152
+trigger1 = anim != 10160
+value = 10163
+;--------------------|空中ガード|----------------------------------------------
+[State 1065, ガードジャンプ]
+type = changeanim
+trigger1 = parent,stateno = 132
+trigger1 = anim != 10167
+value = 10167
+
+[State 1065, ガードジャンプ]
+type = changeanim
+trigger1 = parent,statetype != C||parent,statetype != S
+trigger1 = parent,statetype = A
+trigger1 = parent,stateno = 140
+trigger1 = anim != 10168
+value = 10168
+
+[State 1065, ガードジャンプ]
+type = changeanim
+trigger1 = parent,stateno = 155||parent,stateno = 154
+trigger1 = anim != 10166
+value = 10166
+;--------------|スタンド解除|--------------------------
+[State 191, 2] 
+type = destroyself
+trigger1 = root,var(10) = 1
+trigger2 = parent,stateno != [130,155]
+;---------------------------------------------------------------------------
+;スタンドオン表示
+[Statedef 30003]
+type = S
+movetype = A
+physics = N
+juggle = 0
+ctrl = 0
+anim = 99999
+poweradd = 0
+;--------------|位置速度リセット|--------------------------
+[State 700,***]
+type = RemoveExplod
+triggerall = numExplod(30003) = 1
+trigger1 = time = 0
+id = 30003
+
+[State 210,スタンドon]
+type = Explod
+triggerall = TeamSide = 1
+triggerall = numExplod(30003) = 0
+trigger1 = time = 1
+anim = 30003
+id = 30003
+pos = -160,90
+vel = 15,0
+postype = left
+sprpriority = 6
+bindtime = 1
+ownpal = 1
+ignorehitpause = 1
+removetime = 15
+persistent = 0
+
+[State 210,スタンドon]
+type = Explod
+triggerall = TeamSide = 1
+trigger1 = time = 16
+anim = 30003
+id = 30003
+pos = 43,90
+vel = 0,0
+postype = left
+sprpriority = 6
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+removetime = 50
+persistent = 0
+;--------------|消滅|--------------------------
+[State 200, 4]
+type = Destroyself
+trigger1 = time = 17
+;---------------------------------------------------------------------------
+;スタンドオン表示
+[Statedef 30004]
+type = S
+movetype = A
+physics = N
+juggle = 0
+ctrl = 0
+anim = 99999
+poweradd = 0
+;--------------|位置速度リセット|--------------------------
+[State 700,***]
+type = RemoveExplod
+triggerall = numExplod(30003) = 1
+trigger1 = time = 0
+id = 30003
+
+[State 210,スタンドon]
+type = Explod
+triggerall = TeamSide = 2
+triggerall = numExplod(30003) = 0
+trigger1 = time = 1
+anim = 30003
+id = 30003
+pos = 95,90
+vel = -15,0
+postype = right
+sprpriority = 6
+bindtime = 1
+ownpal = 1
+ignorehitpause = 1
+removetime = 15
+persistent = 0
+
+[State 210,スタンドon]
+type = Explod
+triggerall = TeamSide = 2
+trigger1 = time = 16
+anim = 30003
+id = 30003
+pos = -108,90
+vel = 0,0
+postype = right
+sprpriority = 6
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+removetime = 50
+persistent = 0
+;--------------|消滅|--------------------------
+[State 200, 4]
+type = Destroyself
+trigger1 = time = 17
+;---------------------------------------------------------------------------
+;スタンドクラッシュ表示
+[Statedef 30005]
+type = S
+movetype = A
+physics = N
+juggle = 0
+ctrl = 0
+anim = 99999
+poweradd = 0
+;--------------|位置速度リセット|--------------------------
+[State 700,***]
+type = RemoveExplod
+triggerall = numExplod(30003) = 1
+trigger1 = time = 0
+id = 30003
+
+[State 210,スタンドクラッシュ]
+type = Explod
+triggerall = TeamSide = 1
+triggerall = numExplod(30004) = 0
+trigger1 = time = 1
+anim = 30004
+id = 30004
+pos = -160,90
+vel = 15,0
+postype = left
+sprpriority = 6
+bindtime = 1
+ownpal = 1
+ignorehitpause = 1
+removetime = 15
+persistent = 0
+
+[State 210,スタンドクラッシュ]
+type = Explod
+triggerall = TeamSide = 1
+trigger1 = time = 16
+anim = 30004
+id = 30004
+pos = 43,90
+vel = 0,0
+postype = left
+sprpriority = 6
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+removetime = 50
+persistent = 0
+;--------------|消滅|--------------------------
+[State 200, 4]
+type = Destroyself
+trigger1 = time = 17
+;---------------------------------------------------------------------------
+;スタンドクラッシュ表示
+[Statedef 30006]
+type = S
+movetype = A
+physics = N
+juggle = 0
+ctrl = 0
+anim = 99999
+poweradd = 0
+;--------------|位置速度リセット|--------------------------
+[State 700,***]
+type = RemoveExplod
+triggerall = numExplod(30003) = 1
+trigger1 = time = 0
+id = 30003
+
+[State 210,スタンドon]
+type = Explod
+triggerall = TeamSide = 2
+triggerall = numExplod(30004) = 0
+trigger1 = time = 1
+anim = 30004
+id = 30004
+pos = 95,90
+vel = -15,0
+postype = right
+sprpriority = 6
+bindtime = 1
+ownpal = 1
+ignorehitpause = 1
+removetime = 15
+persistent = 0
+
+[State 210,スタンドon]
+type = Explod
+triggerall = TeamSide = 2
+trigger1 = time = 16
+anim = 30004
+id = 30004
+pos = -108,90
+vel = 0,0
+postype = right
+sprpriority = 6
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+removetime = 50
+persistent = 0
+;--------------|消滅|--------------------------
+[State 200, 4]
+type = Destroyself
+trigger1 = time = 17
+;---------------------------------------------------------------------------
+;ガードキャンセル表示
+[Statedef 30007]
+type = S
+movetype = A
+physics = N
+juggle = 0
+ctrl = 0
+anim = 99999
+poweradd = 0
+;--------------|位置速度リセット|--------------------------
+[State 700,***]
+type = RemoveExplod
+triggerall = numExplod(30003) = 1
+trigger1 = time = 0
+id = 30003
+
+[State 210,GC]
+type = Explod
+triggerall = TeamSide = 1
+triggerall = numExplod(30005) = 0
+trigger1 = time = 1
+anim = 30005
+id = 30005
+pos = -160,90
+vel = 15,0
+postype = left
+sprpriority = 6
+bindtime = 1
+ownpal = 1
+ignorehitpause = 1
+removetime = 15
+persistent = 0
+
+[State 210,GC]
+type = Explod
+triggerall = TeamSide = 1
+trigger1 = time = 16
+anim = 30005
+id = 30005
+pos = 43,90
+vel = 0,0
+postype = left
+sprpriority = 6
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+removetime = 50
+persistent = 0
+;--------------|消滅|--------------------------
+[State 200, 4]
+type = Destroyself
+trigger1 = time = 17
+;---------------------------------------------------------------------------
+;ガードキャンセル表示
+[Statedef 30008]
+type = S
+movetype = A
+physics = N
+juggle = 0
+ctrl = 0
+anim = 99999
+poweradd = 0
+;--------------|位置速度リセット|--------------------------
+[State 700,***]
+type = RemoveExplod
+triggerall = numExplod(30003) = 1
+trigger1 = time = 0
+id = 30003
+
+[State 210,GC]
+type = Explod
+triggerall = TeamSide = 2
+triggerall = numExplod(30005) = 0
+trigger1 = time = 1
+anim = 30005
+id = 30005
+pos = 95,90
+vel = -15,0
+postype = right
+sprpriority = 6
+bindtime = 1
+ownpal = 1
+ignorehitpause = 1
+removetime = 15
+persistent = 0
+
+[State 210,GC]
+type = Explod
+triggerall = TeamSide = 2
+trigger1 = time = 16
+anim = 30005
+id = 30005
+pos = -108,90
+vel = 0,0
+postype = right
+sprpriority = 6
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+removetime = 50
+persistent = 0
+;--------------|消滅|--------------------------
+[State 200, 4]
+type = Destroyself
+trigger1 = time = 17
+;---------------------------------------------------------------------------
+;ファーストアタック
+[Statedef 30050]
+type = S
+movetype = A
+physics = N
+juggle = 0
+ctrl = 0
+anim = 99999
+poweradd = 0
+;----------------------|確認用|-------------------------------
+[State -3, ファーストアタック]
+type = parentVarset
+trigger1 = time = 0
+var(34) = 100
+ignorehitpause = 1
+persistent = 0
+;--------------|位置速度リセット|--------------------------
+[State 700,***]
+type = RemoveExplod
+triggerall = numExplod(30003) = 1
+trigger1 = time = 0
+id = 30003
+
+[State 210,スタンドon]
+type = Explod
+triggerall = TeamSide = 1
+triggerall = numExplod(30050) = 0
+trigger1 = time = 1
+anim = 30006
+id = 30050
+pos = -160,90
+vel = 15,0
+postype = left
+sprpriority = 6
+bindtime = 1
+ownpal = 1
+ignorehitpause = 1
+removetime = 15
+persistent = 0
+
+[State 210,スタンドon]
+type = Explod
+triggerall = TeamSide = 1
+trigger1 = time = 16
+anim = 30006
+id = 30050
+pos = 43,90
+vel = 0,0
+postype = left
+sprpriority = 6
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+removetime = 50
+persistent = 0
+;--------------|消滅|--------------------------
+[State 200, 4]
+type = Destroyself
+trigger1 = time = 17
+;---------------------------------------------------------------------------
+;ファーストアタック
+[Statedef 30051]
+type = S
+movetype = A
+physics = N
+juggle = 0
+ctrl = 0
+anim = 99999
+poweradd = 0
+;----------------------|確認用|-------------------------------
+[State -3, ファーストアタック]
+type = parentVarset
+trigger1 = time = 0
+var(34) = 100
+ignorehitpause = 1
+persistent = 0
+;--------------|位置速度リセット|--------------------------
+[State 700,***]
+type = RemoveExplod
+triggerall = numExplod(30003) = 1
+trigger1 = time = 0
+id = 30003
+
+[State 210,スタンドon]
+type = Explod
+triggerall = TeamSide = 2
+triggerall = numExplod(30050) = 0
+trigger1 = time = 1
+anim = 30006
+id = 30050
+pos = 95,90
+vel = -15,0
+postype = right
+sprpriority = 6
+bindtime = 1
+ownpal = 1
+ignorehitpause = 1
+removetime = 15
+persistent = 0
+
+[State 210,スタンドon]
+type = Explod
+triggerall = TeamSide = 2
+trigger1 = time = 16
+anim = 30006
+id = 30050
+pos = -108,90
+vel = 0,0
+postype = right
+sprpriority = 6
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+removetime = 50
+persistent = 0
+;--------------|消滅|--------------------------
+[State 200, 4]
+type = Destroyself
+trigger1 = time = 17
+;---------------------------------------------------------------------------
+; KO用オレンジスクロール1
+[Statedef 30010]
+type    = S
+movetype= A
+physics = N
+juggle  = 0
+velset = 0,0
+ctrl = 0
+anim = 99999
+sprpriority = 0
+;--------------|敵の攻撃が必殺技か確認|--------------------------
+[State -3, 穴あき]
+type = parentVarset
+triggerall = parent,var(18) != 2
+trigger1 = enemynear,authorname="montana" && enemynear,name="midler" && enemynear,stateno = [4100,4199]
+trigger2 = enemynear,authorname="Warusaki3" && enemynear,name="blackpolnareff" && enemynear,stateno = [3101,3102]
+trigger3 = enemynear,authorname="y.y" && enemynear,name="Hol horse" && (enemynear,stateno = 3000 || enemynear,stateno = 3002 || enemynear,stateno = 3005)
+var(18) = 2
+ignorehitpause = 1
+
+[State -3, 縦斬り]
+type = parentVarset
+triggerall = parent,var(18) != 3
+trigger1 = enemynear,authorname="bad darkness" && enemynear,name="khan" && (enemynear,stateno = 2003 || enemynear,stateno = 2102 || enemynear,stateno = 2200)
+var(18) = 3
+trigger2 = enemynear,authorname="Tommy-gun" && enemynear,name="chaka" && enemynear,stateno = 2510
+ignorehitpause = 1
+
+[State -3, 横斬り]
+type = parentVarset
+triggerall = parent,var(18) != 4
+trigger1 = enemynear,authorname="Warusaki3" && enemynear,name="blackpolnareff" && enemynear,stateno = 3001
+trigger2 = enemynear,authorname="Tommy-gun" && enemynear,name="chaka" && enemynear,stateno = 3000
+var(18) = 4
+ignorehitpause = 1
+
+[State -3, ノーマル]
+type = parentVarset
+triggerall = parent,var(18) = 0
+trigger1 = enemy,stateno = [1000,4999]
+var(18) = 1
+ignorehitpause = 1
+persistent = 0
+;--------------|背景スクロール|--------------------------
+[State 210,ブルー背景]
+type = Explod
+triggerall = parent,var(18) = 1
+trigger1 = time = 0
+anim = 30021
+id = 30010
+pos = 0,0
+postype = back
+sprpriority = -5
+bindtime = 1
+ownpal = 0
+ignorehitpause = 1
+removetime = 13
+persistent = 0
+
+[State 210,ブルー背景]
+type = Explod
+triggerall = parent,var(18) = 1
+trigger1 = time = 0
+anim = 30022
+id = 30011
+pos = -320,0
+postype = back
+sprpriority = -6
+bindtime = 1
+ownpal = 0
+ignorehitpause = 1
+removetime = 13
+persistent = 0
+
+[State 210,ブルー背景]
+type = Explod
+triggerall = parent,var(18) = 1
+trigger1 = time = 0
+anim = 30023
+id = 30012
+pos = -320,0
+postype = back
+sprpriority = -4
+bindtime = 1
+ownpal = 0
+ignorehitpause = 7
+removetime = 13
+persistent = 0
+
+[State 210,ブルー背景]
+type = Explod
+triggerall = parent,var(18) = 1
+trigger1 = time = 0
+anim = 30024
+id = 30013
+pos = -320,0
+postype = back
+sprpriority = -4
+bindtime = 1
+ownpal = 0
+ignorehitpause = 7
+removetime = 13
+persistent = 0
+;--------------|背景スクロール|--------------------------
+[State 210,オレンジ背景]
+type = Explod
+triggerall = parent,var(18) = 2||parent,var(18) = 3||parent,var(18) = 4
+trigger1 = time = 0
+anim = 30012
+id = 30010
+pos = 0,0
+postype = back
+sprpriority = -5
+bindtime = 1
+ownpal = 0
+ignorehitpause = 1
+removetime = 13
+persistent = 0
+
+[State 210,オレンジ背景]
+type = Explod
+triggerall = parent,var(18) = 2||parent,var(18) = 3||parent,var(18) = 4
+trigger1 = time = 0
+anim = 30010
+id = 30011
+pos = -320,0
+postype = back
+sprpriority = -6
+bindtime = 1
+ownpal = 0
+ignorehitpause = 1
+removetime = 13
+persistent = 0
+
+[State 210,オレンジ背景]
+type = Explod
+triggerall = parent,var(18) = 2||parent,var(18) = 3||parent,var(18) = 4
+trigger1 = time = 0
+anim = 30011
+id = 30012
+pos = -320,0
+postype = back
+sprpriority = -4
+bindtime = 1
+ownpal = 0
+ignorehitpause = 7
+removetime = 13
+persistent = 0
+;--------------|スクロール設定|--------------------------
+[State 210, ]
+type = ModifyExplod
+triggerall = parent,var(18) = 1
+trigger1 = Numexplod(30010)
+postype = back
+pos = (320-time*15)-320,0
+id = 30010
+ignorehitpause = 1
+
+[State 210, ]
+type = ModifyExplod
+triggerall = parent,var(18) = 1
+trigger1 = Numexplod(30011) = 1
+postype = back
+pos = (320-time*15)-320,0
+id = 30011
+ignorehitpause = 1
+
+[State 210, ]
+type = ModifyExplod
+triggerall = parent,var(18) = 1
+trigger1 = Numexplod(30012) = 1
+postype = back
+pos = (320-time*15)-320,0
+id = 30012
+ignorehitpause = 1
+
+[State 210, ]
+type = ModifyExplod
+triggerall = parent,var(18) = 1
+trigger1 = Numexplod(30013) = 1
+postype = back
+pos = (320-time*15)-320,0
+id = 30013
+ignorehitpause = 1
+
+[State 210, ]
+type = ModifyExplod
+triggerall = parent,var(18) = 2||parent,var(18) = 3||parent,var(18) = 4
+trigger1 = Numexplod(30010)
+postype = back
+pos = (320-time*15)-320,0
+id = 30010
+ignorehitpause = 1
+
+[State 210, ]
+type = ModifyExplod
+triggerall = parent,var(18) = 2||parent,var(18) = 3||parent,var(18) = 4
+trigger1 = Numexplod(30011) = 1
+postype = back
+pos = (320-time*15)-320,60
+id = 30011
+ignorehitpause = 1
+
+[State 210, ]
+type = ModifyExplod
+triggerall = parent,var(18) = 2||parent,var(18) = 3||parent,var(18) = 4
+trigger1 = Numexplod(30012) = 1
+postype = back
+pos = (320-time*15)-320,120
+id = 30012
+ignorehitpause = 1
+;--------------|消滅までの時間調節|--------------------------
+[State -3, make]
+type = parentVaradd
+triggerall = parent,var(16) <= 3
+trigger1 = time = 1
+var(16) = 1
+ignorehitpause = 1
+persistent = 0
+
+[State -3, make]
+type = parentVarset
+triggerall = parent,var(16) = 4
+trigger1 = time = 1
+var(16) = 100
+ignorehitpause = 1
+persistent = 0
+;--------------|色変更|--------------------------
+[State 9000, EnvColor]
+type = palfx
+triggerall = parent,var(16) = 100
+trigger1 = 1
+add = 0+time*40,0+time*40,0+time*40
+time = 1
+persistent = 1
+ignorehitpause = 1
+
+[State 191, 2] 
+type = destroyself
+trigger1 = time = 13
+;---------------------------------------------------------------------------
+; KO用顔スクロール
+[Statedef 30011]
+type    = S
+movetype= A
+physics = N
+juggle  = 0
+velset = 0,0
+ctrl = 0
+anim = 99999
+sprpriority = 0
+
+[State 210, 3]
+triggerall = parent,var(18) = 1
+type = ScreenBound
+trigger1 = 1
+value = 0
+;--------------|ノーマル|--------------------------
+[State 210,ノーマル顔]
+type = Explod
+triggerall = parent,var(18) = 1
+triggerall = numexplod(30014) = 0
+trigger1 = time = 0
+anim = 30014
+id = 30014
+pos = 0,0
+postype = back
+sprpriority = -1
+bindtime = 1
+ownpal = 0
+ignorehitpause = 7
+removetime = 50
+persistent = 0
+;--------------|穴あき|--------------------------
+[State 210,穴あき顔]
+type = Explod
+triggerall = parent,var(18) = 2
+triggerall = numexplod(30014) = 0
+trigger1 = time = 0
+anim = 30015
+id = 30014
+pos = 0,0
+postype = back
+sprpriority = -1
+bindtime = 1
+ownpal = 0
+ignorehitpause = 7
+removetime = 50
+persistent = 0
+;--------------|横切れ顔|--------------------------
+[State 210,横切れ顔]
+type = Explod
+triggerall = parent,var(18) = 3||parent,var(18) = 4
+trigger1 = time = 0
+anim = 30016
+id = 30014
+pos = 0,0
+postype = back
+sprpriority = -1
+bindtime = 1
+ownpal = 0
+ignorehitpause = 7
+removetime = 50
+persistent = 0
+
+[State 210,横切れ顔]
+type = Explod
+triggerall = parent,var(18) = 3||parent,var(18) = 4
+trigger1 = time = 0
+anim = 30017
+id = 30015
+pos = 0,0
+postype = back
+sprpriority = -1
+bindtime = 1
+ownpal = 0
+ignorehitpause = 7
+removetime = 50
+persistent = 0
+
+[State 210,横切れ顔]
+type = Explod
+triggerall = parent,var(18) = 3||parent,var(18) = 4
+trigger1 = time = 0
+anim = 30018
+id = 30016
+pos = 0,0
+postype = back
+sprpriority = -1
+bindtime = 1
+ownpal = 0
+ignorehitpause = 7
+removetime = 50
+persistent = 0
+
+[State 210,横切れ顔]
+type = Explod
+triggerall = parent,var(18) = 3||parent,var(18) = 4
+trigger1 = time = 0
+anim = 30019
+id = 30017
+pos = 0,0
+postype = back
+sprpriority = -1
+bindtime = 1
+ownpal = 0
+ignorehitpause = 7
+removetime = 50
+persistent = 0
+;--------------|移動|--------------------------
+[State 210, ]
+type = ModifyExplod
+triggerall = time <= 12
+triggerall = parent,var(18) = 1||parent,var(18) = 2
+trigger1 = Numexplod(30014) = 1
+postype = back
+pos = (600-time*14)-320,220
+id = 30014
+ignorehitpause = 1
+scale = 1.3,1.3
+
+[State 210, ]
+type = ModifyExplod
+triggerall = time >= 12
+triggerall = parent,var(18) = 1||parent,var(18) = 2
+trigger1 = Numexplod(30014) = 1
+postype = back
+pos = (250-time*2)-100,220
+id = 30014
+ignorehitpause = 1
+scale = 1.3,1.3
+;--------------|縦切れ専用移動|--------------------------
+[State 210, 1]
+type = ModifyExplod
+triggerall = parent,var(18) = 3
+triggerall = time <= 12
+trigger1 = Numexplod(30014) = 1
+postype = back
+pos = (600-time*14)-320,220
+id = 30014
+ignorehitpause = 1
+scale = 1.3,1.3
+
+[State 210, 1]
+type = ModifyExplod
+triggerall = parent,var(18) = 3
+triggerall = time >= 12
+trigger1 = Numexplod(30014) = 1
+postype = back
+pos = (220-time*1)-100,220-time*1
+id = 30014
+ignorehitpause = 1
+scale = 1.3,1.3
+
+[State 210, 2]
+type = ModifyExplod
+triggerall = parent,var(18) = 3
+triggerall = time <= 12
+trigger1 = Numexplod(30014) = 1
+postype = back
+pos = (600-time*14)-320,220
+id = 30015
+ignorehitpause = 1
+scale = 1.3,1.3
+
+[State 210, 2]
+type = ModifyExplod
+triggerall = parent,var(18) = 3
+triggerall = time >= 12
+trigger1 = Numexplod(30014) = 1
+postype = back
+pos = (215+time*0.5)-100,220+time*1
+id = 30015
+ignorehitpause = 1
+scale = 1.3,1.3
+
+[State 210, 3]
+type = ModifyExplod
+triggerall = parent,var(18) = 3
+triggerall = time <= 12
+trigger1 = Numexplod(30014) = 1
+postype = back
+pos = (600-time*14)-320,220
+id = 30016
+ignorehitpause = 1
+scale = 1.3,1.3
+
+[State 210, 3]
+type = ModifyExplod
+triggerall = parent,var(18) = 3
+triggerall = time >= 12
+trigger1 = Numexplod(30014) = 1
+postype = back
+pos = (220-time*1)-100,220-time*1
+id = 30016
+ignorehitpause = 1
+scale = 1.3,1.3
+
+[State 210, 4]
+type = ModifyExplod
+triggerall = parent,var(18) = 3
+triggerall = time <= 12
+trigger1 = Numexplod(30014) = 1
+postype = back
+pos = (600-time*14)-320,220
+id = 30017
+ignorehitpause = 1
+scale = 1.3,1.3
+
+[State 210, 4]
+type = ModifyExplod
+triggerall = parent,var(18) = 3
+triggerall = time >= 12
+trigger1 = Numexplod(30014) = 1
+postype = back
+pos = (215+time*0.5)-100,220+time*1
+id = 30017
+ignorehitpause = 1
+scale = 1.3,1.3
+;--------------|横切れ専用移動|--------------------------
+[State 210, 1]
+type = ModifyExplod
+triggerall = parent,var(18) = 4
+triggerall = time <= 12
+trigger1 = Numexplod(30014) = 1
+postype = back
+pos = (600-time*14)-320,220
+id = 30014
+ignorehitpause = 1
+scale = 1.3,1.3
+
+[State 210, 1]
+type = ModifyExplod
+triggerall = parent,var(18) = 4
+triggerall = time >= 12
+trigger1 = Numexplod(30014) = 1
+postype = back
+pos = (250-time*1)-100,220
+id = 30014
+ignorehitpause = 1
+scale = 1.3,1.3
+
+[State 210, 2]
+type = ModifyExplod
+triggerall = parent,var(18) = 4
+triggerall = time <= 12
+trigger1 = Numexplod(30014) = 1
+postype = back
+pos = (600-time*14)-320,220
+id = 30015
+ignorehitpause = 1
+scale = 1.3,1.3
+
+[State 210, 2]
+type = ModifyExplod
+triggerall = parent,var(18) = 4
+triggerall = time >= 12
+trigger1 = Numexplod(30014) = 1
+postype = back
+pos = (250-time*1)-100,220
+id = 30015
+ignorehitpause = 1
+scale = 1.3,1.3
+
+[State 210, 3]
+type = ModifyExplod
+triggerall = parent,var(18) = 4
+triggerall = time <= 12
+trigger1 = Numexplod(30014) = 1
+postype = back
+pos = (600-time*14)-320,220
+id = 30016
+ignorehitpause = 1
+scale = 1.3,1.3
+
+[State 210, 3]
+type = ModifyExplod
+triggerall = parent,var(18) = 4
+triggerall = time >= 12
+trigger1 = Numexplod(30014) = 1
+postype = back
+pos = (250+time*1)-100,220-time*0.5
+id = 30016
+ignorehitpause = 1
+scale = 1.3,1.3
+
+[State 210, 4]
+type = ModifyExplod
+triggerall = parent,var(18) = 4
+triggerall = time <= 12
+trigger1 = Numexplod(30014) = 1
+postype = back
+pos = (600-time*14)-320,220
+id = 30017
+ignorehitpause = 1
+scale = 1.3,1.3
+
+[State 210, 4]
+type = ModifyExplod
+triggerall = parent,var(18) = 4
+triggerall = time >= 12
+trigger1 = Numexplod(30014) = 1
+postype = back
+pos = (250+time*1)-100,220-time*0.5
+id = 30017
+ignorehitpause = 1
+scale = 1.3,1.3
+;-----------------------------------------------------------
+[State -3, make]
+type = parentVarset
+triggerall = parent,var(17) = 0
+trigger1 = time = 1
+var(17) = 1
+ignorehitpause = 1
+persistent = 0
+;--------------|色変更|--------------------------
+[State 9000, EnvColor]
+type = palfx
+triggerall = parent,var(16) = 100
+trigger1 = 1
+add = 0+(time-40)*40,0+(time-40)*40,0+(time-40)*40
+time = 1
+persistent = 1
+ignorehitpause = 1
+
+[State 191, 2] 
+type = destroyself
+trigger1 = time = 50
+;---------------------------------------------------------------------------
+;ko演出
+[Statedef 30020]
+type = S
+movetype = A
+physics = N
+juggle = 0
+ctrl = 0
+anim = 99999
+poweradd = 0
+
+[State 200, 1]
+type = PlaySnd
+trigger1 = Time = 0
+value = 30, 10
+;--------------|エフェクト|--------------------------
+[State 700,ko]
+type = RemoveExplod
+triggerall = numExplod(30020) = 1
+trigger1 = time = 0
+id = 30020
+
+[State 210,ko]
+type = Explod
+triggerall = numExplod(30020) = 0
+trigger1 = time = 1
+anim = 30020
+id = 30020
+pos = 0,0
+postype = back
+sprpriority = 6
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+persistent = 0
+;--------------|消滅|--------------------------
+[State 200, 4]
+type = Destroyself
+trigger1 = time = -1
+;---------------------------------------------------------------------------
+;ko演出win
+[Statedef 30030]
+type = S
+movetype = A
+physics = N
+juggle = 0
+ctrl = 0
+anim = 99999
+poweradd = 0
+
+[State 200, 1]
+type = PlaySnd
+trigger1 = Time = 30
+value = 3, 13
+persistent = 0
+;--------------|エフェクト|--------------------------
+[State 210,win]
+type = Explod
+triggerall = parent,facing = 1
+trigger1 = time = 1
+anim = 20101
+id = 20101
+pos = -320,0
+postype = back
+sprpriority = 5
+bindtime = 1
+ownpal = 0
+ignorehitpause = 7
+removetime = 80
+persistent = 0
+
+[State 210,win]
+type = Explod
+triggerall = parent,facing = 1
+trigger1 = time = 80
+anim = 20101
+id = 20105
+pos = 50,130
+vel = -12,0
+postype = back
+sprpriority = 5
+bindtime = 1
+ownpal = 0
+ignorehitpause = 7
+removetime = 80
+persistent = 0
+
+[State 210,win]
+type = Explod
+triggerall = parent,facing = -1
+trigger1 = time = 1
+anim = 20101
+id = 20103
+pos = -320,0
+postype = back
+sprpriority = 5
+bindtime = 1
+ownpal = 0
+ignorehitpause = 7
+removetime = 80
+facing = -1
+persistent = 0
+
+[State 210,win]
+type = Explod
+triggerall = parent,facing = -1
+trigger1 = time = 80
+anim = 20101
+id = 20105
+pos = 50,130
+vel = -12,0
+postype = back
+sprpriority = 5
+bindtime = 1
+ownpal = 0
+ignorehitpause = 7
+removetime = 80
+facing = -1
+persistent = 0
+
+[State 210, ]
+type = ModifyExplod
+triggerall = time <= 32
+trigger1 = Numexplod(20101)
+postype = back
+pos = ceil(-50+time*15)-320,130
+id = 20101
+ignorehitpause = 1
+
+[State 210, ]
+type = ModifyExplod
+triggerall = time <= 32
+trigger1 = Numexplod(20103)
+postype = back
+pos = ceil(-50+time*15)-320,130
+id = 20103
+facing = -1
+ignorehitpause = 1
+
+[State 210,tobe]
+type = Explod
+triggerall = root,var(55) = 2
+triggerall = root,facing = 1
+trigger1 = time = 1
+anim = 20103
+id = 20102
+pos = 320,0
+postype = back
+sprpriority = 10
+bindtime = 1
+ownpal = 0
+ignorehitpause = 7
+removetime = -1
+persistent = 0
+
+[State 210,tobe]
+type = Explod
+triggerall = root,var(55) = 2
+triggerall = root,facing = -1
+trigger1 = time = 1
+anim = 20102
+id = 20104
+pos = 320,0
+postype = back
+sprpriority = 10
+bindtime = 1
+ownpal = 0
+ignorehitpause = 7
+removetime = -1
+facing = -1
+persistent = 0
+
+[State 210, ]
+type = ModifyExplod
+triggerall = time = [5,36]
+trigger1 = Numexplod(20102)
+postype = back
+pos = ceil(320-time*15)+320,200
+id = 20102
+ignorehitpause = 1
+
+[State 210, ]
+type = ModifyExplod
+triggerall = time = [5,35]
+trigger1 = Numexplod(20104)
+postype = back
+pos = ceil(320-time*15)+320,200
+id = 20104
+facing = -1
+ignorehitpause = 1
+;--------------|消滅|--------------------------
+[State 200, 4]
+type = Destroyself
+trigger1 = time = -1
+;---------------------------------------------------------------------------
+;スタンド連続禁止用
+[Statedef 1998]
+type = A
+physics = N
+ctrl = 0
+anim = 99999
+;--------------|消滅|--------------------------
+[State 191, 2] 
+type = destroyself
+trigger1 = Time = 60
+

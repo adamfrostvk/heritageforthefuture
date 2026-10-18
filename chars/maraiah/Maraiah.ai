@@ -1,0 +1,995 @@
+[statedef -3]
+
+;CPU判別
+[state -1]
+type = varset
+triggerall = !fvar(38)
+trigger1 = command="cpu1"
+trigger2 = command="cpu2"
+trigger3 = command="cpu3"
+trigger4 = command="cpu4"
+trigger5 = command="cpu5"
+trigger6 = command="cpu6"
+trigger7 = command="cpu7"
+trigger8 = command="cpu8"
+trigger9 = command="cpu9"
+trigger10 = command="cpu10"
+trigger11 = command="cpu11"
+trigger12 = command="cpu12"
+trigger13 = command="cpu13"
+trigger14 = command="cpu14"
+trigger15 = command="cpu15"
+trigger16 = command="cpu16"
+trigger17 = command="cpu17"
+trigger18 = command="cpu18"
+trigger19 = command="cpu19"
+trigger20 = command="cpu20"
+trigger21 = command="cpu21"
+trigger22 = command="cpu22"
+trigger23 = command="cpu23"
+trigger24 = command="cpu24"
+trigger25 = command="cpu25"
+trigger26 = command="cpu26"
+trigger27 = command="cpu27"
+trigger28 = command="cpu28"
+trigger29 = command="cpu29"
+trigger30 = command="cpu30"
+trigger31 = command="cpu31"
+trigger32 = command="cpu32"
+trigger33 = command="cpu33"
+trigger34 = command="cpu34"
+trigger35 = command="cpu35"
+trigger36 = command="cpu36"
+trigger37 = command="cpu37"
+trigger38 = command="cpu38"
+trigger39 = command="cpu39"
+trigger40 = command="cpu40"
+trigger41 = command="cpu41"
+trigger42 = command="cpu42"
+trigger43 = command="cpu43"
+trigger44 = command="cpu44"
+trigger45 = command="cpu45"
+trigger46 = command="cpu46"
+trigger47 = command="cpu47"
+trigger48 = command="cpu48"
+trigger49 = command="cpu49"
+trigger50 = command="cpu50"
+trigger51 = numhelper(90000)
+trigger51 = helper(90000),fvar(38) = 1
+trigger52 = (command="up"^^command="up2") || (command="down"^^command="down2")
+trigger53 = (command="fwd"^^command="fwd2") || (command="back"^^command="back2")
+trigger54 = (command="x"^^command="x2") || (command="y"^^command="y2")
+trigger55 = (command="z"^^command="z2")||(command="a"^^command="a2")
+trigger56 = (command="b"^^command="b2")||(command="c"^^command="c2")
+trigger57 = (command="holdup"^^command="holdup2")||(command="holddown"^^command="holddown2")
+trigger58 = (command="holdfwd"^^command="holdfwd2")||(command="holdback"^^command="holdback2")
+fvar(38) = 1
+
+;AI起動用ヘルパー
+[state -1]
+type = helper
+trigger1 = !numhelper(90000) && !fvar(38) && alive
+trigger1 = roundstate=2 && !Ctrl && stateno=0 &&((PrevStateNo=[190,194])||PrevStateNo=5900)
+stateno=90000
+id = 90000
+name = "AI_Switch"
+helpertype=Normal
+keyctrl = 1
+pos = 0,0
+postype = P1
+size.xscale = 0.001
+size.yscale = 0.001
+pausemovetime= 999999
+supermovetime= 999999
+ignorehitpause=1
+
+;AI背面への攻撃ガード用1
+[state -1]
+type = helper
+trigger1 = !numhelper(91000)
+stateno=91000
+id = 91000
+name = "Guard1"
+helpertype=Normal
+keyctrl = 1
+pos = -80-const(size.ground.back),0
+postype = P1
+pausemovetime= 999999
+supermovetime= 999999
+ignorehitpause=1
+
+[state 98765]
+type = DestroySelf
+trigger1 = ishelper
+
+[state 98765]
+type = SelfState
+trigger1 = ishelper(10000)
+value = 15000
+
+[state -1]
+type = varrandom
+trigger1 = gametime%30=0 && !(fvar(31)>=fvar(28)&&P2statetype=A&&enemynear,pos Y<-40 && (enemynear,vel Y=[-2,2]))
+v = 51
+range = 0,999
+
+;砲台モードON
+[state -1]
+type = varrandom
+trigger1 = gametime%30=0 && (P2bodydist X>160&&fvar(38)=1&&(var(51)!=[0,800])&&life>(enemynear,life-240)&&var(58)>=6)
+v = 51
+range = 800,960
+
+;遠距離モードON
+[state -1]
+type = null;varrandom
+trigger1 = gametime%30=0 && P2bodydist X>180&&fvar(38)=3&&(var(51)!=[60,650]) && fvar(17)>100
+v = 51
+range = 250,400
+
+;===AI(CPU)===
+;====
+;Defence
+
+;Guard Cancel
+[state -1,normal]
+type = ChangeState
+value = 950
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = !(P2statetype=L&&enemynear,alive)||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = (enemynear,pos Y>-30 && P2bodydist X=[-15,40+(enemynear,vel X>2)*10])
+trigger1 = (stateno=150||stateno=152)
+trigger1 = var(51)%9<ifelse(P2statetype=A&&fvar(31)>=fvar(28),3,ifelse(fvar(33)=1,2,1)) && random%5<3 && time>6
+
+;Iron Clash
+[state -1,normal]
+type = ChangeState
+value = 3100
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = Power>=1000
+triggerall = (enemynear,pos Y>-30 && P2bodydist X=[-15,40])
+trigger1 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = !Numhelper(11200)&&fvar(33)&&var(51)%ifelse(fvar(33)=1,10,18)<(2+(power>=3000&&var(58)>=6)) && random%5<3
+trigger2 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))||((stateno=[100,105])&&time>=2)
+trigger2 = (enemynear,pos Y=[-70-enemynear,vel Y*4+(enemynear,vel Y=0)*15,-40-enemynear,vel Y*4]) && (P2bodydist X=[-10,40]) && random%5<2 && var(51)%7<5
+trigger2 = P2statetype=A && (fvar(31)>=fvar(28)||enemynear,time>=fvar(28)) && enemynear,vel Y>=0 && fvar(32)=1 && enemynear,vel Y>0
+
+;~~~Anti-Air~~~
+;Stand Hard
+[state -1,normal]
+type = ChangeState
+value = 220
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(P2statetype=L&&enemynear,alive)
+triggerall = statetype!=A&&statetype!=L && !(P2stateno=5040&&!((enemynear,authorname="rei"||enemynear,authorname="gal129")&&enemynear,fvar(39)=5))
+triggerall = P2bodydist X=[-15,100]
+triggerall = !(var(58)<8&&fvar(15)<var(58)&&var(16)>1&&NumHelper(11200))
+triggerall = !(P2stateno=11156&&P2movetype=H&&random%3=0)&&!((P2stateno=[936,937])&&P2movetype=H)
+trigger1 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))||((stateno=[100,105])&&time>=2)
+trigger1 = random%3=0 && ((P2stateno=[154,155])||(P2stateno=[5020,5050])||(P2stateno=[5070,5071])) && ifelse(NumHelper(11200)&&fvar(15)<(var(58)+2),(enemynear,pos Y=[-80,-1]),(enemynear,pos Y=[-100,-50])) && enemynear,vel Y>ifelse(NumHelper(11200),-4,-1) && !(enemynear,pos Y>-70&&enemynear,vel Y>2&&var(51)%2=0&&(P2stateno!=[154,155])&&!NumHelper(11200))
+trigger2 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))||((stateno=[100,105])&&time>=2)
+trigger2 = (enemynear,pos Y=[-100-enemynear,vel Y*4+(enemynear,vel Y=0)*15,-60-enemynear,vel Y*4]) && (P2bodydist X=[50,100]) && random%5<2 && var(51)%5<3 && P2statetype=A && fvar(31)>=fvar(28) && enemynear,vel Y>=0
+trigger3 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))||((stateno=[100,105])&&time>=2)
+trigger3 = (enemynear,pos Y=[-100-enemynear,vel Y*4+(enemynear,vel Y=0)*15,-60-enemynear,vel Y*4]) && (P2bodydist X=[40,100]) && random%5<2 && var(51)%7<5
+trigger3 = P2statetype=A && (fvar(31)>=fvar(28)||enemynear,time>=fvar(28)) && enemynear,vel Y>=0 && fvar(32)=1 && enemynear,vel Y>0
+
+;====attacking with pursuing
+
+;Nanisouzou
+[state -1,normal]
+type = ChangeState
+value = 3000
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = Power>=1000
+trigger1 = stateno=520 && movecontact&&var(10)=0&&!var(17)&&var(58)>=6&&P2stateno=936&&P2movetype=H&&enemynear,backedgebodydist>85
+
+;Iron Clash
+[state -1,normal]
+type = ChangeState
+value = 3100
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = Power>=1000
+triggerall = (enemynear,pos Y>-30 && P2bodydist X=[-15,40])||stateno=520
+trigger1 = (stateno=520||(stateno=220&&(P2stateno=936||(!NumHelper(11200)&&var(16)>1))))&&movecontact&&var(10)=0&&var(16)>=1
+trigger2 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))||(movecontact&&var(10)<=0&&(stateno=[200,499]))
+trigger2 = fvar(15)>var(58)&&var(16)>1&&!(P2stateno=11156&&P2movetype=H) && P2statetype=A
+
+;Gunbatsu
+[state -1,normal]
+type = ChangeState
+value = 1100
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = !NumHelper(11100)
+trigger1 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))||((stateno=[100,105])&&time>=2)
+trigger1 = NumHelper(11200)&&(P2dist X=[0,110+var(58)*25-(movecontact!=0)*30-20])&&fvar(15)=(var(58)-(P2bodydist X>100))&&var(16)>1&&P2statetype!=A
+trigger2 = stateno=315&&movecontact&&var(10)=0&&NumHelper(11200)&&var(58)<=2
+trigger3 = (stateno=400||stateno=410||stateno=210)&&movecontact&&var(10)<=0&&NumHelper(11200)&&(P2dist X=[0,110+var(58)*25-(movecontact!=0)*30-20])&&(fvar(15)=[(var(58)-(P2bodydist X>100)),(var(58)-(P2bodydist X>100))+1])&&var(16)>1
+
+;Collection
+[state -1,normal]
+type = ChangeState
+value = 1000
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))||movecontact
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = P2dist X=[0,floor(120*const(size.xscale))]
+trigger1 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = var(58)>=6||power>=ifelse((enemynear,life-life)>200,1000,2000)||enemynear,life<=ifelse(!var(17)&&power>=1000,210,70)
+trigger1 = P2stateno=11156&&P2movetype=H&&random%3=0&&(var(58)>=8||((var(58)>=6&&power>=ifelse((enemynear,life-life)>200,1000,2000)&&var(51)%5<3&&enemynear,backedgebodydist<=60)||enemynear,life<=ifelse(!var(17)&&power>=1000,210,70)))
+trigger1 = (enemynear,const(size.head.pos.y)<-80||(P2dist X=[0,floor(68*const(size.xscale))])) && enemynear,time<14 && !(!var(17)&&var(58)>=6&&enemynear,backedgebodydist>90)
+
+;Stand Hard
+[state -1,normal]
+type = ChangeState
+value = 220
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = P2dist X=[floor(69*const(size.xscale)),floor(120*const(size.xscale))]
+triggerall = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = var(58)>=6||power>=ifelse((enemynear,life-life)>200,1000,2000)||enemynear,life<=ifelse(!var(17)&&power>=1000,210,70)
+trigger1 = P2stateno=11156&&P2movetype=H&&random%2=0&&(var(58)>=8||((var(58)>=6&&power>=ifelse((enemynear,life-life)>200,1000,2000)&&var(51)%5<3&&enemynear,backedgebodydist<=60)||enemynear,life<=ifelse(!var(17)&&power>=1000,210,70)))
+trigger1 = enemynear,const(size.head.pos.y)<-80 && enemynear,time>14 && !(!var(17)&&var(58)>=6&&enemynear,backedgebodydist>90)&&!(numhelper(11000)&&enemynear,time<75)
+
+;3+Hard
+[state -1,normal]
+type = ChangeState
+value = 520
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = P2dist X=[0,floor(68*const(size.xscale))]
+triggerall = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = var(58)>=6||power>=ifelse((enemynear,life-life)>200,1000,2000)||enemynear,life<=ifelse(!var(17)&&power>=1000,210,70)
+trigger1 = P2stateno=11156&&P2movetype=H&&random%2=0&&(var(58)>=8||((var(58)>=6&&power>=ifelse((enemynear,life-life)>200,1000,2000)&&var(51)%5<3&&enemynear,backedgebodydist<=60)||enemynear,life<=ifelse(!var(17)&&power>=1000,210,70)))
+trigger1 = enemynear,time>14&&!(numhelper(11000)&&enemynear,time<75)
+trigger2 = P2stateno=937&&P2movetype=H&&random%2=0&&(enemynear,pos Y=[-60,-30]) && enemynear,vel Y>ifelse(enemynear,pos Y>-40,1.5,3)
+trigger3 = (fvar(15)=[var(58),var(58)+2])&&var(16)>1&&!(fvar(15)=var(58)&&P2statetype=A)
+
+;Consent
+[state -1,normal]
+type = ChangeState
+value = 1900
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = (P2bodydist X=[10,90+(P2stateno=937)*90]) && (P2dist X!=[-15,15])
+triggerall = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))||((stateno=[100,105])&&time>=2)
+trigger1 = var(58)<8&&enemynear,life>ifelse(var(17),70,210)&&!(var(58)>=6&&power<ifelse((enemynear,life-life)>200,1000,2000)&&var(51)%5<3&&enemynear,backedgebodydist<=60)
+trigger1 = P2stateno=11156&&P2movetype=H&&random%3=0
+trigger2 = var(58)<ifelse(power<1000,8,6) && P2stateno=937 && Pos Y<-55 && enemynear,vel Y<ifelse(enemynear,pos Y<-80,1,0) && random%5<3
+trigger3 = NumHelper(11200)&&P2statetype=A
+trigger3 = abs(ceil((helper(11200),pos x-enemynear,pos x)*facing+ceil(255*const(size.yscale)*sin(helper(11200),fvar(0)*Pi/180))*ifelse(helper(11200),facing!=facing,-1,1)))<60
+trigger3 = (Helper(11200),fvar(0)=[-40,40]) && helper(11200),time>=36 && var(58)<8&&(((var(16)=[2+var(58)-4,3+var(58)-4])&&var(58)<(6+(fvar(15)<(var(58)-2))*2))||(var(16)=[2,3]))
+trigger4 = stateno=400&&movecontact&&var(10)=0&&P2statetype=A&&(fvar(15)=[var(58),var(58)+1])&&var(58)<4
+
+;Consent
+[state -1,normal]
+type = ChangeState
+value = 1910
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = !NumHelper(11100)
+trigger1 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))||((stateno=[100,105])&&time>=2)
+trigger1 = NumHelper(11200)&&(P2bodydist X=[30,70])&&(var(58)=[2-(random%2=0),4+(fvar(15)<(var(58)-2))*3])&&(var(16)=[2,3]) && P2statetype!=A
+trigger2 = stateno=400&&movecontact&&var(10)=0&&P2statetype!=A&&(fvar(15)=[var(58),var(58)+1])&&var(58)<4
+
+;Crouch Hard
+[state -1,normal]
+type = ChangeState
+value = 420
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-4)
+triggerall = statetype!=A&&statetype!=L
+triggerall = P2bodydist X=[(floor(90*const(size.xscale))-const(size.ground.front))-80,(floor(112*const(size.xscale))-const(size.ground.front))+(stateno=100)*20]
+triggerall = P2statetype!=A||(fvar(31)<=20&&random%2=0)
+triggerall = !NumHelper(11100)
+trigger1 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))||((stateno=[100,105])&&time>=2)
+trigger1 = NumHelper(11200)&&fvar(15)>(var(58)+1)&&var(16)>1&&P2statetype!=A
+
+;Stand Medium
+[state -1,normal]
+type = ChangeState
+value = 210
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-4)
+triggerall = statetype!=A&&statetype!=L
+triggerall = P2bodydist X=[-15,(floor(115*const(size.xscale))-const(size.ground.front))+(stateno=100)*20]
+triggerall = P2statetype!=A||(fvar(31)<=20&&random%2=0)
+triggerall = !NumHelper(11100)
+trigger1 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))||((stateno=[100,105])&&time>=2)
+trigger1 = NumHelper(11200)&&fvar(15)<(var(58)-1)&&var(16)>1&&var(58)>=8
+trigger2 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))||((stateno=[100,105])&&time>=2)
+trigger2 = (enemynear,pos Y=[-70-enemynear,vel Y*4+(enemynear,vel Y=0)*15,-40-enemynear,vel Y*4]) && (P2bodydist X=[-10,40]) && random%5<2 && var(51)%7<5
+trigger2 = P2statetype=A && (fvar(31)>=fvar(28)||enemynear,time>=fvar(28)) && enemynear,vel Y>=0 && fvar(32)=1 && enemynear,vel Y>0 && Power<1000
+
+;Crouch Medium
+[state -1,normal]
+type = ChangeState
+value = 410
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-4)
+triggerall = statetype!=A&&statetype!=L
+triggerall = P2bodydist X=((floor(115*const(size.xscale))-const(size.ground.front))+(stateno=100)*30,(floor(138*const(size.xscale))-const(size.ground.front))+(stateno=100)*30]
+triggerall = P2statetype!=A||(fvar(31)<=20&&random%2=0)
+triggerall = !NumHelper(11100)
+trigger1 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))||((stateno=[100,105])&&time>=2)
+trigger1 = NumHelper(11200)&&fvar(15)<(var(58)-1)&&var(16)>1
+
+;6+Medium
+[state -1,normal]
+type = ChangeState
+value = 315
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-4)
+triggerall = statetype!=A&&statetype!=L
+triggerall = P2bodydist X=[-15,(floor(54*const(size.xscale))-const(size.ground.front))-floor(const(size.ground.front))+10]
+triggerall = P2statetype!=A||(fvar(31)<=20&&random%2=0)
+triggerall = !NumHelper(11100)
+trigger1 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = NumHelper(11200)
+trigger1 = (Helper(11200),fvar(0)=[-40,40]) && fvar(15)<=ifelse(var(58)>=6,3,ifelse(var(58)>=3,2,1))&&var(16)<=1
+trigger1 = abs(ceil((helper(11200),pos x-enemynear,pos x)*facing+ceil(255*const(size.yscale)*sin(helper(11200),fvar(0)*Pi/180))*ifelse(helper(11200),facing!=facing,-1,1)))<60
+
+;Vertical Jump
+[state -1,normal]
+type = ChangeState
+value = 40
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-5)
+triggerall = statetype!=A&&statetype!=L
+triggerall = P2bodydist X<=50
+triggerall = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = !(P2stateno=11156&&P2movetype=H)&&!((P2stateno=[936,937])&&P2movetype=H)
+trigger1 = NumHelper(11200) && var(16)<=1
+trigger1 = abs(ceil((helper(11200),pos x-enemynear,pos x)*facing+ceil(255*const(size.yscale)*sin(helper(11200),fvar(0)*Pi/180))*ifelse(helper(11200),facing!=facing,-1,1)))<60
+trigger1 = (Helper(11200),fvar(0)=[-40,40]) && helper(11200),time>=ifelse(P2statetype=L,28,36) && fvar(15)<(var(58)-(var(58)>=3)-(var(58)>=6))
+trigger1 = var(51)%5<4 && !(var(16)>1&&var(58)>=4)&&random%5<2
+trigger1 = var(51):= 500
+
+;Forward Jump
+[state -1,normal]
+type = ChangeState
+value = 40
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = P2bodydist X>50
+triggerall = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = !(P2stateno=11156&&P2movetype=H)&&!((P2stateno=[936,937])&&P2movetype=H)
+trigger1 = NumHelper(11200)&&var(51)<800
+trigger1 = abs(ceil((helper(11200),pos x-enemynear,pos x)*facing+ceil(255*const(size.yscale)*sin(helper(11200),fvar(0)*Pi/180))*ifelse(helper(11200),facing!=facing,-1,1)))<60
+trigger1 = (Helper(11200),fvar(0)=[-40,40]) && helper(11200),time>=ifelse(P2statetype=L,28,36) && fvar(15)<(var(58)-(var(58)>=3)-(var(58)>=6)) && var(51)%ifelse(var(16)>1&&var(58)>=4,3,4+(P2bodydist X>100)*2)<3
+trigger1 = var(51):= 2
+trigger2 = P2stateno=11156&&P2movetype=H&&(var(58)>=8||((var(58)>=6&&power>=ifelse((enemynear,life-life)>200,1000,2000)&&var(51)%5<3&&enemynear,backedgebodydist<=60)||enemynear,life<=ifelse(!var(17)&&power>=1000,210,70)))
+trigger2 = var(51):= 2
+trigger3 = P2stateno=11156&&P2movetype=H&&P2bodydist X>100
+trigger3 = var(51):= 2
+trigger4 = numhelper(11910)
+trigger4 = (((enemynear,pos x-helper(11910),pos x)=[0,40])&&facing=1)||(((enemynear,pos x-helper(11910),pos x)=[-40,0])&&facing=-1)
+
+;Dash
+[state -1,normal]
+type = ChangeState
+value = 100
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = P2bodydist X>50
+trigger1 = NumHelper(11200)&&var(51)<800
+trigger1 = abs(ceil((helper(11200),pos x-enemynear,pos x)*facing+ceil(255*const(size.yscale)*sin(helper(11200),fvar(0)*Pi/180))*ifelse(helper(11200),facing!=facing,-1,1)))<60
+trigger1 = (Helper(11200),fvar(0)=[-40,40]) && helper(11200),time>=36 && var(51)%ifelse((P2bodydist X=[50,140]),ifelse(var(16)>1,2,9),ifelse(var(16)>1,4-(var(58)>=4&&fvar(15)<3),8))<2
+trigger2 = NumHelper(11200)&&fvar(15)<var(58)&&(enemynear,pos Y=[-80,-1])&&var(58)>=4&&((P2stateno=[154,155])||(P2stateno=[5020,5050])) && random%5<2
+
+;Forward walk
+[state -1,normal]
+type = ChangeState
+value = 21
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = (P2bodydist X=[21,50])||(P2stateno=937&&P2movetype=H&&P2bodydist X>120)
+triggerall = ctrl||stateno=13||((stateno=[120,132])&&!var(20))
+trigger1 = NumHelper(11200)
+trigger1 = abs(ceil((helper(11200),pos x-enemynear,pos x)*facing+ceil(255*const(size.yscale)*sin(helper(11200),fvar(0)*Pi/180))*ifelse(helper(11200),facing!=facing,-1,1)))<60
+trigger1 = (Helper(11200),fvar(0)=[-40,40]) && helper(11200),time>=36 && var(51)%ifelse(var(16)>1,2,5)<2
+trigger2 = P2stateno=11156&&P2movetype=H&&(var(58)>=8||((var(58)>=4&&power>=ifelse((enemynear,life-life)>200,1000,2000)&&var(51)%5<3&&enemynear,backedgebodydist<=60)||enemynear,life<=ifelse(!var(17)&&power>=1000,210,70)))
+trigger3 = P2stateno=937&&P2movetype=H&&P2bodydist X>60
+
+;Back walk
+[state -1,normal]
+type = ChangeState
+value = ifelse(inguarddist,120,22)
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = ctrl||stateno=13||((stateno=[120,132])&&!var(20))
+trigger1 = P2stateno=11156&&P2movetype=H
+trigger1 = ((P2dist X=[-25,25])||P2bodydist X<ifelse(!(var(58)>=8||((var(58)>=6&&power>=ifelse((enemynear,life-life)>200,1000,2000)&&var(51)%5<3&&enemynear,backedgebodydist<=60)||enemynear,life<=ifelse(!var(17)&&power>=1000,210,70))),20,10))
+
+;Crouch Medium
+[state -1,normal]
+type = ChangeState
+value = 410
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = statetype!=A&&statetype!=L
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = P2bodydist X=[30,60]
+trigger1 = stateno=52&&(fvar(36)>0||(fvar(36)<0&&var(51)%4<ifelse(P2bodydist X<50,1,3)))
+
+;Nanisouzou
+[state -1,normal]
+type = ChangeState
+value = 3000
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = Power>=2000
+triggerall = P2bodydist X>140
+trigger1 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = NumHelper(11200)
+trigger1 = abs(ceil((helper(11200),pos x-enemynear,pos x)*facing+ceil(255*const(size.yscale)*sin(helper(11200),fvar(0)*Pi/180))*ifelse(helper(11200),facing!=facing,-1,1)))<60
+trigger1 = (Helper(11200),fvar(0)=[-40,40]) && helper(11200),time>=36 && var(51)%(ifelse(var(16)>1,6,8)-(P2bodydist X>200)*2-(power>=5000&&var(58)>=5)*2)<2
+
+;Collection
+[state -1,normal]
+type = ChangeState
+value = 1000
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))||movecontact
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = P2bodydist X>160||movecontact
+trigger1 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = NumHelper(11200)
+trigger1 = abs(ceil((helper(11200),pos x-enemynear,pos x)*facing+ceil(255*const(size.yscale)*sin(helper(11200),fvar(0)*Pi/180))*ifelse(helper(11200),facing!=facing,-1,1)))<60
+trigger1 = (Helper(11200),fvar(0)=[-40,40]) && helper(11200),time>=36 && var(51)%(ifelse(var(16)>1,4-(P2bodydist X>180)*2,6-(P2bodydist X>180)*3)-(P2bodydist X>200)*1)<ifelse(var(51)>=850&&var(58)>=6,4,2)
+
+;~~~Attack(enemy recovery)
+
+;Consent
+[state -1,normal]
+type = ChangeState
+value = 1900+(P2bodydist X<60 && (enemynear,backedgebodydist<20||!movecontact))*10
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !NumHelper(11000)
+triggerall = statetype!=A
+trigger1 = (stateno=420||stateno=525)&&movecontact&&var(10)=0&&random%ifelse(var(58)>=4,5,6)<ifelse(var(16)>1,5-(var(58)<4)*2,2) && var(16)>1
+trigger2 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger2 = P2statetype=L && (enemynear,anim!=[5120,5129]) && var(51)%9>(ifelse((P2stateno=[15100,15101])||enemynear,time<14,5,2)+1-(P2bodydist X<=140&&(P2stateno!=[15100,15101])))
+trigger2 = !((P2stateno=[ifelse(var(58)<4&&var(51)<400,15110,15100),15110])&&enemynear,time<10)
+
+;Collection
+[state -1,normal]
+type = ChangeState
+value = 1000
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !NumHelper(11000)
+triggerall = statetype!=A
+trigger1 = (stateno=420||stateno=525)&&movecontact&&var(10)=0&&random%ifelse(var(58)>=4,5,6)<ifelse(var(16)>1,5-(var(58)<4)*2,2) && var(16)>1
+trigger2 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger2 = P2statetype=L && (enemynear,anim!=[5120,5129]) && var(51)%9<ifelse((P2stateno=[15100,15101])||enemynear,time<14,5,2)
+trigger2 = !((P2stateno=[ifelse(var(58)<4&&var(51)<400,15110,15100),15110])&&enemynear,time<10) && (P2bodydist X>140||(P2stateno=[15100,15101]))
+
+;~~~Far~~~
+
+;
+[state -1,special]
+type = ChangeState
+value = 1200
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime<-6&&P2bodydist X>120)||(P2stateno=[5100,5110])||(P2statetype=L&&(enemynear,anim!=[5120,5129]))||(P2stateno=[15100,15110])
+triggerall = statetype!=A&&statetype!=L
+triggerall = P2statetype!=A||(fvar(31)<=20&&random%2=0)||(enemynear,vel X<=0&&random%2=0)||P2statetype=L||(P2stateno=[15100,15110])||(enemynear,hitfall&&enemynear,pos Y<-40)
+triggerall = !NumHelper(11200)
+triggerall = P2bodydist X>=ifelse((P2statetype=L&&enemynear,alive)||(P2stateno=[15100,15110]),60-((P2stateno=[5100,5101])||(P2stateno=[15100,15101]))*75,100)
+triggerall = !(P2stateno=11156&&P2movetype=H)&&!(P2stateno=936&&P2movetype=H)
+triggerall = (ctrl||stateno=13||(stateno=[21,22])||stateno=52||((stateno=[120,132])&&!var(20)))||((stateno=[100,105])&&time>=9&&(P2statetype=L||P2stateno=15110))
+trigger1 = fvar(33)&&random%5<3&&ifelse(fvar(33)=1,var(51)%11<2,var(51)%ifelse(fvar(33)=4&&P2bodydist X<150,5,8)<2) && P2bodydist X>fvar(34)
+trigger1 = var(1):=ifelse(P2bodydist X>=140,2-(random%3=0),ifelse(P2bodydist X>60||(P2stateno=15110&&var(58)>=5),1-(random%3=0),0))||1
+trigger2 = !fvar(33) && random%5<2 && var(51)%ifelse(NumHelper(11900)||NumHelper(11910)||NumHelper(11000)||NumHelper(11010)||NumHelper(11020),6-(P2bodydist X>160)+(var(58)<4)*(1+(P2bodydist X>160)),9)<ifelse(var(58)>=6,3,2) && P2bodydist X>fvar(34)
+trigger2 = !(P2statetype=L&&enemynear,alive)&&!(P2stateno=[15100,15110])
+trigger2 = var(1):=ifelse(P2bodydist X>=140,2-(random%3=0),ifelse(P2bodydist X>60,1-(random%3=0),0))||1
+trigger3 = ((P2statetype=L&&enemynear,alive)||(P2stateno=[15100,15110])||(enemynear,hitfall&&enemynear,pos Y<-40))&&random%2=0&&var(51)%5<ifelse((P2stateno=[15100,15101]),5,ifelse((P2stateno=[5100,5101])||P2stateno=15110,3,2+(P2bodydist X>=100)))
+trigger3 = var(1):=ifelse(P2bodydist X>=140,2,ifelse(P2bodydist X>60||(P2stateno=15100&&var(58)>=5&&random%5<3),1,0))||1
+
+;Nanisouzou
+[state -1,normal]
+type = ChangeState
+value = 3050
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype=A
+triggerall = Power>=2000
+triggerall = P2bodydist X>120
+trigger1 = ctrl
+trigger1 = var(51)%ifelse(power>=3000,5,10)<2 && random%5<2 && pos Y<-60
+
+;~~~Medium distance
+
+;4+Medium
+[state -1,normal]
+type = ChangeState
+value = 310
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))||movecontact
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = NumHelper(11900)||NumHelper(11910)||NumHelper(11000)||NumHelper(11010)||NumHelper(11020)||P2statetype=L
+trigger1 = (ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20)))
+trigger1 = ((P2statetype!=L&&(P2bodydist X=[100,140])&&random%70=0)||((P2bodydist X=[40,120])&&P2statetype=L&&(P2stateno=[5100,5101])&&random%10=0)) && var(51)%17<7
+;
+[state -1,normal]
+type = ChangeState
+value = 1200
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = P2statetype!=A||(fvar(31)<=20&&random%2=0)||(enemynear,vel X<=0&&random%2=0)||movecontact
+triggerall = !NumHelper(11200)
+trigger1 = stateno=410&&movecontact&&var(10)=0&&random%ifelse(var(58)<4,8,6)<ifelse((fvar(18)=(pos x+30,enemynear,pos x-30))||(fvar(18)=(enemynear,pos x+30,pos x-30)),3+(var(58)<4)*1,2) && (P2bodydist X>fvar(34)||random<150)
+trigger1 = var(1):=ifelse(var(58)>=6,1,0)||1
+trigger2 = (stateno=420||stateno=525)&&movecontact&&var(10)=0&&random%ifelse(var(58)>=4,5,6)<ifelse(var(16)>1,5-(var(58)<4)*2,2) && ((P2bodydist X>fvar(34)&&var(16)<=1)||random<150)
+trigger2 = var(1):=ifelse(var(16)>1&&P2bodydist X>40,1,0)||1
+
+;Collection
+[state -1,normal]
+type = ChangeState
+value = 1000
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))||movecontact
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = !NumHelper(11200) && (P2bodydist X>fvar(34)||random<150)
+triggerall = P2bodydist X>160||movecontact
+triggerall = P2statetype!=A||(fvar(31)<=20&&random%2=0)||(enemynear,vel X<=0&&random%2=0)
+trigger1 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = ifelse(fvar(33),random%5<3 && ifelse(fvar(33)=1,var(51)%8<2,var(51)%10<2),random%5<2 && var(51)%ifelse(P2bodydist X>200,5,6)<1) && random%4<ifelse(fvar(17)<0,2-(fvar(17)<-2),4)
+trigger2 = stateno=410&&movecontact&&var(10)=0&&random%5<1 && (P2bodydist X<fvar(34)||random<150)
+trigger3 = stateno=525&&movecontact&&var(10)=0&&random%5<1&&var(16)<=1 && (P2bodydist X<fvar(34)||random<150)
+
+;Consent
+[state -1,normal]
+type = ChangeState
+value = 1920
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))||stateno=620
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype=A
+triggerall = !(P2stateno=11156&&P2movetype=H)&&!(NumHelper(11200)&&((fvar(15)<(var(58)+2))||(P2movetype!=H&&!NumHelper(11250))))&&!(NumHelper(11200)&&fvar(15)<(var(58)+1)&&(var(16)<=1||fvar(15)<var(58))&&Vel Y>0)
+triggerall = (P2bodydist X>(100-(vel X<0)*20)||stateno=620)&&P2bodydist X<160
+triggerall = P2statetype!=A||(fvar(31)<=20&&random%2=0)||(enemynear,vel X<=0&&random%2=0)||stateno=620
+trigger1 = ctrl
+trigger1 = ifelse(fvar(33),random%5<3 && ifelse(fvar(33)=1,var(51)%7<2,var(51)%9<2),random%5<2 && var(51)%ifelse(vel Y<0,6,5)<2) && Pos Y>-60&&var(51)%5<ifelse(var(58)>=6,3,5)
+trigger1 = !(vel Y<0 && vel X>0)
+trigger2 = stateno=620&&((movecontact&&var(10)=0&&random%6<ifelse(vel X<0,6,2))||(animelemtime(4)>=1&&animelemtime(5)<2&&random%2=0&&var(51)%4<3))&&var(51)%ifelse(vel Y<0,5,7)<2
+
+;Collection
+[state -1,normal]
+type = ChangeState
+value = 1050
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))||stateno=620||P2bodydist X>120
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype=A
+triggerall = !(NumHelper(11200)&&P2bodydist X<140)&&!(NumHelper(11200)&&random%2=0)
+triggerall = (P2bodydist X>ifelse(NumHelper(11900),100,130)||stateno=620) && P2bodydist X>ifelse(NumHelper(11900),60,110)
+triggerall = P2statetype!=A||(fvar(31)<=20&&random%2=0)||(enemynear,vel X<=0&&random%2=0)||stateno=620||P2bodydist X>120
+triggerall = !(P2stateno=11156&&P2movetype=H)
+trigger1 = ctrl
+trigger1 = ifelse(fvar(33),random%5<3 && ifelse(fvar(33)=1,var(51)%3<2,var(51)%4<2),random%5<2 && var(51)%ifelse(NumHelper(11000),3,ifelse(Pos Y<-120,5,4))<ifelse(Pos Y<-120,3,2))&&(vel y=[-2,0]) && Pos Y<-60 && ifelse(p2bodydist X<130,var(51)<=500,1)
+trigger2 = stateno=620&&((movecontact&&var(10)=0&&random%6<ifelse(vel X<0,6,2))||(animelemtime(4)>=1&&animelemtime(5)<2&&random%2=0&&var(51)%3<2))&&vel Y<0
+
+;Consent
+[state -1,normal]
+type = ChangeState
+value = 1910
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))||movecontact
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = (!(P2stateno=11156&&P2movetype=H)&&!(NumHelper(11200)&&((fvar(15)<(var(58)+2))||(P2movetype!=H&&!NumHelper(11250)))))||(movecontact&&!(NumHelper(11200)&&fvar(15)<(var(58)+1)&&(var(16)<=1||fvar(15)<var(58))&&P2bodydist X<60))
+trigger1 = (stateno=420||stateno=525)&&movecontact&&var(10)=0&&random%ifelse(var(58)>=4,5,6)>=ifelse(var(16)>1,5-(var(58)<4)*2,2)&&ifelse(var(16)>1,1,random<600)
+
+;Consent
+[state -1,normal]
+type = ChangeState
+value = 1900+(((random%2&&!(enemynear,vel x>0&&fvar(31)>=fvar(28)&&enemynear,pos Y<-120&&P2bodydist X<140))||(NumHelper(11200)&&P2statetype!=A))&&!(var(16)>1&&P2statetype=A))*10
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))||movecontact
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = (!(P2stateno=11156&&P2movetype=H)&&!(NumHelper(11200)&&((fvar(15)<(var(58)+2))||(P2movetype!=H&&!NumHelper(11250)))))||(movecontact&&!(NumHelper(11200)&&fvar(15)<(var(58)+1)&&(var(16)<=1||fvar(15)<var(58))&&P2bodydist X<60))
+triggerall = !(var(58)=8&&P2bodydist X<120)&&!((P2stateno=[936,937])&&P2movetype=H)
+triggerall = P2bodydist X>(floor(138*const(size.xscale))-const(size.ground.front))||movecontact
+trigger1 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))||((stateno=[100,105])&&time>=2)
+trigger1 = random%ifelse(var(58)>=6,13,9)<(ifelse((P2bodydist X=[(floor(139*const(size.xscale))-const(size.ground.front)),(floor(200*const(size.xscale))-const(size.ground.front))]),6,4))||movecontact
+trigger1 = ifelse((stateno=[100,105]),var(51)%5<ifelse(P2bodydist X<130,2,4),ifelse(fvar(33),random%5<3 && ifelse(fvar(33)=1,var(51)%9<2,var(51)%9<2),random%5<2 && var(51)%ifelse(var(58)<4,5,6)<2))
+trigger1 = ifelse((fvar(18)=(pos x+30,enemynear,pos x-30))||(fvar(18)=(enemynear,pos x+30,pos x-30))||NumHelper(11200),random%5<2,1)
+trigger2 = stateno=410&&movecontact&&var(10)=0&&random%3<ifelse((fvar(18)=(pos x+30,enemynear,pos x-30))||(fvar(18)=(enemynear,pos x+30,pos x-30)),1,2)
+trigger3 = stateno=525&&movecontact&&var(10)=0&&random%5<ifelse(var(16)>1,5,ifelse((fvar(18)=(pos x+30,enemynear,pos x-30))||(fvar(18)=(enemynear,pos x+30,pos x-30)),2,3))&&(var(16)<=1||Numhelper(11200))
+trigger4 = stateno=220&&((movecontact&&var(10)=0)||(animelemtime(3)>=1&&animelemtime(5)<0))&&random%5<2
+trigger5 = stateno=400&&movecontact&&var(10)=0&&random%ifelse(prevstateno=100,3,5)<1&&P2bodydist X>40
+
+;Gunbatsu
+[state -1,normal]
+type = ChangeState
+value = 1100
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = !NumHelper(11100)&&!(NumHelper(11200)&&fvar(15)<(var(58)+2))&&!((P2stateno=[936,937])&&P2movetype=H)
+triggerall = (P2dist X=[0,110+var(58)*25-(movecontact!=0)*30])
+triggerall = P2bodydist X>(floor(138*const(size.xscale))-const(size.ground.front))||movecontact
+trigger1 = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))||((stateno=[100,105])&&time>=2)
+trigger1 = random%5<(ifelse((P2bodydist X=[(floor(139*const(size.xscale))-const(size.ground.front)),(floor(200*const(size.xscale))-const(size.ground.front))]),3,2)-Numhelper(11900))||movecontact
+trigger1 = ifelse(fvar(33),random%5<3 && ifelse(fvar(33)=1,var(51)%9<2,var(51)%9<2),random%5<2 && var(51)%3<1)
+trigger2 = stateno=410&&movecontact&&var(10)=0&&random%5<2 && (P2bodydist X<fvar(34)||random<200)
+trigger3 = stateno=525&&movecontact&&var(10)=0&&random%5<2&&var(16)<=1 && (P2bodydist X<fvar(34)||random<200)
+
+;Stand Hard
+[state -1,normal]
+type = ChangeState
+value = 220
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-4)
+triggerall = statetype!=A&&statetype!=L
+triggerall = P2bodydist X=[(floor(139*const(size.xscale))-const(size.ground.front))+(stateno=100)*30-(P2statetype=A)*40,(floor(170*const(size.xscale))-const(size.ground.front))+(stateno=100)*30-(P2statetype=A)*40]
+triggerall = P2statetype!=A||(fvar(31)<=20&&random%2=0)
+triggerall = !((P2stateno=[936,937])&&P2movetype=H)
+triggerall = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+triggerall = !(var(16)>1&&var(16)>(var(58)-1)&&NumHelper(11200)&&fvar(15)>=(var(58)-1))&&!(P2stateno=11156&&P2movetype=H)&&!(NumHelper(11200)&&fvar(15)<(var(58)+2))&&!((P2stateno=[936,937])&&P2movetype=H)
+trigger1 = random%5<ifelse(P2bodydist X<(floor(100*const(size.xscale))-const(size.ground.front)),1,2)
+trigger1 = ifelse(fvar(33),random%5<3 && ifelse(fvar(33)=1,var(51)%10<2,var(51)%14<2),random%5<2 && var(51)%7<2)
+trigger2 = stateno=100&&random%7<5&&var(51)%5<3
+
+;Crouch Hard
+[state -1,normal]
+type = ChangeState
+value = 420
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-4)
+triggerall = statetype!=A&&statetype!=L
+triggerall = P2bodydist X=[(floor(80*const(size.xscale))-const(size.ground.front))+(stateno=100)*30,(floor(112*const(size.xscale))-const(size.ground.front))+(stateno=100)*30]
+triggerall = P2statetype!=A||(fvar(31)<=20&&random%2=0)
+triggerall = !NumHelper(11100)
+trigger1 = fvar(37)&&random%5<3&&var(51)%5<2
+trigger1 = stateno=100&&random%7<5&&var(51)%5<2
+
+;Crouch Medium
+[state -1,normal]
+type = ChangeState
+value = 410
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-4)
+triggerall = statetype!=A&&statetype!=L
+triggerall = P2bodydist X=[(floor(90*const(size.xscale))-const(size.ground.front))-(P2statetype=A)*40,(floor(138*const(size.xscale))-const(size.ground.front))+(stateno=100)*30-(P2statetype=A)*40+(random%3=0)*30]
+triggerall = P2statetype!=A||(fvar(31)<=20&&random%2=0)
+triggerall = !((P2stateno=[936,937])&&P2movetype=H)
+triggerall = ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+triggerall = !(var(16)>1&&var(16)>(var(58)-1)&&NumHelper(11200)&&fvar(15)>=(var(58)-1))&&!(P2stateno=11156&&P2movetype=H)&&!(NumHelper(11200)&&fvar(15)<(var(58)+1)&&(var(16)<=1||fvar(15)<var(58))&&var(51)%5<3)
+trigger1 = random%5<ifelse(P2bodydist X<(floor(100*const(size.xscale))-const(size.ground.front)),1+(fvar(37)!=0)*(2+(var(16)>=1)*2),2)
+trigger1 = ifelse(fvar(33),random%5<3 && ifelse(fvar(33)=1,var(51)%7<2,var(51)%10<2),random%5<2 && var(51)%5<ifelse(fvar(37),5-(var(16)<1),3))
+trigger2 = stateno=100&&random%7<5
+trigger3 = (fvar(32)=[2,8]) && fvar(33)>=1 && var(51)%6<ifelse(fvar(32)>=5,5,2) && P2bodydist X>40
+
+;Jump Hard
+[state -1,normal]
+type = ChangeState
+value = 620
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype=A
+triggerall = (P2bodydist X=[-15,50+vel X*6])||(vel X<0&&vel Y<0 && !NumHelper(11200))||(Vel X=0&&vel Y>-1 && var(51)%5<3 && P2bodydist X>50 && !NumHelper(11200))
+triggerall = ctrl
+trigger1 = !(P2stateno=11156&&P2movetype=H)
+trigger1 = random%2=0 && vel Y>ifelse(var(24)=1||var(24)=3,3,2) && (Pos Y=[-30-(vel y*6),-10-(vel y*6)]) && var(51)%ifelse(NumHelper(11200),4,3)<2
+trigger2 = random%5<3 && vel Y<0 && Pos Y>-20 && (vel X<=0||numhelper(11200)||numhelper(11910)) && var(51)%5<ifelse(P2bodydist X>90,2,2+(numhelper(11200))+(numhelper(11910))*2)
+trigger2 = !(numhelper(11200)&&enemynear,const(size.head.pos.y)>-80)
+trigger3 = random%2=0 && vel Y>0 && Pos Y<-40 && abs(P2bodydist Y)<40
+trigger4 = Vel X=0 && Vel Y>-1 && var(51)%5<3 && P2bodydist X>50 && random%5<2
+trigger5 = P2statetype=A&&fvar(31)>=fvar(28)&&(enemynear,pos Y=[-70-(enemynear,vel Y>5)*20,-45-(enemynear,vel Y>5)*20]) && vel Y<-3 && pos Y>-20
+
+;~~~Close~~~
+
+;Throw
+[state -1,normal]
+type = ChangeState
+value = 800-(P2statetype=A)*580
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = !(P2statetype=L&&enemynear,alive)
+triggerall = statetype!=A&&statetype!=L
+triggerall = P2movetype!=H
+triggerall = P2statetype!=A||(fvar(31)<=20&&random%2=0&&enemynear,vel X<=0)
+triggerall = P2bodydist X=[-15,(floor(36*const(size.xscale))-const(size.ground.front))+(fvar(31)<=20&&enemynear,vel X<0&&P2statetype=A)*40]
+trigger1 = (ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20)))
+trigger1 = random%2=0&&var(51)<ifelse(stateno=21,1000,350)
+
+;
+[state -1,normal]
+type = ChangeState
+value = 525
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = statetype!=A&&statetype!=L
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = P2bodydist X=[-15,(floor((112-24)*const(size.xscale))-const(size.ground.front))]
+trigger1 = stateno=400&&prevstateno=400&&movecontact&&animelemtime(4)>0
+
+;
+[state -1,normal]
+type = ChangeState
+value = 200
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = P2bodydist X=[(floor(90*const(size.xscale))-const(size.ground.front)),(floor(110*const(size.xscale))-const(size.ground.front))]
+trigger1 = !(var(16)>1&&var(16)>(var(58)-1)&&NumHelper(11200)&&fvar(15)>=(var(58)-1))&&!(P2stateno=11156&&P2movetype=H)&&!((P2stateno=[936,937])&&P2movetype=H)&&!(NumHelper(11200)&&fvar(15)<(var(58)+1)&&(var(16)<=1||fvar(15)<var(58)))
+trigger1 = (ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20)))&&stateno!=200&&stateno!=400&&!(stateno=21&&prevstateno=400&&var(51)%4<1)
+trigger1 = ifelse(fvar(33),random%5<3 && ifelse(fvar(33)=1,var(51)%7<2,var(51)%9<2),random%5<2 && var(51)%5<3)
+trigger1 = prevstateno!=52&&stateno!=52&&random%3=0
+
+;
+[state -1,normal]
+type = ChangeState
+value = 400
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = P2bodydist X=[-15,(floor(100*const(size.xscale))-const(size.ground.front))-5-(stateno=400&&movecontact)*20-(P2statetype=A)*40]
+triggerall = P2statetype!=A||(fvar(31)<=20&&random%2=0)
+triggerall = !((P2stateno=[936,937])&&P2movetype=H)
+trigger1 = !(var(16)>1&&var(16)>(var(58)-1)&&NumHelper(11200)&&fvar(15)>=(var(58)-1))&&!(P2stateno=11156&&P2movetype=H)&&!(NumHelper(11200)&&fvar(15)<(var(58)+1)&&(var(16)<=1||fvar(15)<var(58))&&var(51)%2=0)
+trigger1 = (ctrl||stateno=52||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20)))&&stateno!=200&&stateno!=400&&!(stateno=21&&prevstateno=400&&var(51)%ifelse(P2bodydist X<35,3,4)<2)
+trigger1 = ifelse(fvar(33),random%5<3 && ifelse(fvar(33)=1,var(51)%9<2,var(51)%8<2),random%5<2 && var(51)%5<3)
+trigger2 = stateno=400&&(prevstateno!=[100,105])&&animelemtime(4)>0&&random%7<5
+trigger3 = stateno=100&&random%7<5&&!(P2stateno=11156&&P2movetype=H)
+trigger4 = stateno=52&&(prevstateno!=[120,155])&&!fvar(36)&&ifelse(P2dist X<(floor(36*const(size.xscale))-const(size.ground.front)-6),ifelse(P2movetype!=H&&enemynear,backedgebodydist>20,1,random%3<2),random%5<4)&&!(P2stateno=11156&&P2movetype=H)
+trigger5 = (ctrl||stateno=52||stateno=13||(stateno=[21,22])||(stateno=[120,132]))
+trigger5 = (fvar(32)=[2,6]) && fvar(33)>=1 && var(51)%7<ifelse(fvar(32)>=4,5,2) && P2bodydist X>40
+
+;
+[state -1,move]
+type = ChangeState
+value = 21
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = statetype!=A&&statetype!=L
+trigger1 = stateno=400&&animelemtime(4)=0&&!(prevstateno=400&&var(16)>1&&P2bodydist X<(floor(100*const(size.xscale))-const(size.ground.front)))
+trigger1 = random%10<ifelse(P2bodydist X>(floor(140*const(size.xscale))-const(size.ground.front))||(fvar(15)<(var(58)+1)&&NumHelper(11200)),10,3)
+trigger1 = !fvar(33)&&P2bodydist X<(floor(90*const(size.xscale))-const(size.ground.front))
+trigger1 = var(51) := random
+
+;
+[state -1,move]
+type = ChangeState
+value = 13
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = statetype!=A&&statetype!=L
+trigger1 = stateno=200&&animelemtime(4)=0
+trigger1 = var(51) := random
+
+----
+
+[state -3]
+type = null;varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2 && !var(44)
+trigger1 = numhelper(11200)
+trigger1 = (helper(11200),P2dist X=[-40,80]) && ((helper(11200),P2dist X>30&&enemynear,vel x>=2)||helper(11200),P2dist X<=30)
+trigger1 = (var(46)-ifelse(var(46)>=100,floor(var(46)/100)*100-ifelse(var(46)>=10000,floor(var(46)/10000)*10000,0),0)-ifelse(var(46)>=10000,floor(var(46)/10000)*10000,0))!=[1,99]
+var(46) = var(46)+20+1
+
+[state -3]
+type = null;varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2 && !var(44)
+trigger1 = numhelper(11210)
+trigger1 = (helper(11210),P2dist X=[-40,80]) && ((helper(11210),P2dist X>30&&enemynear,vel x>=2)||helper(11210),P2dist X<=30)
+trigger1 = (var(46)-ifelse(var(46)>=10000,floor(var(46)/10000)*10000,0))!=[100,9999]
+var(46) = var(46)+2000+100
+
+[state -3]
+type = null;varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2 && !var(44)
+trigger1 = numhelper(11220)
+trigger1 = (helper(11220),P2dist X=[-40,80]) && ((helper(11220),P2dist X>30&&enemynear,vel x>=2)||helper(11220),P2dist X<=30)
+trigger1 = var(46)<10000
+var(46) = var(46)+200000+10000
+
+;Rolling
+[state -1,rolling]
+type = ChangeState
+value = 900-ifelse(statetype=C,500,700)*(numexplod(901))
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = statetype!=A
+triggerall = !(P2stateno=11156&&P2movetype=H)&&!((P2stateno=[936,937])&&P2movetype=H)
+triggerall = fvar(32)<1
+trigger1 = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = fvar(33) && ifelse(fvar(33)=1,var(51)%6<2,var(51)%9<2) && P2bodydist X<60 && random%5<2
+trigger2 = ((stateno=[100,105])&&time>=2)&&(P2stateno=[3000,4999])&&P2movetype=H&&enemynear,time>=24&&random%7<5
+trigger3 = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))||((stateno=[100,105])&&time>=2)
+trigger3 = (fvar(34)>120&&(P2bodydist X=[fvar(34)-40,fvar(34)+40])&&var(51)%9<2)||(P2bodydist X>60&&var(51)%(ifelse(P2bodydist X>100,16,13)-(P2statetype=A)*1)<2)
+trigger3 = !(P2statetype=L&&enemynear,alive)||(P2statetype=L&&enemynear,alive&&P2bodydist X<40)
+
+;Forward Dash
+[State -1]
+type = ChangeState
+value = 100
+triggerall = fvar(38) && roundstate=2 && !fvar(35)
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = StateType != A
+triggerall = P2bodydist X>100
+triggerall = (ctrl || StateNo=3 || (StateNo=13&&time>8) || (stateNo=22&&time>10)||((stateno=[120,132])&&!var(20)))
+trigger1 = var(51)<ifelse(P2Bodydist X>140&&P2bodydist X>(fvar(34)+40),120-(fvar(38)=2)*80+(P2bodydist X<160)*20,150+(P2bodydist X<floor(138*const(size.xscale)))*40)
+
+;Forward Jump
+[state -1,normal]
+type = ChangeState
+value = 40
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = !(P2stateno=11156&&P2movetype=H)&&!(NumHelper(11200)&&fvar(15)<(var(58)+2))&&!((P2stateno=[936,937])&&P2movetype=H)
+triggerall = (P2bodydist X=[51,200])
+triggerall = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = random%3<ifelse(P2bodydist X>120,2,3)
+trigger1 = ifelse(fvar(33),random%5<3 && ifelse(fvar(33)=1,var(51)%6<2,var(51)%8<2),random%5<2 && var(51)%ifelse(P2bodydist X>160,3,4)<1)&&ifelse(fvar(37)!=0,random%12<ifelse(var(57)>=6,2,4),random%3=0)
+trigger1 = var(51):= 1
+trigger2 = P2statetype=A&&fvar(31)>=fvar(28)&&enemynear,vel Y>=0&&(enemynear,pos Y=[-70,-45]) && var(51)%5<2 && (P2bodydist X=[51+(enemynear,vel X>0)*15,70+(enemynear,vel X>0)*15])
+trigger2 = var(51):= 1
+
+;Vertical Jump
+[state -1,normal]
+type = ChangeState
+value = 40
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))||fvar(33)
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = !NumHelper(11200)
+triggerall = P2bodydist X>100||(P2statetype=A&&enemynear,alive&&(P2bodydist X=[-10,(50+(enemynear,vel X>0)*15)])&&fvar(31)>=fvar(28)&&enemynear,vel Y>=0&&(enemynear,pos Y=[-70,-45]) && var(51)%5<2)
+triggerall = !(P2stateno=11156&&P2movetype=H)&&!(NumHelper(11200)&&fvar(15)<(var(58)+2))&&!((P2stateno=[936,937])&&P2movetype=H)
+triggerall = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = random%5<ifelse(P2bodydist X<(floor(138*const(size.xscale))-const(size.ground.front)),1,3)
+trigger1 = ifelse(fvar(33),random%5<3 && ifelse(fvar(33)=1,var(51)%5<2,var(51)%4<2),random%5<2 && var(51)%(ifelse(P2bodydist X<110,8,9)+(P2bodydist X>160))<ifelse(backedgebodydist<=20,3,5))
+trigger1 = var(51):= 500
+trigger2 = P2statetype=A&&fvar(31)>=fvar(28)&&enemynear,vel Y>=0&&(enemynear,pos Y=[-70,-45]) && var(51)%5<2 && (P2bodydist X=[-10,(50+(enemynear,vel X>0)*15)])
+trigger2 = var(51):= 500
+
+;Back Jump
+[state -1,normal]
+type = ChangeState
+value = 40
+triggerall = fvar(38) && !IsHelper && roundstate=2
+triggerall = !(fvar(29)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))||fvar(33)
+triggerall = (!(P2statetype=L&&enemynear,alive)&&(P2stateno!=[15100,15110]))||((enemynear,anim=[5120,5129])&&enemynear,animtime>-3)
+triggerall = statetype!=A&&statetype!=L
+triggerall = P2bodydist X=[51,140]
+triggerall = !(P2statetype=A&&enemynear,alive&&P2bodydist X>50)
+triggerall = !(P2stateno=11156&&P2movetype=H)&&!(NumHelper(11200)&&fvar(15)<(var(58)+2))&&!((P2stateno=[936,937])&&P2movetype=H)
+triggerall = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = random%4<ifelse(P2bodydist X<(floor(138*const(size.xscale))-const(size.ground.front)),1+(fvar(37)!=0)*2,3)
+trigger1 = ifelse(fvar(33),random%5<3 && ifelse(fvar(33)=1,var(51)%7<2,var(51)%3<1),random%5<2 && var(51)%ifelse(P2bodydist X<110,8,9)<ifelse(backedgebodydist<=20,3,5))
+trigger1 = ifelse(backedgebodydist<=20,random%2=0,1)
+trigger1 = var(51):= 700
+trigger2 = fvar(37)&&var(16)<=4&&!enemynear,hitfall&&random%3<2&&(P2bodydist X=[60,ifelse(fvar(34)>=100,fvar(34)+10,100)]) && var(51)%5<3
+trigger2 = var(51):= 700
+
+;Back Dash
+[State -1]
+type = ChangeState
+value = 105
+triggerall = fvar(38) && roundstate=2 && !fvar(35)
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = StateType != A
+triggerall = (P2bodydist X=[100-((P2statetype=L&&enemynear,alive)||(P2stateno=[15100,15110]))*115,160])
+triggerall = (ctrl || StateNo=3 || (StateNo=13&&time>8) || (stateNo=22&&time>10)||((stateno=[120,132])&&!var(20)))
+triggerall = !(P2stateno=11156&&P2movetype=H)&&!((P2stateno=[936,937])&&P2movetype=H)
+trigger1 = random%50=0&&var(51)>500&&backedgebodydist>20
+trigger1 = !(P2bodydist X<100&&!(P2statetype=L&&enemynear,alive)&&!fvar(37))&&(P2stateno!=[15100,15101])
+trigger2 = P2statetype=L&&enemynear,alive&&(enemynear,anim!=[5120,5129])&&P2bodydist X<80&&random%5<2&&!((P2stateno=[5100,5101])&&var(51)%3<2)&&(P2stateno!=[15100,15101])&&backedgebodydist>20
+
+;~~~Guard
+[State -1]
+;ガード
+type = ChangeState
+value = 131
+triggerall = fvar(38) && (roundstate=2 || (RoundState=3 && Win)) && StateType!=A
+triggerall = !(P2statetype=A&&fvar(31)>=fvar(28))
+triggerall = (enemynear,Movetype = A||(enemy,numproj>0||(P2movetype!=A&&enemy,numhelper&&!(enemynear,hitdefattr=SCA,AA,AT,AP)) && inguarddist))
+triggerall = (ctrl|| StateNo=13 || stateno=22)&&(stateno!=[120,140])
+trigger1 = 1
+
+;ガード
+[State -1]
+type = ChangeState
+value = Ifelse(StateType=A,132,130)
+triggerall = fvar(38) && (roundstate=2 || (RoundState=3 && Win)) && StateType!=A
+triggerall = ifelse(enemynear,P2dist X<0&&!(P2dist X>-15&&random<=350),(enemynear,P2dist X=[-(120+const(size.ground.front)),0]),inguarddist)
+triggerall = (enemynear,Movetype = A||(enemy,numproj>0||(P2movetype!=A&&enemy,numhelper&&!(enemynear,hitdefattr=SCA,AA,AT,AP)) && inguarddist))
+triggerall = (ctrl||StateNo=3||(P2statetype=A&&((StateNo=13&&fvar(31)>=fvar(28))||stateno=21))||StateNo=22)&&(stateno!=[120,140])
+trigger1 = 1
+
+;ガード
+[State -1]
+type = ChangeState
+value = 120
+triggerall = fvar(38) && roundstate=2
+triggerall = (ctrl||StateNo=3||(P2statetype=A&&((StateNo=13&&fvar(31)>=fvar(28))||stateno=21))||StateNo=22)&&(stateno!=[120,140])
+trigger1 = numhelper(91000)
+trigger1 = helper(91000),inguarddist && !inguarddist && !(P2movetype=A&&var(49)%7>=ifelse((enemynear,p2dist X=[-20,-1])&&backedgebodydist>5,5,7))
+
+[State -1]
+;歩き（前）
+type = ChangeState
+value = 21
+triggerall = fvar(38) && roundstate=2 && !fvar(35)
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = StateType != A
+triggerall = (ctrl || StateNo=3 || (StateNo=13&&time>8) || (stateNo=22&&time>10)||((stateno=[120,132])&&!var(20)))
+trigger1 = var(51)<ifelse(P2Bodydist X>140&&P2bodydist X>(fvar(34)+20),400-(fvar(38)=2)*100,240)
+trigger1 = (P2bodydist X>150&&P2bodydist X>(fvar(34)+20))||(P2bodydist X>200&&fvar(33)&&fvar(30)=1) && !(fvar(38)=3&&(var(51)=[35,400]))
+trigger2 = enemynear,hitfall||(P2statetype=L&&enemynear,alive)
+trigger2 = random%4=0 && P2bodydist X>100
+trigger3 = P2bodydist X>190 && numhelper(11220) && !(P2movetype=A&&enemynear,time>=22) && random%12=0 && var(51)%7<5 && !fvar(33)
+
+[State -1]
+;歩き（後）
+type = ChangeState
+value = ifelse(inguarddist,120,22)
+triggerall = fvar(38) && !IsHelper && roundstate=2 && !fvar(35)
+triggerall = StateType != A
+triggerall = (ctrl || StateNo=3 || (StateNo=13&&time>ifelse(fvar(31)>=fvar(28),0,14)) || (stateNo=21&&time>14))
+trigger1 = (var(51)=[500,ifelse(P2Bodydist X<120,620,720)])
+trigger1 = !(P2statetype=L && enemynear,alive) && (P2BodyDist X = [80,140])
+trigger2 = (fvar(29)>=fvar(28)||(fvar(31)>=fvar(28) && ((P2bodydist X<60&&var(54)%5<2)||(P2bodydist X=[60,160])))||fvar(27)>=fvar(28)||fvar(26)>=fvar(28))
+trigger2 = (P2statetype=A||(random%3=0&&P2bodydist X<=160)) && random<350 && !(P2statetype=L && enemynear,alive) && !(enemynear,hitfall&&var(16)>=2) && !((P2stateno=[936,937])&&P2movetype=H)
+trigger3 = ((P2statetype=L && enemynear,alive)||(enemynear,hitfall&&var(16)>=30&&!var(44))) && var(51)%7>=ifelse(P2bodydist X<=60,0,3) && random%3=0 && P2bodydist X<90
+
+[State -1]
+;しゃがみ
+type = ChangeState
+value = 13
+triggerall = fvar(38) && !IsHelper && roundstate=2 && StateType != A
+triggerall = (ctrl||(stateno=[21,22]))
+triggerall = !((stateno=[21,22])&&((time<4&&var(16)>1)|(prevstateno=400&&time<16)||(((P2stateno=[936,937])||P2stateno=11156)&&P2movetype=H)))
+trigger1 = ifelse((stateno=[21,22]),time>=6&&ifelse(P2bodydist X>180&&stateno=21,random%11=0,random%3=0&&time>=10),1)
+trigger1 = !(P2bodydist X<20&&stateno=21&&fvar(34))
+trigger1 = !enemynear,hitfall && !(P2statetype=L&&enemynear,alive)
+trigger2 = var(44)||(P2statetype=L&&enemynear,alive&&!((stateno=[21,22])&&time<12));||(enemynear,hitfall&&var(16)>=3&&(P2stateno!=[5000,5099])&&!var(44))
+
+;--------------------

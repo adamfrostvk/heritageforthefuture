@@ -1,0 +1,1189 @@
+[statedef -3]
+
+;CPU判別
+[state -1]
+type = varset
+triggerall = !fvar(38)
+trigger1 = command="cpu1"
+trigger2 = command="cpu2"
+trigger3 = command="cpu3"
+trigger4 = command="cpu4"
+trigger5 = command="cpu5"
+trigger6 = command="cpu6"
+trigger7 = command="cpu7"
+trigger8 = command="cpu8"
+trigger9 = command="cpu9"
+trigger10 = command="cpu10"
+trigger11 = command="cpu11"
+trigger12 = command="cpu12"
+trigger13 = command="cpu13"
+trigger14 = command="cpu14"
+trigger15 = command="cpu15"
+trigger16 = command="cpu16"
+trigger17 = command="cpu17"
+trigger18 = command="cpu18"
+trigger19 = command="cpu19"
+trigger20 = command="cpu20"
+trigger21 = command="cpu21"
+trigger22 = command="cpu22"
+trigger23 = command="cpu23"
+trigger24 = command="cpu24"
+trigger25 = command="cpu25"
+trigger26 = command="cpu26"
+trigger27 = command="cpu27"
+trigger28 = command="cpu28"
+trigger29 = command="cpu29"
+trigger30 = command="cpu30"
+trigger31 = command="cpu31"
+trigger32 = command="cpu32"
+trigger33 = command="cpu33"
+trigger34 = command="cpu34"
+trigger35 = command="cpu35"
+trigger36 = command="cpu36"
+trigger37 = command="cpu37"
+trigger38 = command="cpu38"
+trigger39 = command="cpu39"
+trigger40 = command="cpu40"
+trigger41 = command="cpu41"
+trigger42 = command="cpu42"
+trigger43 = command="cpu43"
+trigger44 = command="cpu44"
+trigger45 = command="cpu45"
+trigger46 = command="cpu46"
+trigger47 = command="cpu47"
+trigger48 = command="cpu48"
+trigger49 = command="cpu49"
+trigger50 = command="cpu50"
+trigger51 = numhelper(90000)
+trigger51 = helper(90000),fvar(38) = 1
+trigger52 = (command="up"^^command="up2") || (command="down"^^command="down2")
+trigger53 = (command="fwd"^^command="fwd2") || (command="back"^^command="back2")
+trigger54 = (command="x"^^command="x2") || (command="y"^^command="y2")
+trigger55 = (command="z"^^command="z2")||(command="a"^^command="a2")
+trigger56 = (command="b"^^command="b2")||(command="c"^^command="c2")
+trigger57 = (command="holdup"^^command="holdup2")||(command="holddown"^^command="holddown2")
+trigger58 = (command="holdfwd"^^command="holdfwd2")||(command="holdback"^^command="holdback2")
+fvar(38) = 3;===(1:Beginner,2:Advanced,3:Expert)
+
+;AI起動用ヘルパー
+[state -1]
+type = helper
+trigger1 = !numhelper(90000) && !fvar(38) && alive
+trigger1 = roundstate=2 && !Ctrl && stateno=0 &&((PrevStateNo=[190,194])||PrevStateNo=5900)
+stateno=90000
+id = 90000
+name = "AI_Switch"
+helpertype=Normal
+keyctrl = 1
+pos = 0,0
+postype = P1
+size.xscale = 0.001
+size.yscale = 0.001
+pausemovetime= 999999
+supermovetime= 999999
+ignorehitpause=1
+
+;AI背面への攻撃ガード用1
+[state -1]
+type = helper
+trigger1 = !numhelper(91000)
+stateno=91000
+id = 91000
+name = "Guard1"
+helpertype=Normal
+keyctrl = 1
+pos = -80-const(size.ground.back),0
+postype = P1
+pausemovetime= 999999
+supermovetime= 999999
+ignorehitpause=1
+
+[state 98765]
+type = DestroySelf
+trigger1 = ishelper
+
+[state 98765]
+type = SelfState
+trigger1 = ishelper(10000)
+value = 15000
+
+[state -1]
+type = varrandom
+trigger1 = gametime%30=0 && !(P2bodydist X>180&&fvar(38)=1&&(var(51)!=[60,650])) && !(fvar(31)>=fvar(28)&&P2statetype=A&&enemynear,pos Y<-40 && (enemynear,vel Y=[-2,2]))
+v = 51
+range = 0,999
+
+;砲台モードON
+[state -1]
+type = varrandom
+trigger1 = gametime%30=0 && (P2bodydist X>180&&fvar(38)=1&&(var(51)!=[60,650]))
+v = 51
+range = 600,660
+
+;つらら待ちモードON
+[state -1]
+type = varrandom
+trigger1 = gametime%30=0 && P2bodydist X>180&&fvar(38)=3&&(var(51)!=[60,650]) && fvar(16)>100
+v = 51
+range = 350,400
+
+;強つららヒット率判別
+[state -1]
+type = varadd
+trigger1 = p2bodydist X>200&&(stateno!=[150,155])&&(stateno!=[5000,5299])
+fvar(16) = -1
+
+[state -1]
+type = varadd
+trigger1 = numhelper(11120)
+trigger1 = helper(11120),movehit=1&&helper(11120),numtarget
+fvar(16) = 100
+
+;===AI(CPU)===
+;====
+;守り
+
+;番鳥の猛攻(Bird's Rush)
+[State -1, storm]
+type = ChangeState
+value = 3200
+triggerall = fvar(38)=3 && roundstate=2
+triggerall = Power>=1000
+trigger1 = (ctrl||stateno=40||(stateno=[100,105])||stateno=195||stateno=5201||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20)))
+trigger1 = fvar(33)=1 && fvar(30)<3 && random%7<5 && var(51)%ifelse(P2bodydist X>70,8,9)<2 && P2bodydist X<=80 && enemynear,pos y>-30
+trigger1 = fvar(17) :=0||1
+trigger1 = fvar(18) :=0||1
+trigger1 = fvar(19) :=0||1
+
+;ギガフリーゾン(Giga Freezon)
+[State -1, wave]
+type = ChangeState
+value = 3000
+triggerall = fvar(38)=1 && roundstate=2 && !var(44)
+triggerall = !(P2statetype=L&&Enemynear,alive)||(enemynear,anim=5120&&enemynear,animtime>-4)
+triggerall = Power>=1000
+triggerall = (ctrl||stateno=13||(stateno=[21,22])||stateno=40||(stateno=[100,105])||stateno=195||stateno=5201)||((stateno=[120,132])&&!var(20))
+trigger1 = P2bodydist X>=120 && var(51)%5=0 && statetype!=A
+
+;デスペナルティ(Death Penalty)
+[State -1, wave]
+type = ChangeState
+value = 3100
+triggerall = fvar(38) && (fvar(38)=1||Power>=3000) && roundstate=2 && !var(44)
+triggerall = (!(P2statetype=L&&Enemynear,alive)||(enemynear,anim=5120&&enemynear,animtime>-4))&&!(enemynear,hitfall&&enemynear,pos Y>-100)
+triggerall = Power>=1000
+triggerall = (ctrl||stateno=13||(stateno=[21,22])||stateno=40||(stateno=[100,105])||stateno=195||stateno=5201)||((stateno=[120,132])&&!var(20))
+trigger1 = P2bodydist X<=80 && var(51)%3=0 && (fvar(38)=1||(var(51)<=800&&statetype=A))
+trigger2 = statetype=A&&P2bodydist X>180 && random%2=0 && var(51)%7<2
+
+;デスフリーズ
+[State -1, death_freeze]
+type = ChangeState
+value = 1400
+triggerall = fvar(38) && roundstate=2 && !var(44)
+triggerall = statetype!=A
+triggerall = stateno=1900&&numhelper(11900)&&time>=30
+triggerall = helper(11900),stateno=11901 && helper(11900),time<90
+trigger1 = fvar(38)>1
+trigger1 = var(44):= 11
+trigger1 = var(45):= 340
+trigger2 = fvar(38)=1
+
+;2S
+[State -1, magic]
+type = ChangeState
+value = 1900
+triggerall = fvar(38) && roundstate=2 && !var(44)
+triggerall = !(P2statetype=L&&Enemynear,alive)||(enemynear,anim=5120&&enemynear,animtime>-12)
+triggerall = statetype!=A && !numhelper(11900)
+trigger1 = ctrl||stateno=13||stateno=195||((stateno=[120,132])&&statetype=C&&!var(20))
+trigger1 = !(fvar(38)>2&&!numhelper(11220)) && var(51)%ifelse(fvar(38)=2,9,7)<(2+(fvar(17)>=85&&(fvar(18)=[0,5])&&P2bodydist X<160)+(fvar(18)>=85&&(fvar(19)=[0,5])&&P2bodydist X>180)) && random%5<2
+trigger1 = (P2bodydist X=[100+(fvar(38)>1)*50,210+(random<500)*20])
+trigger1 = (P2statetype!=A||(enemynear,vel Y<0&&enemynear,pos Y>-40))
+trigger2 = stateno=520 && animelemtime(13)>0 && animelemtime(14)<=0
+trigger3 = ctrl||stateno=13||stateno=195||((stateno=[120,132])&&statetype=C&&!var(20));着地
+trigger3 = ((P2stateno=[154,155])&&enemynear,pos Y>ifelse(P2stateno=154,-30,-60&&enemynear,vel Y>1))||(P2statetype=A&&enemynear,vel Y>2 && (enemynear,pos Y=[-100-(enemynear,vel Y>4)*20,-75-(enemynear,vel Y>4)*20])) && random%3=0
+trigger3 = (P2bodydist X=[150,230]) && fvar(38)=3 && var(51)%11<ifelse((P2stateno=[154,155]),8,5)
+
+;アイスランス(Sand Attack)
+[State -1, attack]
+type = ChangeState
+value = 1100
+triggerall = fvar(38) && roundstate=2 && !var(44)
+trigger1 = (ctrl||stateno=13||(stateno=[21,22])||stateno=40||(stateno=[100,105])||stateno=195||stateno=5201)||((stateno=[120,132])&&!var(20))
+trigger1 = (pos y<=-75||(statetype!=A && fvar(38)=1&&P2bodydist X>=140)) && random%5<3 && var(51)%9<ifelse(statetype!=A,2,3) && !(fvar(38)>=2&&P2bodydist X<100)
+trigger1 = (P2statetype!=A||(enemynear,vel Y<0&&enemynear,pos Y>-40)||(P2stateno=[154,155]))
+
+;フリーゾン
+[State -1, death_freeze]
+type = ChangeState
+value = 1300
+triggerall = fvar(38) && roundstate=2 && !var(44)
+triggerall = !(fvar(38)>1&&(P2movetype=A&&enemynear,time>22))&&fvar(26)<fvar(28)&&fvar(27)<fvar(28)
+triggerall = (ctrl||stateno=13||(stateno=[21,22])||stateno=40||(stateno=[100,105])||stateno=195||stateno=5201)||((stateno=[120,132])&&!var(20))
+trigger1 = P2bodydist X>180 && random%3=0 && (var(51)=[380+floor(fvar(38)-1)*80-(P2statetype=L&&enemynear,alive)*400,700-(fvar(38)>1)*40]) && fvar(38)!=3
+trigger1 = !(P2movetype=A&&enemynear,time>=ifelse(fvar(38)=1,30,24))
+trigger2 = pos y<=-90 && fvar(38)=1 && P2bodydist X>80 && random%7<2
+
+;S
+[State -1, death_freeze]
+type = ChangeState
+value = 1800
+triggerall = fvar(38) && roundstate=2 && !var(44)
+triggerall = !(fvar(38)>1&&(P2movetype=A&&enemynear,time>22))&&fvar(26)<fvar(28)&&fvar(27)<fvar(28)
+triggerall = (ctrl||stateno=13||(stateno=[21,22])||stateno=40||(stateno=[100,105])||stateno=195||stateno=5201)||((stateno=[120,132])&&!var(20))
+trigger1 = P2bodydist X>160 && random%4=0 && (var(51)=[340+floor(fvar(38)-1)*80,700-(fvar(38)>1)*40])
+trigger1 = !(fvar(26)>fvar(28)) && !(fvar(27)>fvar(28))
+trigger1 = !(P2movetype=A&&enemynear,time>=ifelse(fvar(38)=1,28,24))
+
+;3強
+[State -1, magic]
+type = ChangeState
+value = 520
+triggerall = fvar(38)=1 && roundstate=2 && !var(44)
+triggerall = !(P2statetype=L&&Enemynear,alive)||(enemynear,anim=5120&&enemynear,animtime>-12)
+triggerall = statetype!=A
+trigger1 = ctrl||stateno=13||stateno=195||((stateno=[120,132])&&statetype=C&&!var(20))
+trigger1 = var(51)%7<2 && random%5<3 && (P2bodydist X=[90,200])
+
+;ジャンプ強(Jump Light Attack)
+[State -1, shp]
+type = ChangeState
+value = 620
+triggerall = fvar(38)=1 && roundstate=2 && var(44)<=10
+triggerall = statetype=A
+trigger1 = ctrl||((stateno=[120,132])&&!var(20))
+trigger1 = (P2bodydist X=[40,60]) && random%3=0 && var(51)%7<2 && P2statetype=A && enemynear,pos Y<-40
+trigger2 = stateno=100&&time>=2 && P2bodydist X<90 && random%5<2 && P2statetype=A && enemynear,pos Y<-40
+
+;ジャンプ弱(Jump Light Attack)
+[State -1, shp]
+type = ChangeState
+value = 600
+triggerall = fvar(38)=1 && roundstate=2 && !var(44)
+triggerall = statetype=A
+trigger1 = ctrl||((stateno=[120,132])&&!var(20))
+trigger1 = P2bodydist X<=40 && random%3=0 && var(51)%7<3
+trigger2 = stateno=600&&(!movecontact||var(10)<=0)&&time>3&&P2bodydist X<=40&&!(prevstateno=600&&var(51)<=300)
+
+;アイスバレット
+[State -1,crush]
+type = ChangeState
+value = 1010
+triggerall = fvar(38) && roundstate=2 && !var(44)
+trigger1 = (ctrl||stateno=40||((stateno=[100,105])&&time>=12)||stateno=195||stateno=5201)||((stateno=[120,132])&&!var(20))
+trigger1 = statetype=A&&(P2bodydist X=[-30,80+(backedgebodydist<=20)*40])&&random%2=0&&var(51)%ifelse(P2bodydist X<40,6,7)<(2+(Vel Y<0)*3)&&frontedgebodydist>120&&pos Y<-50
+
+;空中回り込み(Air Rolling)
+[state -1,rolling]
+type = ChangeState
+value = 910-310*(numexplod(901))
+triggerall = fvar(38) && roundstate=2
+triggerall = statetype!=A
+triggerall = ctrl||((stateno=[100,105])&&time>=2)||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = P2movetype=A&&enemynear,time>=30&&(P2stateno=[2000,4999]) && enemynear,animtime<-20 && random%3=0 && var(51)<=350 && P2statetype=A
+trigger2 = backedgebodydist<=15 && (P2bodydist X=[-15,60]) && var(51)%7<2 && Pos Y<-40
+trigger2 = fvar(17) :=0||1
+trigger2 = fvar(18) :=0||1
+trigger2 = fvar(19) :=0||1
+
+;回り込み(Rolling)
+[state -1,rolling]
+type = ChangeState
+value = 900-ifelse(statetype=C,500,700)*(numexplod(901))
+triggerall = fvar(38) && fvar(38)!=2 && roundstate=2 && !var(44)
+triggerall = !(P2statetype=L&&enemynear,alive)&&!enemynear,hitfall
+triggerall = statetype!=A
+triggerall = ctrl||((stateno=[100,105])&&time>=2)||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = fvar(17)<60&&fvar(18)<60&&fvar(19)<60&&var(51)<=ifelse(fvar(19)>40,600,750)&&random%3=0&&P2bodydist X>220 && !(fvar(38)=3&&(var(51)=[350,400]))
+trigger2 = backedgebodydist<=5 && P2bodydist X<=40 && fvar(17)<60 && var(51)%7<1
+trigger2 = fvar(17) :=0||1
+trigger2 = fvar(18) :=0||1
+trigger2 = fvar(19) :=0||1
+trigger3 = fvar(35)&&stateno=100
+trigger3 = fvar(17) :=0||1
+trigger3 = fvar(18) :=0||1
+trigger3 = fvar(19) :=0||1
+trigger4 = (fvar(26)>=fvar(28)||fvar(27)>=fvar(28))&&P2bodydist X>60&&var(51)%ifelse(P2bodydist X>180,5,9)<2
+trigger4 = fvar(17) :=0||1
+trigger4 = fvar(18) :=0||1
+trigger4 = fvar(19) :=0||1
+
+;ダッシュ
+[State -1, death_freeze]
+type = ChangeState
+value = 100
+triggerall = fvar(38) && roundstate=2 && !var(44) && (var(51)!=[350,400])&&!fvar(35)&&fvar(26)<fvar(28)&&fvar(27)<fvar(28)
+triggerall = !(P2statetype=L&&Enemynear,alive)||(enemynear,anim=5120&&enemynear,animtime>-4)||(P2statetype=L&&!enemynear,vel y&&backedgebodydist<=5&&P2bodydist X<120)||(P2bodydist X>160&&P2statetype=L&&(enemynear,vel Y!=0||P2stateno=5120))
+triggerall = (ctrl||stateno=13||(stateno=[21,22])||stateno=195||stateno=5201)||((stateno=[120,132])&&!var(20))
+trigger1 = statetype=A&&(P2bodydist X=[-30,80])&&random%3=0&&var(51)%5<2 && !(fvar(38)>=2&&P2bodydist X>40)
+trigger2 = statetype=A&&(P2bodydist X=[-30,80])&&random%3=0&&var(51)%5<2
+trigger2 = fvar(38)>=2&&P2bodydist X>40
+trigger2 = var(44):= ifelse(fvar(38)=3&&random%5<3,10,var(44)+1)
+trigger2 = var(45):= ifelse(P2bodydist X<=ifelse(var(44)=10,95,75),3,ceil((P2bodydist X-ifelse(var(44)=10,95,75))/7)+2)
+trigger3 = P2statetype=L&&!enemynear,vel y&&backedgebodydist<=5&&random%5<3
+trigger4 = P2bodydist X>200 && random%7=0 && var(51)%(ifelse(fvar(31)>=fvar(28),5,7)+(fvar(19)<80))<2 && !fvar(33)
+trigger5 = P2statetype=L&&(enemynear,vel Y!=0||P2stateno=5120)&&random%5<3&&P2bodydist X>160 && random%3=0 && var(51)%5<3
+
+;バックダッシュ
+[State -1, death_freeze]
+type = ChangeState
+value = 105
+triggerall = fvar(38) && roundstate=2 && !var(44)
+triggerall = !(P2statetype=L&&P2bodydist X<180)
+triggerall = (ctrl||stateno=13||(stateno=[21,22])||stateno=195||stateno=5201)||((stateno=[120,132])&&!var(20))
+trigger1 = (P2bodydist X=(80-(var(51)%3=0&&fvar(38)=3)*20,150+(fvar(38)=1)*20+(P2bodydist X>220&&backedgebodydist<=10&&fvar(38)=3&&var(51)<=750)*120])
+trigger1 = pos y>-90 && random%3=0 && ((var(51)!=[400+floor(fvar(38)-1)*70,700])||(P2bodydist X<=120&&var(51)%ifelse(fvar(38)=1,5,7)<2))
+trigger1 = var(51)%7>ifelse(fvar(38)=3,4-((P2bodydist X=[100,120])&&random<=500),2)&&(P2bodydist X<=180||(P2bodydist X>220&&backedgebodydist<=10&&fvar(38)=3&&var(51)<=750))&&fvar(38)!=2
+trigger1 = (backedgebodydist>ifelse(P2bodydist X<ifelse(fvar(38)=3,140,180),-1,20))
+trigger2 = statetype=A&&(P2bodydist X=[100,160])&&random%3=0&&var(51)%5<2
+trigger3 = statetype=A&&(P2bodydist X=[-30,80])&&random%2=0&&var(51)%7<2&&frontedgebodydist<=30
+trigger4= ((P2statetype=L && enemynear,alive)||(enemynear,hitfall&&var(16)>=30&&!var(44))) && random%3=0 && P2bodydist X<40
+
+;~~~攻め
+;投げ(Throw)
+[State -1, throw]
+type = ChangeState
+value = 800
+triggerall = fvar(38) && roundstate=2
+triggerall = statetype!=A
+triggerall = P2bodydist X<=ceil(30*const(size.xscale))&&P2movetype!=H&&P2statetype!=A&&!(P2statetype=L&&enemynear,alive)
+triggerall = !var(31)
+trigger1 = (ctrl||stateno=13||(stateno=[21,22])||stateno=40||(stateno=[100,105])||stateno=195||stateno=5201)||((stateno=[120,132])&&!var(20))
+trigger1 = ((fvar(33)&&var(51)%ifelse(fvar(38)=1,7,5)<2)||(fvar(24)<0&&var(51)%7<2&&fvar(38)=3))&&random%7<5
+
+;立ち弱(Stand Light Attack)
+[State -1, shp]
+type = ChangeState
+value = 200
+triggerall = fvar(38) && roundstate=2
+triggerall = statetype!=A
+trigger1 = (ctrl||stateno=13||(stateno=[21,22])||stateno=40||(stateno=[100,105])||stateno=195||stateno=5201)||((stateno=[120,132])&&!var(20))
+trigger1 = P2bodydist X<=40 && random%3=0 && var(51)%5<2&&fvar(38)=1 && (statetype!=A||var(51)<500)
+trigger2 = stateno=200&&(!movecontact||var(10)<=0) && animelemtime(4)>=1&&P2bodydist X<=40&&fvar(38)=1
+trigger3 = (ctrl||stateno=13||(stateno=[21,22])||stateno=40||(stateno=[100,105])||stateno=195||stateno=5201)||((stateno=[120,132])&&!var(20))
+trigger3 = P2bodydist X>=140 && fvar(17)=1 && fvar(38)>=2
+
+;しゃがみ弱
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2&&(!(P2statetype=L&&enemynear,alive)||(P2stateno=5120&&enemynear,animtime=[-3,-1]))
+triggearll = !(enemynear,hitfall&&var(16)>=3)
+triggerall = statetype!=A
+triggerall = var(44)=0&&var(45)=0
+triggerall = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+triggerall = (P2bodydist X=[21-((enemynear,animtime=[-8,-5])&&enemynear,time>=18)*35-((enemynear,animtime=[-3,-1])&&P2stateno=5120)*35,50])
+trigger1 = numhelper(11200)
+trigger1 = helper(11200),stateno=11220&&helper(11200),Pos Y<-20&&helper(11200),time=14
+trigger1 = var(44):= 10
+trigger1 = var(45):= 22
+trigger2 = numhelper(11210)
+trigger2 = helper(11210),stateno=11220&&helper(11210),Pos Y<-20&&helper(11210),time=14
+trigger2 = var(44):= 10
+trigger2 = var(45):= 22
+trigger3 = (enemynear,animtime=[-8,-5])&&enemynear,time>=18 && random%5<4&&var(51)%7<ifelse(!fvar(33),5,2+(P2stateno=[1000,3999]))
+trigger3 = var(44):= 10
+trigger3 = var(45):= 22
+trigger4 = P2stateno=5120&&random%5<3 && var(51)%4<3
+trigger4 = var(44):= 10
+trigger4 = var(45):= 22
+value = 400
+
+;ダッシュしゃがみ弱(間合い調整用)
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggearll = !(enemynear,hitfall&&var(16)>=3)
+triggerall = statetype!=A
+triggerall = var(44)=0&&var(45)=0
+triggerall = stateno=100&&time>=2
+trigger1 = (P2bodydist X=[160,200]) && random%5<3
+value = 400
+
+;ダッシュしゃがみ弱
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggearll = !(enemynear,hitfall&&var(16)>=3)
+triggerall = !(P2statetype=L&&enemynear,alive)||(P2stateno=5120&&enemynear,animtime>-3)
+triggerall = statetype!=A
+triggerall = var(44)=0&&var(45)=0
+triggerall = stateno=100&&time>=2
+trigger1 = (P2bodydist X=[70-(P2stateno=5120)*50,120]) && random%5<4
+trigger1 = var(44):= 10
+trigger1 = var(45):= 22
+value = 400
+
+;立ち強
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggearll = !(enemynear,hitfall&&var(16)>=3)
+triggerall = statetype!=A||(vel y>0 && pos Y>-30)
+triggerall = var(44)=0&&var(45)=0
+triggerall = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+triggerall = P2bodydist X<=30
+trigger1 = numhelper(11200)
+trigger1 = helper(11200),stateno=11220&&helper(11200),Pos Y<-20&&helper(11200),time=14
+trigger1 = var(44):= 2
+trigger1 = var(45):= 33
+trigger2 = numhelper(11210)
+trigger2 = helper(11210),stateno=11220&&helper(11210),Pos Y<-20&&helper(11210),time=14
+trigger2 = var(44):= 2
+trigger2 = var(45):= 33
+trigger3 = (enemynear,animtime=[-10,-7])&&enemynear,time>=18 && random%5<4&&var(51)%7<ifelse(!fvar(33),5,2+(P2stateno=[1000,3999]))
+trigger3 = var(44):= 2
+trigger3 = var(45):= 33
+value = 220
+
+;立ち強(Stand High Attack)
+[State -1, shp]
+type = ChangeState
+value = 220
+triggerall = fvar(38)>1 && roundstate=2
+triggerall = statetype!=A||(vel y>0 && pos Y>-30)
+trigger1 = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = (P2bodydist X=[(40+(enemynear,vel x/5)),(50+(enemynear,vel x/5))]) && random%2=0 && var(51)%3<1
+trigger1 = P2statetype=A&&(enemynear,vel y=[.5,3+(enemynear,pos y<-80)*3]) && (enemynear,pos y=[-100,-60-(enemynear,vel Y>3)*10])
+
+;しゃがみ強(Crouch High Attack)
+[State -1, shp]
+type = ChangeState
+value = 420
+triggerall = fvar(38)>1 && roundstate=2
+triggerall = var(44)=0&&var(45)=0
+triggerall = statetype!=A
+triggerall = P2statetype!=A||(P2statetype=A&&fvar(31)<fvar(28)&&random<300)
+trigger1 = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = (P2bodydist X=[50,75]) && random%5<2 && var(51)%11<2
+
+;4中(4 Medium Attack)
+[State -1, shp]
+type = ChangeState
+value = 310
+triggerall = fvar(38)>1 && roundstate=2
+triggerall = statetype!=A
+trigger1 = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = (P2bodydist X=[0,(40+(enemynear,vel x/5))]) && random%5<3 && var(51)%5<2
+trigger1 = P2statetype=A&&(enemynear,vel y=[.5,3+(enemynear,pos y<-80)*3]) && (enemynear,pos y=[-120,-60-(enemynear,vel Y>3)*10])
+
+;ジャンプ強
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggearll = !(enemynear,hitfall&&var(16)>=3)
+triggerall = statetype=A&&(vel y>0 && pos Y>-30)
+triggerall = var(44)=0&&var(45)=0
+triggerall = stateno=100&&time>=2
+trigger1 = P2bodydist X<=70
+trigger1 = var(44):= 2
+trigger1 = var(45):= 33
+value = 620
+
+[state -3]
+type = varset
+trigger1 = !var(45)||(!var(16)&&P2statetype=L&&!enemynear,vel Y)||((enemynear,anim=[5120,5129])&&enemynear,animtime<-4)
+trigger2 = stateno=220 && animtime=-1 && !movecontact
+trigger3 = movetype=H||statetype=L
+var(44) = 0
+
+[state -3]
+type = varset
+trigger1 = !var(44)
+var(45) = 0
+
+[state -3]
+type = varadd
+trigger1 = var(45)
+var(45) = -1
+
+[state -3]
+type = varset
+trigger1 = var(46)&&var(44)
+var(46) = 0
+
+[state -3]
+type = varadd
+trigger1 = var(46)
+var(46) = -10000*(var(46)>=10000)-100*((var(46)-ifelse(var(46)>=10000,floor(var(46)/10000)*10000,0))=[100,9999])
+
+[state -3]
+type = varadd
+trigger1 = (var(46)-ifelse(var(46)>=100,floor(var(46)/100)*100-ifelse(var(46)>=10000,floor(var(46)/10000)*10000,0),0)-ifelse(var(46)>=10000,floor(var(46)/10000)*10000,0))=[1,99]
+var(46) = -1
+
+[state -3]
+type = varadd
+triggerall = fvar(38)
+trigger1 = !(stateno=3000 && AnimElemTime(1)>=1&&AnimElemTime(2)<0)&&!(stateno=3100 && AnimElemTime(1)>=9&&AnimElemTime(2)<30)&&!(stateno=3200 && AnimElemTime(2)>=0&&AnimElemTime(2)<30)&&roundstate=2&&!numexplod(40000)
+trigger1 = fvar(17)
+fvar(17) = 1
+
+[state -3]
+type = varadd
+triggerall = fvar(38)
+trigger1 = !(stateno=3000 && AnimElemTime(1)>=1&&AnimElemTime(2)<0)&&!(stateno=3100 && AnimElemTime(1)>=9&&AnimElemTime(2)<30)&&!(stateno=3200 && AnimElemTime(2)>=0&&AnimElemTime(2)<30)&&roundstate=2&&!numexplod(40000)
+trigger1 = fvar(18)
+fvar(18) = 1
+
+[state -3]
+type = varadd
+triggerall = fvar(38)
+trigger1 = !(stateno=3000 && AnimElemTime(1)>=1&&AnimElemTime(2)<0)&&!(stateno=3100 && AnimElemTime(1)>=9&&AnimElemTime(2)<30)&&!(stateno=3200 && AnimElemTime(2)>=0&&AnimElemTime(2)<30)&&roundstate=2&&!numexplod(40000)
+trigger1 = fvar(19)
+fvar(19) = 1
+
+[state -3]
+type = varset
+triggerall = fvar(38)=1 && !fvar(17)&&!numexplod(40000)
+trigger1 = P2bodydist X<=150 && random%7=0
+fvar(17) = 1
+
+[state -3]
+type = varset
+triggerall = fvar(38)=1 && !fvar(18)&&!numexplod(40000)
+trigger1 = random%7=0
+fvar(18) = 1
+
+[state -3]
+type = varset
+triggerall = fvar(38)=1 && !fvar(19)&&!numexplod(40000)
+trigger1 = P2bodydist X>150 && random%7=0
+fvar(19) = 1
+
+[state -3]
+type = varset
+triggerall = fvar(38)>1 && !fvar(17)&&!numexplod(40000)
+trigger1 = P2bodydist X<=160 && random%5=0 && !var(44)
+trigger2 = P2bodydist X<120&&stateno=1400&&time>=8&&random%4=0&&time<220
+fvar(17) = 1
+
+[state -3]
+type = varset
+triggerall = fvar(38)>1 && !fvar(18)&&!numexplod(40000)
+trigger1 = stateno!=3210&& P2bodydist X<=160 && random%5=0 && !var(44)
+trigger2 = stateno=1400&&time>=8&&random%4=0&&time<220
+trigger3 = stateno=3210&&(time=(110,115))&&random%3=0
+fvar(18) = 1
+
+[state -3]
+type = varset
+triggerall = fvar(38)>1 && !fvar(19)&&!numexplod(40000)
+trigger1 = P2bodydist X>=160 && random%5=0 && !var(44)
+trigger2 = P2bodydist X>=120&&stateno=1400&&time>=8&&random%4=0&&time<220
+fvar(19) = 1
+
+[state 100]
+type = varset
+triggerall = fvar(38)>1&&fvar(19)>0
+trigger1 = stateno=1400&&fvar(19)>80&&random%3=0&&(time=[36,260])&&!(var(44)=11&&var(45)<48)
+trigger2 = fvar(17)<70 && (stateno=[150,153]) && var(51)<=200
+fvar(19) = 0
+
+[state 100]
+type = varset
+triggerall = fvar(38)>1&&fvar(18)>0
+trigger1 = stateno=1400&&fvar(18)>80&&random%3=0&&(time=[36,260])&&!(var(44)=11&&var(45)<48)
+trigger2 = fvar(17)<70 && (stateno=[150,153]) && var(51)<=200
+trigger3 = stateno=1900 && (time=12||time=16) && random%7<4 && !var(44) && fvar(18)>80
+fvar(18) = 0
+
+[state 100]
+type = varset
+triggerall = fvar(38)=1&&fvar(17)>90
+trigger1 = random%9=0
+trigger1 = fvar(18):=0
+trigger1 = fvar(19):=0
+fvar(17) = 0
+
+[state 100]
+type = varset
+triggerall = fvar(38)>1&&fvar(17)>0&& roundstate=2 && !(P2statetype=L&&!((enemynear,anim=[5120,5129])&&enemynear,animtime>-9))
+trigger1 = stateno=1400&&fvar(17)>80&&random%3=0&&(time=[36,260])&&!(var(44)=11&&var(45)<48)
+trigger2 = fvar(17)<70 && (stateno=[150,153]) && var(51)<=200
+trigger3 = stateno=3200 && time=1
+trigger4 = numhelper(11200)
+trigger4 = (helper(11200),P2dist X=[-40,40]) && P2statetype=L&&(enemynear,anim=[5120,5129])&&enemynear,animtime>-9 && random%5<2
+fvar(17) = 0
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2 && !(P2statetype=L&&!((enemynear,anim=[5120,5129])&&enemynear,animtime>-9))
+trigger1 = var(44)=0&&fvar(18)>240&&random%9=0
+trigger2 = (P2bodydist X=[60,160]) && random%36=0 && fvar(18)>90 && !var(44)
+trigger3 = stateno=3200 && time=1
+trigger4 = numhelper(11210)
+trigger4 = (helper(11210),P2dist X=[-40,40]) && P2statetype=L&&(enemynear,anim=[5120,5129])&&enemynear,animtime>-9 && random%5<2
+fvar(18) = 0
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2 && !(P2statetype=L&&!((enemynear,anim=[5120,5129])&&enemynear,animtime>-9))
+trigger1 = var(44)=0&&fvar(19)>240&&random%9=0
+trigger2 = stateno=3200 && time=1
+trigger3 = numhelper(11220)
+trigger3 = (helper(11220),P2dist X=[-40,40]) && P2statetype=L&&(enemynear,anim=[5120,5129])&&enemynear,animtime>-9 && random%5<2
+fvar(19) = 0
+
+;~~~~~~~~
+
+;バックダッシュ
+[State -1, death_freeze]
+type = ChangeState
+triggerall = fvar(38)=3 && roundstate=2
+triggerall = (ctrl||stateno=13||(stateno=[21,22])||stateno=40||(stateno=[100,105])||stateno=195||stateno=5201)||((stateno=[120,132])&&!var(20))
+trigger1 = var(44)=-1 && var(45)=1
+trigger1 = var(44):= var(44)-1
+trigger1 = var(45):= 3
+value = 105
+
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+trigger1 = var(44)=-2&&var(45)=1
+trigger1 = stateno=105&&time>=2
+trigger1 = var(44):= 0||1
+trigger1 = var(45):= 0||1
+value = ifelse(statetype=A,600,200)
+
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2 && (!fvar(35)||floor(fvar(33))>=2) && (var(51)!=[350,400])
+triggerall = !(P2statetype=L&&Enemynear,alive)||(enemynear,anim=5120&&enemynear,animtime>-4)
+triggerall = statetype!=A
+triggerall = P2statetype!=A||(P2statetype=A&&enemynear,vel Y<-1&&enemynear,pos Y>-40&&random<400)
+triggerall = !(enemynear,hitfall&&var(16)>=3)&&var(16)<10&&(!fvar(33)||(fvar(33)&&(enemynear,animtime>-3||var(51)%5<3))||fvar(38)=2)&&!fvar(35)&&fvar(26)<fvar(28)&&fvar(27)<fvar(28)
+triggerall = fvar(18)<50
+triggerall = var(44)=0&&var(45)=0
+triggerall = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+triggerall = !(fvar(38)=3&&P2movetype=A&&Enemynear,time>20&&enemynear,animtime<-10)
+trigger1 = (P2bodydist X=[70,170+(fvar(38)=2||fvar(19)>=85||numhelper(11800))*40*(random%2+1)]) && (random%ifelse(fvar(38)=2,52,ifelse(P2bodydist X>140,69,60))=0||random%ifelse(fvar(38)=2,90,ifelse(P2bodydist X>140,112,104))=0)
+trigger1 = var(44):= ifelse(fvar(38)=3&&random%5<3&&!(enemynear,pos y<=-40&&enemynear,vel y>0&&var(44)<=1),10,var(44)+1)
+trigger1 = var(45):= ifelse(P2bodydist X<=70,3,ceil((P2bodydist X-70)/6.5)+2)
+trigger2 = (enemynear,animtime=[-10,-8]) && enemynear,time>=26 && random%5<4 && floor(fvar(33))!=1&&(P2bodydist X=[50,90]) && var(51)<=850
+trigger2 = var(44):=10
+trigger2 = var(45):= ifelse(P2bodydist X<=ifelse(var(44)=10,95,75),3,ceil((P2bodydist X-ifelse(var(44)=10,95,75))/7)+2)
+trigger3 = P2bodydist X>180 && random%3=0 && var(51)%ifelse(fvar(31)>=fvar(28)+5&&enemynear,vel Y>0,2,4)=0 && !fvar(33)
+trigger3 = var(44):= ifelse(fvar(38)=3&&random%5<3,10,var(44)+1)
+trigger3 = var(45):= ifelse(P2bodydist X<=70,3,ceil((P2bodydist X-70)/6.5)+2)
+value = 100
+
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2 && (var(51)!=[350,400])
+triggerall = !(P2statetype=L&&Enemynear,alive)||(enemynear,anim=5120&&enemynear,animtime>-4)
+triggerall = statetype!=A
+triggerall = !(enemynear,hitfall&&var(16)>=3)&&var(16)<10&&!fvar(35)&&fvar(26)<fvar(28)&&fvar(27)<fvar(28)
+triggerall = var(44)=0&&var(45)=0
+triggerall = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+triggerall = (P2bodydist X=[30,190]) && numhelper(11200)
+trigger1 = ((helper(11200),stateno=11220&&helper(11200),time=1&&helper(11200),pos Y>=0)||helper(11200),stateno=11210&&helper(11200),time=12) && enemynear,pos Y>-40 && random%7<5
+trigger1 = var(44):= ifelse(fvar(38)=3&&random%8<ifelse(P2statetype=A,4,5)&&!(enemynear,pos y<=-40&&enemynear,vel y>0&&var(44)<=1)&&!(enemynear,hitfall&&var(16)>1),10,var(44)+1)
+trigger1 = var(45):= ifelse(P2bodydist X<=ifelse(var(44)=10,95,75),3,ceil((P2bodydist X-ifelse(var(44)=10,95,75))/7)+2)
+value = 100
+
+[state -3]
+type = changestate
+triggerall = fvar(38)=3&& roundstate=2 && (var(51)!=[350,400])
+triggerall = !(P2statetype=L&&Enemynear,alive)||(enemynear,anim=5120&&enemynear,animtime>-4)
+triggerall = statetype!=A
+triggerall = !(enemynear,hitfall&&var(16)>=3)&&var(16)<10&&!fvar(35)&&fvar(26)<fvar(28)&&fvar(27)<fvar(28)
+triggerall = var(44)=0&&var(45)=0
+triggerall = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+triggerall = (P2bodydist X=[50,190]) && numhelper(11210)
+trigger1 = ((helper(11210),stateno=11210&&helper(11210),time=1)||helper(11210),stateno=11210&&helper(11210),time=12||(helper(11210),stateno=11220&&helper(11210),time=1&&helper(11210),pos Y>=0)) && random%5<3
+trigger1 = var(44):= ifelse(fvar(38)=3&&random%8<ifelse(P2statetype=A,4,5)&&!(enemynear,pos y<=-40&&enemynear,vel y>0&&var(44)<=1)&&!(enemynear,hitfall&&var(16)>1),10,var(44)+1)
+trigger1 = var(45):= ifelse(P2bodydist X<=ifelse(var(44)=10,95,75),3,ceil((P2bodydist X-ifelse(var(44)=10,95,75))/7)+2)
+value = 100
+
+[state -3]
+type = changestate
+triggerall = fvar(38)=3&& roundstate=2 && (var(51)!=[350,400])
+triggerall = !(P2statetype=L&&Enemynear,alive)||(enemynear,anim=5120&&enemynear,animtime>-4)
+triggerall = statetype!=A
+triggerall = !(enemynear,hitfall&&var(16)>=3)&&var(16)<10&&!fvar(35)&&fvar(26)<fvar(28)&&fvar(27)<fvar(28)
+triggerall = var(44)=0&&var(45)=0
+triggerall = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+triggerall = (P2bodydist X=[50,190]) && numhelper(11220)
+trigger1 = (helper(11220),stateno=11210&&helper(11220),time=1||helper(11220),stateno=11210&&helper(11220),time=12||helper(11220),stateno=11220&&helper(11220),time=1) && random%3<1
+trigger1 = var(44):= ifelse(fvar(38)=3&&random%7<5&&!(enemynear,pos y<=-40&&enemynear,vel y>0&&var(44)<=1),10,var(44)+1)
+trigger1 = var(45):= ifelse(P2bodydist X<=ifelse(var(44)=10,95,75),3,ceil((P2bodydist X-ifelse(var(44)=10,95,75))/7)+2)
+;trigger1 = var(45):= ifelse(P2bodydist X<=70,3,ceil((P2bodydist X-70)/6.5)+2)
+value = 100
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2 && (var(44)=1||(var(44)=10&&var(16)<3&&stateno=100&&time=1)||(var(44)=2&&fvar(18)>=240))
+trigger1 = fvar(18)>1
+fvar(18) = 0
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2 && (var(44)=1||(var(44)=10&&var(16)<3&&stateno=100&&time=1)||(var(44)=2&&fvar(19)>=240))
+trigger1 = fvar(19)>1
+fvar(19) = 0
+
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+trigger1 = var(44)=1&&var(45)=1
+trigger1 = stateno=100&&time>=2
+trigger1 = var(44):= var(44)+1
+trigger1 = var(45):= 33
+value = ifelse(statetype=A,620,220)
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+trigger1 = var(44)=2&&var(45)=29&&!fvar(18)
+fvar(18) = 1
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+trigger1 = var(44)=2&&var(45)>=32&&!fvar(19)
+fvar(19) = 1
+
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+trigger1 = var(44)=2&&var(45)=1
+trigger1 = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = var(44):= var(44)+1
+trigger1 = var(45):= (3+(fvar(38)<=2)*(random%3<(2-fvar(38))))
+value = 100
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+trigger1 = ((var(44)=2&&stateno=220&&time=1)||(var(44)=3&&stateno=100&&time>=2))&&var(45)=1
+trigger1 = fvar(17)>=80
+fvar(17) = 0
+
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+trigger1 = var(44)=3&&var(45)=1
+trigger1 = stateno=100&&time>=2
+trigger1 = var(44):= var(44)+1
+trigger1 = var(45):= ifelse(fvar(38)=3&&var(16)<2&&var(51)%7<2&&statetype!=A,20,17)
+value = ifelse(statetype=A,600,200)
+
+[state -3]
+type = changestate
+triggerall = fvar(38)=3&& roundstate=2
+triggerall = statetype!=A
+trigger1 = var(44)=4&&var(45)=1&&fvar(38)=3&&var(16)<3
+trigger1 = (ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20)))
+trigger1 = var(44):= var(44)+1
+trigger1 = var(45):= 4
+value = 21
+
+[state -3]
+type = changestate
+triggerall = fvar(38)=3&& roundstate=2
+triggerall = statetype!=A
+trigger1 = var(44)=5&&var(45)=1&&fvar(38)=3&&var(16)<3
+trigger1 = (ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20)))
+trigger1 = var(44):= 0||1
+value = 800-!(P2bodydist X<=ceil(30*const(size.xscale))&&P2movetype!=H&&P2statetype!=A&&!(P2statetype=L&&enemynear,alive))*580
+
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+trigger1 = (var(44)=[4,6])&&var(45)=1
+trigger1 = stateno=200&&(var(10)<=0||!movecontact) && (animelemtime(4)>=1||var(44)=6)
+trigger1 = var(44):= ifelse(!movecontact&&prevstateno=200,0,var(44)+1)
+trigger1 = var(45):= ifelse(var(44)=7,14,18)
+value = 200
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+trigger1 = var(44)=7&&var(45)=1&&fvar(19)>=80
+trigger1 = (stateno=200&&(var(10)<=0||!movecontact))||(ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20)))
+trigger1 = var(44):= var(44)+1
+trigger1 = var(45):= ifelse(var(16)>=3,12+(enemynear,const(size.head.pos.y)<-90&&var(16)>=3&&P2statetype!=C)*2-(fvar(19)<70)*2,14)
+fvar(19) = 0
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+trigger1 = var(44)=8&&var(45)=12&&var(16)<3
+fvar(19) = 1
+
+[state -3]
+type = changestate
+triggerall = fvar(38)=3&& roundstate=2
+triggerall = statetype!=A
+trigger1 = var(44)=8&&var(45)=2&&var(16)>=3&&fvar(18)>=85 && random%5<3
+trigger1 = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = var(44):= var(44)+0
+trigger1 = var(45):= 8
+value = 520
+
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+trigger1 = var(44)=8&&var(45)=1&&var(16)>=3&&(fvar(18)<85||fvar(18)>=110)
+trigger1 = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = var(44):= var(44)+2
+trigger1 = var(45):= 21
+trigger2 = stateno=520 && animelemtime(13)>0 && random%5<2 && var(44)>=9
+value = 1900
+
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+trigger1 = (var(44)=[10,11]) && var(16)<3
+trigger1 = !fvar(18) && var(45)>=19 && stateno!=1400
+fvar(18) = 1
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+trigger1 = (var(44)=[10,11]) && var(16)<3
+trigger1 = !fvar(19) && var(45)>=15 && fvar(18)=4 && stateno!=1400
+fvar(19) = 1
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+trigger1 = var(44)=8&&var(45)=1;&&var(16)>=3
+trigger1 = var(44):= var(44)+1
+trigger1 = var(45):= 5
+trigger2 = (var(44)=9||(var(44)=10&&stateno!=100))&&var(45)=1&&var(16)<3 && fvar(18)>=80
+trigger2 = var(44):= var(44)+1
+trigger2 = var(45):= ifelse(var(44)=11,21,3)
+fvar(18) = 0
+
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+trigger1 = var(44)=9&&var(45)=1&&var(16)<3
+trigger1 = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = var(44):= var(44)+1
+trigger1 = var(45):= (3+(fvar(38)<=2)*(random%3<(2-fvar(38))))
+value = 100
+
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+trigger1 = (var(44)=[9,10])&&var(45)=1
+trigger1 = stateno=100&&time>=2
+trigger1 = var(44):= var(44)+1
+trigger1 = var(45):= ifelse(var(44)=10,3,19)
+value = 400
+
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+trigger1 = (var(44)=[10,11])&&var(45)=1&&var(16)<4
+trigger1 = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = var(44):= ifelse(P2bodydist X>=ifelse(var(51)%7<2,0,36)&&random<0,ifelse(random%5<2,10,1-(random%2=0&&fvar(38)=3)*2),2)||1
+trigger1 = var(45):= ifelse(P2bodydist X>=ifelse(var(51)%7<2,0,36)&&random<0,3+(fvar(38)<=2)*(random%3<(2-fvar(38))),33)||1
+value = ifelse(P2bodydist X>=ifelse(var(51)%7<2,0,30)&&random<0,100,220)
+
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+trigger1 = var(44)=9&&var(45)=1&&var(16)>=3
+trigger1 = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = var(44):= var(44)+1
+trigger1 = var(45):= 21
+value = 1900
+
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+trigger1 = var(44)=10&&var(45)=1
+trigger1 = stateno=1900&&numhelper(11900)
+trigger1 = helper(11900),stateno=11901 && helper(11900),time<90
+trigger1 = var(44):= var(44)+1
+trigger1 = var(45):= 340
+value = 1400
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+trigger1 = var(44)=11&&var(45)=48&&fvar(19)>=80&&stateno=1400
+fvar(19) = 0
+
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+trigger1 = var(44)=11&&var(45)>=1
+trigger1 = numhelper(11900)
+trigger1 = helper(11900),var(7)=4
+trigger1 = var(44):= var(44)+1
+trigger1 = var(45):= ifelse((enemynear,life<=56&&Power>=1000&&P2bodydist X<=80&&enemynear,backedgebodydist<=10),28,ifelse(P2bodydist X<=100&&enemynear,backedgebodydist<=5,ifelse(enemynear,life<=42&&Power>=1000,14,28),ifelse(P2bodydist X<80,12,6)))
+value = 0
+ctrl = 1
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+trigger1 = var(44)=13&&var(45)>=6&&!fvar(19)&&stateno=3000
+trigger1 = fvar(18):=1
+fvar(19) = 1
+
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+triggerall = enemynear,life<=63&&Power>=1000&&P2bodydist X<=80&&enemynear,backedgebodydist<=10
+trigger1 = (var(44)=[12,13])&&var(45)=1&&((enemynear,pos Y>-60&&enemynear,vel Y>0)||var(44)=13)
+trigger1 = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = var(44):= var(44)+1
+trigger1 = var(45):= 34
+value = 3200
+
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+triggerall = enemynear,life<=floor(ifelse(var(44)=13,70,35)*100/enemynear,const(data.defence))
+trigger1 = (var(44)=[12,13])&&var(45)=1
+trigger1 = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = var(44):= var(44)+1
+trigger1 = var(45):= 2
+value = 1010+(P2bodydist X>200)*10
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+trigger1 = var(44)=13&&var(45)=1
+fvar(18) = 0
+
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+triggerall = Power>=1000
+trigger1 = var(44)=12&&var(45)=1
+trigger1 = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = var(44):= var(44)+1
+trigger1 = var(45):= ifelse(fvar(38)=3&&Power>=1000&&!(enemynear,life<=63&&P2bodydist X<=80&&enemynear,backedgebodydist<=10)&&!(enemynear,life<=floor(ifelse(var(44)=13,70,35)*100/enemynear,const(data.defence))),124,118)
+value = 3000
+
+[state -3]
+type = changestate
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+triggerall = Power>=1000
+trigger1 = var(44)=13&&var(45)=1&&fvar(38)=3
+trigger1 = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))
+trigger1 = var(44):= var(44)+1
+trigger1 = var(45):= ifelse(P2bodydist X>100,36,34)
+value = 3000
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2
+triggerall = statetype!=A
+trigger1 = ((fvar(19)>=80&&var(44)=15&&fvar(38)=3&&P2statetype!=L)||(fvar(19)>=80&&var(44)=14)||var(44)=13)&&var(45)=1&&P2bodydist X<ifelse(var(44)=15,230,250)
+trigger1 = var(44):= var(44)+1
+trigger1 = var(45):= ifelse(var(44)=ifelse(Power<1000,15,16),ifelse(P2bodydist X<100,4,ifelse(P2bodydist X>180,12,16)),ifelse(var(44)=14,ifelse(power>=1000&&enemynear,life<=63,14,8),96))
+fvar(19) = 0
+
+[state -3]
+type = changestate
+triggerall = fvar(38)=3&& roundstate=2
+trigger1 = var(44)>=14&&var(45)=1&&P2bodydist X<100
+trigger1 = ctrl||stateno=13||stateno=21||((stateno=[120,132])&&!var(20))
+trigger1 = var(44):= var(44)+1
+trigger1 = var(45):=ifelse(P2bodydist X<80,12,6)
+value = 22
+
+[state -3]
+type = changestate
+triggerall = fvar(38)=3&& roundstate=2
+trigger1 = var(44)>=14&&var(45)=1&&P2bodydist X>180
+trigger1 = ctrl||stateno=13||stateno=22||((stateno=[120,132])&&!var(20))
+trigger1 = var(44):= var(44)+1
+trigger1 = var(45):=ifelse(P2bodydist X>200,8,6)
+value = 21
+
+[state -3]
+type = changestate
+triggerall = fvar(38)=3&& roundstate=2
+trigger1 = (var(44)>=14||(var(42)=12&&power<1000))&&var(45)=1&&P2bodydist X<200
+trigger1 = ctrl||stateno=13||(stateno=[21,22])||((stateno=[120,132])&&!var(20))||stateno=105
+trigger1 = var(44):= var(44)+1
+trigger1 = var(45):=(4+random%5)
+trigger1 = fvar(19):=1
+value = 220
+
+[state -3]
+type = changestate
+triggerall = fvar(38)=3&& roundstate=2
+trigger1 = var(44)>=15&&var(45)=1&&(P2bodydist X=(120,240))
+trigger1 = stateno=220&&time>=8
+trigger1 = random%7<5
+trigger1 = var(44):= var(44)+1
+trigger1 = var(45):=1
+value = 1300
+
+----
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2 && !(P2statetype=L&&enemynear,alive&&!((enemynear,anim=[5120,5129])&&enemynear,animtime>(-9+random%3)))
+trigger1 = (var(46)-ifelse(var(46)>=100,floor(var(46)/100)*100-ifelse(var(46)>=10000,floor(var(46)/10000)*10000,0),0)-ifelse(var(46)>=10000,floor(var(46)/10000)*10000,0))=1
+fvar(17) = 0
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2 && !(P2statetype=L&&enemynear,alive&&!((enemynear,anim=[5120,5129])&&enemynear,animtime>(-9+random%3)))
+trigger1 = (var(46)-ifelse(var(46)>=10000,(var(46)-floor(var(46)/10000)*10000),0))=[100,199]
+fvar(18) = 0
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2 && !(P2statetype=L&&enemynear,alive&&!((enemynear,anim=[5120,5129])&&enemynear,animtime>(-9+random%3)))
+trigger1 = var(46)=[10000,19999]
+fvar(19) = 0
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2 && !var(44) && !(P2statetype=L&&enemynear,alive&&!(enemynear,anim=[5120,5129])) && stateno!=3210
+trigger1 = numhelper(11200)
+trigger1 = (helper(11200),P2dist X=[-40,80]) && ((helper(11200),P2dist X>30&&enemynear,vel x>=2)||helper(11200),P2dist X<=30)
+trigger1 = (var(46)-ifelse(var(46)>=100,floor(var(46)/100)*100-ifelse(var(46)>=10000,floor(var(46)/10000)*10000,0),0)-ifelse(var(46)>=10000,floor(var(46)/10000)*10000,0))!=[1,99]
+var(46) = var(46)+20+1
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2 && !var(44) && !(P2statetype=L&&enemynear,alive&&!(enemynear,anim=[5120,5129])) && stateno!=3210
+trigger1 = numhelper(11210)
+trigger1 = (helper(11210),P2dist X=[-40,80]) && ((helper(11210),P2dist X>30&&enemynear,vel x>=2)||helper(11210),P2dist X<=30)
+trigger1 = (var(46)-ifelse(var(46)>=10000,floor(var(46)/10000)*10000,0))!=[100,9999]
+var(46) = var(46)+2000+100
+
+[state -3]
+type = varset
+triggerall = (fvar(38)=[2,3])&& roundstate=2 && !var(44) && !(P2statetype=L&&enemynear,alive&&!(enemynear,anim=[5120,5129])) && stateno!=3210
+trigger1 = numhelper(11220)
+trigger1 = (helper(11220),P2dist X=[-40,80]) && ((helper(11220),P2dist X>30&&enemynear,vel x>=2)||helper(11220),P2dist X<=30)
+trigger1 = var(46)<10000
+var(46) = var(46)+200000+10000
+
+;弱アイスィクルピック(Light Icycle Pick)
+[State -1, magic]
+type = Helper
+stateno = 11200
+id = 11200
+pos = 20,-floor(screenpos y)+60-floor(8*const(size.yscale))*9
+postype = p1
+triggerall = fvar(38) && roundstate=2 && !numhelper(11200)
+triggerall = fvar(17)>=80
+trigger1 = !(movetype=H && (stateno!=[150,155]) && !((stateno=[120,132])&&var(20)))
+
+;中アイスィクルピック(Medium Icycle Pick)
+[State -1, magic]
+type = Helper
+stateno = 11200
+id = 11210
+pos = ifelse(frontedgebodydist<=130,frontedgebodydist,130),-floor(screenpos y)+60-floor(8*const(size.yscale))*9
+postype = p1
+triggerall = fvar(38) && roundstate=2 && !numhelper(11210)
+triggerall = fvar(18)>=80
+trigger1 = !(movetype=H && (stateno!=[150,155]) && !((stateno=[120,132])&&var(20)))
+
+;強アイスィクルピック(High Icycle Pick)
+[State -1, magic]
+type = Helper
+stateno = 11200
+id = 11220
+pos = ifelse(frontedgebodydist<=240,frontedgebodydist,240),-floor(screenpos y)+60-floor(8*const(size.yscale))*9
+postype = p1
+triggerall = fvar(38) && roundstate=2 && !numhelper(11220)
+triggerall = fvar(19)>=80
+trigger1 = !(movetype=H && (stateno!=[150,155]) && !((stateno=[120,132])&&var(20)))
+
+;~~~Guard
+[State -1]
+;ガード
+type = ChangeState
+value = ifelse(fvar(38)=1&&statetype=S,130,131)
+triggerall = fvar(38) && (roundstate=2 || (RoundState=3 && Win)) && StateType!=A
+triggerall = !(P2statetype=A&&fvar(31)>=fvar(28))
+triggerall = Inguarddist;(enemynear,Movetype = A||(enemy,numproj>0||(P2movetype!=A&&enemy,numhelper&&!(enemynear,hitdefattr=SCA,AA,AT,AP)) && inguarddist))
+triggerall = (ctrl|| StateNo=13 || stateno=22)
+trigger1 = 1
+
+;ガード
+[State -1]
+type = ChangeState
+value = Ifelse(StateType=A,132,130)
+triggerall = fvar(38) && (roundstate=2 || (RoundState=3 && Win)) && StateType!=A
+triggerall = ifelse(enemynear,P2dist X<0&&!(P2dist X>-15&&random<=350),(enemynear,P2dist X=[-(120+const(size.ground.front)),0]),inguarddist)
+triggerall = Inguarddist;(enemynear,Movetype = A||(enemy,numproj>0||(P2movetype!=A&&enemy,numhelper&&!(enemynear,hitdefattr=SCA,AA,AT,AP)) && inguarddist))
+triggerall = (ctrl||StateNo=3||(P2statetype=A&&((StateNo=13&&fvar(31)>=fvar(28))||stateno=21))||StateNo=22)
+trigger1 = 1
+
+;ガード
+[State -1]
+type = ChangeState
+value = 120
+triggerall = fvar(38) && roundstate=2
+triggerall = (ctrl||StateNo=3||(P2statetype=A&&((StateNo=13&&fvar(31)>=fvar(28))||stateno=21))||StateNo=22)
+trigger1 = numhelper(91000)
+trigger1 = helper(91000),inguarddist && !inguarddist && !(P2movetype=A&&var(51)%7>=ifelse((enemynear,p2dist X=[-20,-1])&&backedgebodydist>5,5,7))
+
+[State -1]
+;歩き（前）
+type = ChangeState
+value = 21
+triggerall = fvar(38)>=2 && roundstate=2 && !fvar(35) && !var(44)
+triggerall = !(fvar(29)>=fvar(28)||fvar(31)>=fvar(28)||fvar(27)>fvar(28)||fvar(26)>=fvar(28))
+triggerall = StateType != A
+triggerall = (ctrl || StateNo=3 || (StateNo=13&&time>8) || (stateNo=22&&time>10)||((stateno=[120,132])&&!var(20)))
+trigger1 = var(51)<ifelse(P2Bodydist X>140&&P2bodydist X>(fvar(34)+20),400-(fvar(38)=2)*100,240)
+trigger1 = (P2bodydist X>150&&P2bodydist X>(fvar(34)+20))||(P2bodydist X>200&&fvar(33)&&fvar(30)=1) && !(fvar(38)=3&&(var(51)=[35,400])) && !(fvar(19)<80 && P2bodydist X>180&&random%7<2)
+trigger2 = enemynear,hitfall||(P2statetype=L&&enemynear,alive&&enemynear,vel Y!=0)
+trigger2 = random%4=0 && P2bodydist X>100
+trigger3 = P2bodydist X>190 && numhelper(11220) && !(P2movetype=A&&enemynear,time>=22) && random%12=0 && var(51)%7<5 && !fvar(33)
+
+[State -1]
+;歩き（後）
+type = ChangeState
+value = ifelse(inguarddist,120,22)
+triggerall = fvar(38) && roundstate=2 && !fvar(35) && !var(44)
+triggerall = StateType != A
+triggerall = (ctrl || StateNo=3 || (StateNo=13&&time>ifelse(fvar(31)>=fvar(28),0,14)) || (stateNo=21&&time>14))
+trigger1 = (var(51)=[500,ifelse(P2Bodydist X<120,620,720)])
+trigger1 = !(P2statetype=L && enemynear,alive) && (P2BodyDist X = [80,140])
+trigger2 = (fvar(29)>=fvar(28)||(fvar(31)>=fvar(28) && ((P2bodydist X<60&&var(54)%5<2)||(P2bodydist X=[60,160])))||fvar(27)>=fvar(28)||fvar(26)>=fvar(28))
+trigger2 = (P2statetype=A||(random%3=0&&P2bodydist X<=160)) && random<350 && !(P2statetype=L && enemynear,alive) && !(enemynear,hitfall&&var(16)>=2)
+trigger3 = ((P2statetype=L&&enemynear,alive&&(enemynear,vel Y!=0||P2bodydist X<20))||(enemynear,hitfall&&var(16)>=30&&!var(44))) && var(51)%7>=ifelse(P2bodydist X<=60,0,3) && random%3=0 && P2bodydist X<90
+trigger4 = P2bodydist X<=160 && fvar(38)=1
+
+[State -1]
+;しゃがみ
+type = ChangeState
+value = ifelse(fvar(38)=1&&random%5<3,22,13)
+triggerall = fvar(38) && roundstate=2 && StateType != A
+triggerall = (ctrl||(stateno=[21,22]))
+trigger1 = ifelse((stateno=[21,22]),time>=6&&ifelse(!(P2statetype=L&&(enemynear,anim!=[5120,5129]))&&P2bodydist X>180&&stateno=21,random%11=0,random%3=0&&time>=10),1)
+trigger1 = !enemynear,hitfall && !(P2statetype=L&&enemynear,alive)
+trigger2 = (var(44)&&ctrl)||(P2statetype=L&&enemynear,alive&&!((stateno=[21,22])&&time<12))||(enemynear,hitfall&&var(16)>=3&&!var(44)&&!((stateno=[21,22])&&time<14))
+
+;--------------------

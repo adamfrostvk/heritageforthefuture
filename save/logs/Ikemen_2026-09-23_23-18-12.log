@@ -1,0 +1,36 @@
+Version: v1.0.0
+Build Time: 2026.09.12
+Platform: windows (amd64)
+OpenGL 3.3
+RAM in Use: 131 MB / OS Reserved: 202 MB
+Active Goroutines: 3
+Timestamp: 2026-09-23 23:18:12
+
+Engine error
+
+Error: .\external\script\start.lua:1758: chars/dio/fdio.cns:38790:
+input not specified
+stack traceback:
+	[G]: in function 'game'
+	.\external\script\start.lua:1758: in function 'f_game'
+	.\external\script\start.lua:2380: in function 'launchFight'
+	@external/script/default.lua:2: in function <@external/script/default.lua:0>
+	.\external\script\start.lua:1829: in function 'f'
+	external/script/main.lua:2704: in function 'loop'
+	external/script/main.lua:4044: in main chunk
+	[G]: ?
+
+Go stack traceback:
+goroutine 1 [running, locked to thread]:
+runtime/debug.Stack()
+	runtime/debug/stack.go:24 +0x65
+main.handlePanic({0x7ff616ac4960?, 0xc003bb6040})
+	github.com/ikemen-engine/Ikemen-GO/src/main.go:372 +0x408
+main.realMain.func1()
+	github.com/ikemen-engine/Ikemen-GO/src/main.go:66 +0x2a
+panic({0x7ff616ac4960, 0xc003bb6040})
+	runtime/panic.go:884 +0x213
+main.realMain()
+	github.com/ikemen-engine/Ikemen-GO/src/main.go:206 +0x573
+main.main()
+	github.com/ikemen-engine/Ikemen-GO/src/main.go:59 +0x17
