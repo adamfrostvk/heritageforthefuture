@@ -1,4 +1,6 @@
-
+<p align="center">
+  <img src="https://github.com/adamfrostvk/heritageforthefuture/blob/41858d4a29659459bddf8284099de4c7dfe1a585/logo.png"/>
+</p>
 <p align="center">
   <a href="https://ikemen-engine.github.io/">
     <img src="https://github.com/user-attachments/assets/0dcd7ae1-5c9d-44e1-aa32-9ec4b9ed3952" style="width: 699px; alt="IKEMEN GO Logo"/>
