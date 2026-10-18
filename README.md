@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/adamfrostvk/heritageforthefuture/blob/41858d4a29659459bddf8284099de4c7dfe1a585/logo.png"/>
+  <img src="https://github.com/adamfrostvk/heritageforthefuture/blob/41858d4a29659459bddf8284099de4c7dfe1a585/logo.png" style="width: 400px; />
 </p>
 <p align="center">
   <a href="https://ikemen-engine.github.io/">
