@@ -4,7 +4,7 @@ DisplayName  = "Joseph"  ;M.U.G.E.Nで実際に表示される名前（省略可能）
 VersionDate  = 04,14,2002     ;キャラクターの最終更新日（変えなくてもＯＫ）
 MugenVersion = 04,14,2002     ;キャラクターが動作出来るM.U.G.E.Nの改訂版
 Author       = "Nimame"     ;キャラクターの作成者（必要な項目なので省略不可）
-Pal.Defaults = 4,1,2,3,5
+Pal.Defaults = 1,2,3,4,5
 ;-----------------------------------------------------------------------------
 
 [Files]
@@ -21,8 +21,8 @@ Sprite  = joseph.sff
 Anim    = joseph.air
 Sound   = joseph.snd
 
-Pal1 = act/joseph2.act
-Pal2 = act/joseph3.act
-Pal3 = act/joseph4.act
-Pal4 = act/joseph1.act
+Pal1 = act/joseph1.act
+Pal2 = act/joseph2.act
+Pal3 = act/joseph3.act
+Pal4 = act/joseph4.act
 Pal5 = act/joseph5.act

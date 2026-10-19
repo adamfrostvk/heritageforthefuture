@@ -5,7 +5,7 @@ DisplayName  = "Kakyoin Noriaki"
 VersionDate  = 12,20,2008
 MugenVersion = 04,14,2002
 Author       = "Nimame"
-Pal.Defaults = 4,1,2,3,5
+Pal.Defaults = 1,2,3,4,5
 
 
 
@@ -23,10 +23,10 @@ Sprite   = kakyoin.sff
 Anim     = kakyoin.air
 Sound    = kakyoin.snd
 
-Pal1 = color/kakyo2.act
-Pal2 = color/kakyo3.act
-Pal3 = color/kakyo4.act
-Pal4 = color/kakyo.act
+Pal1 = color/kakyo.act
+Pal2 = color/kakyo2.act
+Pal3 = color/kakyo3.act
+Pal4 = color/kakyo4.act
 Pal5 = color/kakyo5.act
 Pal6 = color/kakyo6.act
 

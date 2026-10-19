@@ -5,7 +5,7 @@ DisplayName  = "Avdul"
 VersionDate  = 07,09,2009
 MugenVersion = 04,14,2002
 Author       = "Nimame"
-Pal.Defaults = 4,1,2,3,5
+Pal.Defaults = 1,2,3,4,5
 
 
 
@@ -23,12 +23,12 @@ Sprite   = avdul.sff
 Anim     = avdul.air
 Sound    = avdul.snd
 
-Pal4 = color/avdul1.act
-Pal5 = color/avdul2.act
-Pal6 = color/avdul3.act
-Pal1 = color/avdul4.act
-Pal2 = color/avdul5.act
-Pal3 = color/avdul6.act
+Pal1 = color/avdul1.act
+Pal2 = color/avdul2.act
+Pal3 = color/avdul3.act
+Pal4 = color/avdul4.act
+Pal5 = color/avdul5.act
+Pal6 = color/avdul6.act
 
 ;[Arcade]
 ;Intro.Storyboard  = 
