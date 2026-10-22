@@ -120,8 +120,8 @@ IntPersistIndex = 53 ;次のラウンドに設定した数値以上のVarを持ち越す
 FloatPersistIndex = 37;次のラウンドに設定した数値以上のfVarを持ち越す
 
 [Size]
-xscale = .833        ;水平サイズ倍率
-yscale = 1.07        ;垂直サイズ倍率
+xscale = 1   	     ;水平サイズ倍率
+yscale = 1   	     ;垂直サイズ倍率
 ground.back = 17     ;キャラ幅（地上、後ろ側）
 ground.front = 17    ;キャラ幅（地上、前側）
 air.back = 17        ;キャラ幅（空中、後ろ側）

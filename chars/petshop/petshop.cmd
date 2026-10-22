@@ -1,3 +1,12 @@
+[Remap]
+x = a
+y = b
+z = c
+a = x
+b = y
+c = z
+s = s
+
 ;-AI(CPU)-----------------------------------------------------------
 [Command]
 name = "cpu1"
@@ -938,7 +947,7 @@ trigger2 = (stateno=[200,799])&&time<4
 type = ChangeState
 value = 195
 triggerall = !fvar(38) && !IsHelper && roundstate=2
-triggerall = command="s"||command="c"
+triggerall = command="s"
 triggerall = statetype=S;==—§‚¿ó‘Ô‚Ì‚Ý
 trigger1 = ctrl||((stateno=[100,105])&&time>=2)
 

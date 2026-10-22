@@ -21,16 +21,9 @@ Sprite  = chaka.sff
 Anim    = chaka.air
 Sound   = chaka.snd
 
-Pal1 = act/chaka2.act
-Pal2 = act/chaka3.act
-Pal3 = act/chaka4.act
-Pal4 = act/chaka1.act
+Pal1 = act/chaka1.act
+Pal2 = act/chaka2.act
+Pal3 = act/chaka3.act
+Pal4 = act/chaka4.act
 Pal5 = act/chaka5.act
 Pal6 = act/chaka6.act
-
-Pal7 = act/chaka2.act
-Pal8 = act/chaka3.act
-Pal9 = act/chaka5.act
-Pal10 = act/chaka1.act
-Pal11 = act/chaka6.act
-Pal12 = act/chaka4.act;全部覚えたモード

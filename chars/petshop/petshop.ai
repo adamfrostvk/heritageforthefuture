@@ -3,6 +3,7 @@
 ;CPU”»•Ê
 [state -1]
 type = varset
+triggerall = AILevel > 0
 triggerall = !fvar(38)
 trigger1 = command="cpu1"
 trigger2 = command="cpu2"

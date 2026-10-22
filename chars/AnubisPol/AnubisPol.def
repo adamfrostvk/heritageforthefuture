@@ -1,0 +1,41 @@
+;***************************************************************************;
+;******************* Created in Fighter Factory Ultimate *******************;
+;*******************      http://www.virtualltek.com     *******************;
+;***************************************************************************;
+
+[Info]
+name = "BlackPolnareff"
+;displayname = "Black Polnareff"
+;displayname = "Anubis Dual Sword Polnareff"
+displayname = "Anubis Polnareff"
+versiondate = 6,20,2005
+mugenversion = 06,14,2003
+author = "Warusaki3"            ;Anime Voice Patch By Ettore15 and HFTF Improved Edit By Kakyoin-Kun
+pal.defaults = 4,1,2,5,6,7,8,9,10,11,12
+
+[Files]
+sprite = blackpolnareff.sff
+anim = blackpolnareff.air
+sound = blackpolnareff.snd
+cmd = blackpolnareff.cmd
+cns = blackpolnareff.cns
+stcommon = common1.cns
+st = blackpolnareff.cns
+st1 = blackpolnareff_damage.cns
+st2 = config.txt
+pal1 = Anime.act
+pal2 = act102.act
+pal3 = act103.act
+pal4 = HFTF.act
+pal5 = act105.act
+pal6 = act106.act
+pal7 = act107.act
+pal8 = act108.act
+pal9 = act109.act
+pal10 = act110.act
+pal11 = act111.act
+pal12 = act112.act
+
+[Arcade]
+intro.storyboard = 
+ending.storyboard = 
