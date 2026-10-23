@@ -2,7 +2,7 @@
 name = "blackpolnareff"   ;アヌビス二刀流ポルナレフ
 displayname = "Black Polnareff" ;アヌビス二刀流ポルナレフ
 versiondate=6,20,2005     ;Version date of character
-mugenversion=06,14,2003   ;Version of M.U.G.E.N character works on
+mugenversion=1.1  ;Version of M.U.G.E.N character works on
 author="Warusaki3"        ;悪咲3号
 Pal.Defaults=1,2,3,4,5
 
