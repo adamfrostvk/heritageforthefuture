@@ -8144,7 +8144,7 @@ channel = 0
 [State 220, Voice]
 type = PlaySnd
 trigger1 = AnimElem = 6
-value = 1300, 0
+value = 1300, 1
 channel = 1
 
 [State 1000, Spark]
@@ -8684,6 +8684,18 @@ anim = 1310
 type = NotHitBy
 trigger1 = 1
 value = SCA
+
+[State 3000, Pause]
+type = Pause
+trigger1 = Time = 0
+time = 30
+movetime = 30
+endcmdbuftime = 45
+
+[State 3000, Counterattack]
+type = PlaySnd
+trigger1 = Time = 0
+value = 1300, 0
 
 [State 901, Throw]
 type = TargetState
