@@ -1,0 +1,34 @@
+[Info]
+name = "blackpolnareff"   ;アヌビス二刀流ポルナレフ
+displayname = "Black Polnareff" ;アヌビス二刀流ポルナレフ
+versiondate=6,20,2005     ;Version date of character
+mugenversion=06,14,2003   ;Version of M.U.G.E.N character works on
+author="Warusaki3"        ;悪咲3号
+Pal.Defaults=4,5
+
+[Files]
+cmd=blackpolnareff.cmd
+cns=blackpolnareff.cns
+st=blackpolnareff.cns
+st1=blackpolnareff_damage.cns
+st2=config.txt
+stcommon=common1.cns
+sprite=blackpolnareff.sff
+anim=blackpolnareff.air
+sound=blackpolnareff.snd
+pal1=act101.act;Sカラー
+pal2=act105.act;スタートカラー
+pal3=act106.act;2Pカラー（一作目）
+pal4=act101.act;弱カラー
+pal5=act102.act;中カラー
+pal6=act103.act;強カラー
+pal7=act110.act;オリジナルカラー4
+pal8=act111.act;オリジナルカラー5
+pal9=act112.act;オリジナルカラー6
+pal10=act107.act;オリジナルカラー1
+pal11=act108.act;オリジナルカラー2
+pal12=act109.act;オリジナルカラー3
+
+[Arcade]
+intro.storyboard = opening.def
+ending.storyboard = ending.def
